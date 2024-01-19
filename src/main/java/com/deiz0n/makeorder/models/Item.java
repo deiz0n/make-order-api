@@ -9,21 +9,22 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "tb_mesa")
-public class Mesa {
+@Entity(name = "tb_item")
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    private Integer numero;
-    private String cliente;
-    private String observacoes;
+    private String nome;
+    private BigDecimal preco;
+    private String descricao;
+    private Integer quantidade;
 
 }
