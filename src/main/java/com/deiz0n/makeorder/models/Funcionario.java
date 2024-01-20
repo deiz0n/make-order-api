@@ -27,5 +27,8 @@ public class Funcionario {
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "funcionario")
     private List<Pedido> pedidos;
+    @Setter(AccessLevel.NONE)
+    @ManyToMany(mappedBy = "funcionarios")
+    private List<Permissao> permissoes;
 
 }

@@ -1,14 +1,10 @@
 package com.deiz0n.makeorder.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,4 +20,10 @@ public class Permissao {
     private String nome;
     private String descricao;
 
+    @Setter(AccessLevel.NONE)
+    @ManyToMany
+    @JoinTable(name = "tb_permissao_funcionario",
+            joinColumns = @JoinColumn(name = "permissao_id"),
+            inverseJoinColumns = @JoinColumn(name = "funcionario_id"))
+    private List<Funcionario> funcionarios;
 }
