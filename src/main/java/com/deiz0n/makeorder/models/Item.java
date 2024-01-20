@@ -1,15 +1,13 @@
 package com.deiz0n.makeorder.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +25,6 @@ public class Item {
     private String descricao;
     private Integer quantidade;
 
+    @ManyToOne
+    private Categoria categoria;
 }

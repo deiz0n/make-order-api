@@ -1,13 +1,12 @@
 package com.deiz0n.makeorder.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -22,4 +21,6 @@ public class Categoria {
     private Long id;
     private String nome;
 
+    @OneToMany(mappedBy = "categoria")
+    private List<Item> items;
 }
