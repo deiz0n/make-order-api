@@ -1,15 +1,10 @@
 package com.deiz0n.makeorder.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,5 +23,9 @@ public class Funcionario {
     private String senha;
     private Date dataNascimento;
     private String cargo;
+
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "funcionario")
+    private List<Pedido> pedidos;
 
 }

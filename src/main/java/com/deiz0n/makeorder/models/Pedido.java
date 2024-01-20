@@ -27,4 +27,8 @@ public class Pedido {
 
     @ManyToOne
     private Comanda comanda;
+    @ManyToOne
+    private Mesa mesa;
+    @ManyToOne
+    private Funcionario funcionario;
 }

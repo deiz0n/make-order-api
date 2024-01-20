@@ -1,10 +1,7 @@
 package com.deiz0n.makeorder.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -21,6 +18,7 @@ public class Categoria {
     private Long id;
     private String nome;
 
+    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "categoria")
     private List<Item> items;
 }
