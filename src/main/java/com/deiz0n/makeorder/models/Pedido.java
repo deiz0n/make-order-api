@@ -2,10 +2,7 @@ package com.deiz0n.makeorder.models;
 
 import com.deiz0n.makeorder.models.enums.FormaPagamento;
 import com.deiz0n.makeorder.models.enums.StatusPedido;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,4 +25,6 @@ public class Pedido {
     private FormaPagamento formaPagamento;
     private StatusPedido statusPedido;
 
+    @ManyToOne
+    private Comanda comanda;
 }
