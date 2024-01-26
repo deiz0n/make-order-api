@@ -30,6 +30,9 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     // https://mvnrepository.com/artifact/org.flywaydb/flyway-core
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '9.21.0'
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
+
 
 
 }
