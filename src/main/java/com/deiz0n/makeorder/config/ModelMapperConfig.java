@@ -1,11 +1,11 @@
 package com.deiz0n.makeorder.config;
 
-import org.springframework.boot.SpringBootConfiguration;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@SpringBootConfiguration
-public class ModelMapper {
+@Configuration
+public class ModelMapperConfig {
 
     @Bean
     public ModelMapper mapper() {
