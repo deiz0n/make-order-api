@@ -20,8 +20,11 @@ public class Mesa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
+    @Column(unique = true, nullable = false)
     private Integer numero;
+    @Column(unique = true, nullable = false, length = 75)
     private String cliente;
+    @Column(nullable = false, columnDefinition = "text")
     private String observacoes;
 
     @OneToMany(mappedBy = "mesa")

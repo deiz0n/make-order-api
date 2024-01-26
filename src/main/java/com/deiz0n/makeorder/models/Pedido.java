@@ -21,8 +21,11 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
+    @Column(nullable = false)
     private Instant data;
+    @Column(nullable = false)
     private FormaPagamento formaPagamento;
+    @Column(nullable = false)
     private StatusPedido statusPedido;
 
     @ManyToOne
