@@ -3,11 +3,12 @@ package com.deiz0n.makeorder.services;
 import com.deiz0n.makeorder.dtos.PedidoDTO;
 import com.deiz0n.makeorder.models.Pedido;
 import com.deiz0n.makeorder.repositories.PedidoRepository;
+import com.deiz0n.makeorder.services.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.record.RecordModule;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -21,7 +22,6 @@ public class PedidoService {
     }
 
     public List<PedidoDTO> getResources() {
-        mapper.registerModule(new RecordModule());
         List<PedidoDTO> pedidos = pedidoRepository.findAll()
                 .stream()
                 .map(x -> mapper.map(x, PedidoDTO.class))
@@ -33,6 +33,11 @@ public class PedidoService {
     public Pedido createResource(PedidoDTO newPedido) {
         var pedido = mapper.map(newPedido, Pedido.class);
         return pedidoRepository.save(pedido);
+    }
+
+    public void deleteResource(Long id) {
+        var pedido = pedidoRepository.getReferenceById(id);
+        pedidoRepository.delete(pedido);
     }
 
 }

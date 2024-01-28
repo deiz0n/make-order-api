@@ -1,7 +1,6 @@
 package com.deiz0n.makeorder.api.controllers;
 
 import com.deiz0n.makeorder.dtos.PedidoDTO;
-import com.deiz0n.makeorder.models.Pedido;
 import com.deiz0n.makeorder.services.PedidoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +37,13 @@ public class PedidoController {
                 .buildAndExpand(pedido.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(newPedido);
+    }
+
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePedido(@PathVariable Long id) {
+        pedidoService.deleteResource(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
