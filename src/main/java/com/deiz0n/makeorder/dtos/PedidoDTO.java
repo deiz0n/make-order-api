@@ -2,13 +2,21 @@ package com.deiz0n.makeorder.dtos;
 
 import com.deiz0n.makeorder.models.enums.FormaPagamento;
 import com.deiz0n.makeorder.models.enums.StatusPedido;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 
 import java.time.Instant;
 
-public record PedidoDTO(
-        Long id,
-        Instant data,
-        FormaPagamento formaPagamento,
-        StatusPedido statusPedido
-) {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class PedidoDTO {
+
+    private Long id;
+    private Instant data;
+    private FormaPagamento formaPagamento;
+    private StatusPedido statusPedido;
+
 }

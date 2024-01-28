@@ -1,14 +1,13 @@
 package com.deiz0n.makeorder.services;
 
-import com.deiz0n.makeorder.config.ModelMapperConfig;
 import com.deiz0n.makeorder.dtos.PedidoDTO;
 import com.deiz0n.makeorder.models.Pedido;
 import com.deiz0n.makeorder.repositories.PedidoRepository;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.record.RecordModule;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -22,6 +21,7 @@ public class PedidoService {
     }
 
     public List<PedidoDTO> getResources() {
+        mapper.registerModule(new RecordModule());
         List<PedidoDTO> pedidos = pedidoRepository.findAll()
                 .stream()
                 .map(x -> mapper.map(x, PedidoDTO.class))
