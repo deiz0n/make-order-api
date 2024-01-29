@@ -40,7 +40,14 @@ public class PedidoController {
     }
 
     @Transactional
-    @DeleteMapping("/{id}")
+    @PatchMapping("/update/status/{id}")
+    public ResponseEntity<PedidoDTO> updateStatus(@PathVariable Long id, @RequestBody PedidoDTO newStatus) {
+        var pedido = pedidoService.updateStatus(id, newStatus);
+        return ResponseEntity.ok().body(pedido);
+    }
+
+    @Transactional
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deletePedido(@PathVariable Long id) {
         pedidoService.deleteResource(id);
         return ResponseEntity.noContent().build();

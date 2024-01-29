@@ -40,4 +40,11 @@ public class PedidoService {
         pedidoRepository.delete(pedido);
     }
 
+    public PedidoDTO updateStatus(Long id, PedidoDTO pedidoDTO) {
+        var pedido = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("O pedido com id: %d não foi encontrado", id)));
+        pedido.setStatusPedido(pedidoDTO.getStatusPedido());
+        pedidoRepository.save(pedido);
+        return pedidoDTO;
+    }
+
 }
