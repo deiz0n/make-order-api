@@ -1,4 +1,4 @@
-package com.deiz0n.makeorder.models;
+package com.deiz0n.makeorder.domain.models;
 
 import jakarta.persistence.*;
 import lombok.*;

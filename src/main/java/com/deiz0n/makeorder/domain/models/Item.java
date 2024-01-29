@@ -1,18 +1,20 @@
-package com.deiz0n.makeorder.models;
-
+package com.deiz0n.makeorder.domain.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "tb_permissao")
-public class Permissao {
+@Entity(name = "tb_item")
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,13 +22,13 @@ public class Permissao {
     private UUID id;
     @Column(unique = true, nullable = false, length = 50)
     private String nome;
+    @Column(nullable = false)
+    private BigDecimal preco;
     @Column(nullable = false, columnDefinition = "text")
     private String descricao;
+    @Column(nullable = false)
+    private Integer quantidade;
 
-    @Setter(AccessLevel.NONE)
-    @ManyToMany
-    @JoinTable(name = "tb_permissao_funcionario",
-            joinColumns = @JoinColumn(name = "permissao_id"),
-            inverseJoinColumns = @JoinColumn(name = "funcionario_id"))
-    private List<Funcionario> funcionarios;
+    @ManyToOne
+    private Categoria categoria;
 }

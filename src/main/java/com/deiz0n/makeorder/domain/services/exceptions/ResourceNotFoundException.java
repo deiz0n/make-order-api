@@ -1,4 +1,4 @@
-package com.deiz0n.makeorder.services.exceptions;
+package com.deiz0n.makeorder.domain.services.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
 

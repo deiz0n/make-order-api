@@ -1,9 +1,9 @@
-package com.deiz0n.makeorder.services;
+package com.deiz0n.makeorder.domain.services;
 
-import com.deiz0n.makeorder.dtos.PedidoDTO;
-import com.deiz0n.makeorder.models.Pedido;
-import com.deiz0n.makeorder.repositories.PedidoRepository;
-import com.deiz0n.makeorder.services.exceptions.ResourceNotFoundException;
+import com.deiz0n.makeorder.domain.dtos.PedidoDTO;
+import com.deiz0n.makeorder.domain.models.Pedido;
+import com.deiz0n.makeorder.domain.repositories.PedidoRepository;
+import com.deiz0n.makeorder.domain.services.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -36,15 +36,20 @@ public class PedidoService {
     }
 
     public void deleteResource(UUID id) {
-        var pedido = pedidoRepository.getReferenceById(id);
+        var pedido = findByID(id);
         pedidoRepository.delete(pedido);
     }
 
     public PedidoDTO updateStatus(UUID id, PedidoDTO pedidoDTO) {
-        var pedido = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("O pedido com id: %s não foi encontrado", id.toString())));
+        var pedido = findByID(id);
         pedido.setStatusPedido(pedidoDTO.getStatusPedido());
         pedidoRepository.save(pedido);
         return pedidoDTO;
     }
 
+    public Pedido findByID(UUID id) {
+        return pedidoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("O pedido com id: %s não foi encontrado", id.toString())));
+    }
 }

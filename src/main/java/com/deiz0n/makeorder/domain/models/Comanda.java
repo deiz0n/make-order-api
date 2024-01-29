@@ -1,4 +1,4 @@
-package com.deiz0n.makeorder.models;
+package com.deiz0n.makeorder.domain.models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,17 +10,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "tb_categoria")
-public class Categoria {
+@Entity(name = "tb_comanda")
+public class Comanda {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Include
     private UUID id;
-    @Column(unique = true, nullable = false, length = 50)
-    private String nome;
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "categoria")
-    private List<Item> items;
+    @OneToMany(mappedBy = "comanda")
+    private List<Pedido> pedidos;
 }

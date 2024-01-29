@@ -1,7 +1,7 @@
-package com.deiz0n.makeorder.models;
+package com.deiz0n.makeorder.domain.models;
 
-import com.deiz0n.makeorder.models.enums.FormaPagamento;
-import com.deiz0n.makeorder.models.enums.StatusPedido;
+import com.deiz0n.makeorder.domain.models.enums.FormaPagamento;
+import com.deiz0n.makeorder.domain.models.enums.StatusPedido;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.deiz0n.makeorder.dtos;
+package com.deiz0n.makeorder.domain.dtos;
 
-import com.deiz0n.makeorder.models.enums.FormaPagamento;
-import com.deiz0n.makeorder.models.enums.StatusPedido;
+import com.deiz0n.makeorder.domain.models.enums.FormaPagamento;
+import com.deiz0n.makeorder.domain.models.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

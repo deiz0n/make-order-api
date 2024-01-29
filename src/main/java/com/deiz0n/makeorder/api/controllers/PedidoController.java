@@ -1,7 +1,7 @@
 package com.deiz0n.makeorder.api.controllers;
 
-import com.deiz0n.makeorder.dtos.PedidoDTO;
-import com.deiz0n.makeorder.services.PedidoService;
+import com.deiz0n.makeorder.domain.dtos.PedidoDTO;
+import com.deiz0n.makeorder.domain.services.PedidoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
