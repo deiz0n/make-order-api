@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1.0/pedidos")
@@ -41,14 +42,14 @@ public class PedidoController {
 
     @Transactional
     @PatchMapping("/update/status/{id}")
-    public ResponseEntity<PedidoDTO> updateStatus(@PathVariable Long id, @RequestBody PedidoDTO newStatus) {
+    public ResponseEntity<PedidoDTO> updateStatus(@PathVariable UUID id, @RequestBody PedidoDTO newStatus) {
         var pedido = pedidoService.updateStatus(id, newStatus);
         return ResponseEntity.ok().body(pedido);
     }
 
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletePedido(@PathVariable Long id) {
+    public ResponseEntity<?> deletePedido(@PathVariable UUID id) {
         pedidoService.deleteResource(id);
         return ResponseEntity.noContent().build();
     }

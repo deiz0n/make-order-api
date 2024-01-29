@@ -2,10 +2,10 @@ package com.deiz0n.makeorder.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,9 +15,9 @@ import java.util.List;
 public class Funcionario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
-    private Long id;
+    private UUID id;
     @Column(unique = true, nullable = false, length = 100)
     private String nome;
     @Column(unique = true, nullable = false, length = 11)

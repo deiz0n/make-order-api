@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PedidoService {
@@ -35,13 +35,13 @@ public class PedidoService {
         return pedidoRepository.save(pedido);
     }
 
-    public void deleteResource(Long id) {
+    public void deleteResource(UUID id) {
         var pedido = pedidoRepository.getReferenceById(id);
         pedidoRepository.delete(pedido);
     }
 
-    public PedidoDTO updateStatus(Long id, PedidoDTO pedidoDTO) {
-        var pedido = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("O pedido com id: %d não foi encontrado", id)));
+    public PedidoDTO updateStatus(UUID id, PedidoDTO pedidoDTO) {
+        var pedido = pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("O pedido com id: %s não foi encontrado", id.toString())));
         pedido.setStatusPedido(pedidoDTO.getStatusPedido());
         pedidoRepository.save(pedido);
         return pedidoDTO;

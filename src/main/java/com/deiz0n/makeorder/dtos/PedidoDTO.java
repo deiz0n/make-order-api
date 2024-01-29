@@ -1,22 +1,25 @@
 package com.deiz0n.makeorder.dtos;
 
+import com.deiz0n.makeorder.models.enums.FormaPagamento;
 import com.deiz0n.makeorder.models.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.Instant;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PedidoDTO {
 
-    private Long id;
+    private UUID id;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Instant data;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private FormaPagamento formaPagamento;
     private StatusPedido statusPedido;
 
 }
