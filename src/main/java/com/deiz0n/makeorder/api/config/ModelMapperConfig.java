@@ -13,9 +13,4 @@ public class ModelMapperConfig {
         return new ModelMapper();
     }
 
-    @Bean
-    public ModelMapper mapperRecord() {
-        return mapper().registerModule(new RecordModule());
-    }
-
 }
