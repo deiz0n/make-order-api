@@ -3,6 +3,7 @@ package com.deiz0n.makeorder.domain.services;
 import com.deiz0n.makeorder.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorder.domain.models.Funcionario;
 import com.deiz0n.makeorder.domain.repositories.FuncionarioRepository;
+import com.deiz0n.makeorder.domain.services.exceptions.ExistingFieldException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,13 @@ public class FuncionarioService {
 
     public FuncionarioDTO createResource(FuncionarioDTO newFuncionario) {
         var funcionario = mapper.map(newFuncionario, Funcionario.class);
+        dataValidation(funcionario.getEmail());
         funcionarioRepository.save(funcionario);
         return newFuncionario;
+    }
+
+    public void dataValidation(String data) {
+        if (funcionarioRepository.findFirstByEmail(data) != null)
+            throw new ExistingFieldException("Email já cadastrado. Tente novamente");
     }
 }
