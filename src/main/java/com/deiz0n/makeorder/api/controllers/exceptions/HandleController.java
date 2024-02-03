@@ -1,5 +1,6 @@
 package com.deiz0n.makeorder.api.controllers.exceptions;
 
+import com.deiz0n.makeorder.domain.services.exceptions.ExistingFieldException;
 import com.deiz0n.makeorder.domain.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,18 @@ public class HandleController {
                request.getRequestURI()
        );
        return ResponseEntity.status(HttpStatus.NOT_FOUND.value()).body(error);
+    }
+
+    @ExceptionHandler(ExistingFieldException.class)
+    public ResponseEntity<Error> handleExistingFieldException(ExistingFieldException exception, HttpServletRequest request) {
+        var error = new Error(
+                "Dado já cadastrado",
+                exception.getMessage(),
+                HttpStatus.BAD_GATEWAY,
+                Instant.now(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
     }
 
 }
