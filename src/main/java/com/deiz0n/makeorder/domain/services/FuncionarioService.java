@@ -5,6 +5,7 @@ import com.deiz0n.makeorder.domain.models.Funcionario;
 import com.deiz0n.makeorder.domain.repositories.FuncionarioRepository;
 import com.deiz0n.makeorder.domain.services.exceptions.ExistingFieldException;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class FuncionarioService {
     public FuncionarioDTO createResource(FuncionarioDTO newFuncionario) {
         var funcionario = mapper.map(newFuncionario, Funcionario.class);
         dataValidation(funcionario.getEmail());
+        var encodeSenha =  new BCryptPasswordEncoder().encode(funcionario.getSenha());
+        funcionario.setSenha(encodeSenha);
         funcionarioRepository.save(funcionario);
         return newFuncionario;
     }
