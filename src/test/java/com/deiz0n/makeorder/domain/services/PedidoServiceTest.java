@@ -37,6 +37,7 @@ class PedidoServiceTest {
     public static final Mesa MESA = new Mesa();
     public static final Funcionario FUNCIONARIO = new Funcionario();
     public static final int INDEX = 0;
+
     @InjectMocks
     private PedidoService service;
     @Mock
