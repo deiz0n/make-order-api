@@ -1,0 +1,32 @@
+package com.deiz0n.makeorder.infrastructure.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/api/v1.0/pedidos/create").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.DELETE, "api/v1.0/pedidos/delete/").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/pedidos").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/").hasRole("COZINHEIRO")
+                        .anyRequest().authenticated()
+                )
+                .build();
+
+    }
+
+}
