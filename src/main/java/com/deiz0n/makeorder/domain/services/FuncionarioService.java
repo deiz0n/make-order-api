@@ -30,8 +30,8 @@ public class FuncionarioService {
     }
 
     public FuncionarioDTO createResource(FuncionarioDTO newFuncionario) {
+        dataValidation(newFuncionario.getEmail());
         var funcionario = mapper.map(newFuncionario, Funcionario.class);
-        dataValidation(funcionario.getEmail());
         var encodeSenha =  new BCryptPasswordEncoder().encode(funcionario.getSenha());
         funcionario.setSenha(encodeSenha);
         funcionarioRepository.save(funcionario);

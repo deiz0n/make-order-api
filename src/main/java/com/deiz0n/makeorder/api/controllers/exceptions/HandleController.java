@@ -31,7 +31,7 @@ public class HandleController {
         var error = new Error(
                 "Dado já cadastrado",
                 exception.getMessage(),
-                HttpStatus.BAD_GATEWAY,
+                HttpStatus.BAD_REQUEST,
                 Instant.now(),
                 request.getRequestURI()
         );

@@ -11,6 +11,10 @@ public class AuthorizationService implements UserDetailsService {
 
     private FuncionarioRepository repository;
 
+    public AuthorizationService(FuncionarioRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return repository.findFirstByEmail(username);
