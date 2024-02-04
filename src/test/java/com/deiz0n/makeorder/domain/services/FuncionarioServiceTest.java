@@ -3,7 +3,6 @@ package com.deiz0n.makeorder.domain.services;
 import com.deiz0n.makeorder.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorder.domain.models.Funcionario;
 import com.deiz0n.makeorder.domain.models.Pedido;
-import com.deiz0n.makeorder.domain.models.Permissao;
 import com.deiz0n.makeorder.domain.repositories.FuncionarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

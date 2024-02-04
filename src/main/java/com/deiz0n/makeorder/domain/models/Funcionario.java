@@ -29,7 +29,7 @@ public class Funcionario implements UserDetails {
     private String cpf;
     @Column(unique = true, nullable = false, length = 50)
     private String email;
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 100)
     private String senha;
     @Column(nullable = false)
     private Date dataNascimento;
@@ -38,9 +38,7 @@ public class Funcionario implements UserDetails {
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "funcionario")
     private List<Pedido> pedidos;
-    @Setter(AccessLevel.NONE)
-    @ManyToMany(mappedBy = "funcionarios")
-    private List<Permissao> permissoes;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
