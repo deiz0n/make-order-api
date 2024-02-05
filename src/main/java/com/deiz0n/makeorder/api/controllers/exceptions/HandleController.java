@@ -1,7 +1,9 @@
 package com.deiz0n.makeorder.api.controllers.exceptions;
 
 import com.deiz0n.makeorder.domain.services.exceptions.ExistingFieldException;
+import com.deiz0n.makeorder.domain.services.exceptions.GenerateTokenException;
 import com.deiz0n.makeorder.domain.services.exceptions.ResourceNotFoundException;
+import com.deiz0n.makeorder.domain.services.exceptions.ValidateTokenException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,30 @@ public class HandleController {
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
+    }
+
+    @ExceptionHandler(GenerateTokenException.class)
+    public ResponseEntity<Error> handleGenerateTokenException(GenerateTokenException exception, HttpServletRequest request) {
+        var error = new Error(
+                "Erro ao gerar token",
+                exception.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                Instant.now(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(error);
+    }
+
+    @ExceptionHandler(ValidateTokenException.class)
+    public ResponseEntity<Error> handleValidateTokenException(ValidateTokenException exception, HttpServletRequest request) {
+        var error = new Error(
+                "Erro ao validar token",
+                exception.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                Instant.now(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(error);
     }
 
 }

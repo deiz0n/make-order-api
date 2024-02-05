@@ -5,6 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.deiz0n.makeorder.domain.models.Funcionario;
+import com.deiz0n.makeorder.domain.services.exceptions.GenerateTokenException;
+import com.deiz0n.makeorder.domain.services.exceptions.ValidateTokenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,7 @@ public class TokenService {
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
-            throw new RuntimeException("Erro ao gerar o token");
+            throw new GenerateTokenException("Não foi possível gerar o token");
         }
     }
 
@@ -41,7 +43,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            return "";
+            throw new ValidateTokenException("Não foi possível validar o token");
         }
     }
 

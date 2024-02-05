@@ -3,6 +3,7 @@ package com.deiz0n.makeorder.domain.services;
 import com.deiz0n.makeorder.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorder.domain.models.Funcionario;
 import com.deiz0n.makeorder.domain.models.Pedido;
+import com.deiz0n.makeorder.domain.models.enums.Cargo;
 import com.deiz0n.makeorder.domain.repositories.FuncionarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -93,15 +94,14 @@ class FuncionarioServiceTest {
                 ,EMAIL
                 ,SENHA
                 ,DATA
-                ,CARGO
-                ,List.of(new Pedido())
-                ,List.of(new Permissao()));
+                ,Cargo.ADMINISTRADOR
+                ,List.of(new Pedido()));
         funcionarioDTO = new FuncionarioDTO(ID
                 ,NOME
                 ,CPF
                 ,EMAIL
                 ,SENHA
                 ,DATA
-                ,CARGO);
+                , Cargo.ADMINISTRADOR);
     }
 }
