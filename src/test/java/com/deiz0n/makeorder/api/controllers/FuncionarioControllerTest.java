@@ -1,11 +1,8 @@
 package com.deiz0n.makeorder.api.controllers;
 
 import com.deiz0n.makeorder.domain.dtos.FuncionarioDTO;
-import com.deiz0n.makeorder.domain.models.Funcionario;
-import com.deiz0n.makeorder.domain.models.Pedido;
-import com.deiz0n.makeorder.domain.models.Permissao;
 import com.deiz0n.makeorder.domain.services.FuncionarioService;
-import org.apache.coyote.Response;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -41,7 +38,6 @@ class FuncionarioControllerTest {
     @Mock
     private FuncionarioService service;
 
-    private Funcionario funcionario;
     private FuncionarioDTO funcionarioDTO;
 
     @BeforeEach
@@ -92,15 +88,6 @@ class FuncionarioControllerTest {
     }
 
     private void startFuncionario() {
-        funcionario = new Funcionario(ID
-                ,NOME
-                ,CPF
-                ,EMAIL
-                ,SENHA
-                ,DATA
-                ,CARGO
-                ,List.of(new Pedido())
-                ,List.of(new Permissao()));
         funcionarioDTO = new FuncionarioDTO(ID
                 ,NOME
                 ,CPF
