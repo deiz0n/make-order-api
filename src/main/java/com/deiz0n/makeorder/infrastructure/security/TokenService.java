@@ -34,7 +34,7 @@ public class TokenService {
         }
     }
 
-    public String validationToken(String token) {
+    public String validateToken(String token) {
         try {
             var algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
