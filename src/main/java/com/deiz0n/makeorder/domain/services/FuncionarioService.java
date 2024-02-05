@@ -30,7 +30,7 @@ public class FuncionarioService {
     }
 
     public FuncionarioDTO createResource(FuncionarioDTO newFuncionario) {
-        dataValidation(newFuncionario.getEmail());
+        dataValidation(newFuncionario);
         var funcionario = mapper.map(newFuncionario, Funcionario.class);
         var encodeSenha =  new BCryptPasswordEncoder().encode(funcionario.getSenha());
         funcionario.setSenha(encodeSenha);
@@ -38,8 +38,8 @@ public class FuncionarioService {
         return newFuncionario;
     }
 
-    public void dataValidation(String data) {
-        if (funcionarioRepository.findFirstByEmail(data) != null)
-            throw new ExistingFieldException("Email já cadastrado. Tente novamente");
+    public void dataValidation(FuncionarioDTO newFuncionario) {
+        if (funcionarioRepository.findFirstByEmail(newFuncionario.getEmail()) != null) throw new ExistingFieldException("Email já cadastrado. Tente novamente");
+        if (funcionarioRepository.findFirstByCpf(newFuncionario.getCpf()).isPresent()) throw new ExistingFieldException("CPF já cadastrado");
     }
 }

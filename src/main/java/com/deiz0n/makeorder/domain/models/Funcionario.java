@@ -23,7 +23,7 @@ public class Funcionario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
     private UUID id;
-    @Column(unique = true, nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String nome;
     @Column(unique = true, nullable = false, length = 11)
     private String cpf;

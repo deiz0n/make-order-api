@@ -1,13 +1,21 @@
-drop table tb_permissao_funcionario;
-drop table tb_permissao;
+DO $$
+    BEGIN
+        IF EXISTS (
+            SELECT FROM pg_catalog.pg_tables
+            WHERE  schemaname = 'public'
+              AND    tablename  = 'tb_permissao_funcionario'
+        ) THEN
+            EXECUTE 'DROP TABLE public.tb_permissao_funcionario';
+        END IF;
+    END $$;
 
-ALTER TABLE tb_funcionario
-ALTER COLUMN cargo
-TYPE smallint
-USING cargo::smallint;
-
-ALTER TABLE tb_funcionario
-ADD CONSTRAINT cargo_check
-CHECK (cargo BETWEEN 0 AND 2);
-
-
+DO $$
+    BEGIN
+        IF EXISTS (
+            SELECT FROM pg_catalog.pg_tables
+            WHERE  schemaname = 'public'
+              AND    tablename  = 'tb_permissao'
+        ) THEN
+            EXECUTE 'DROP TABLE public.tb_permissao';
+        END IF;
+    END $$;
