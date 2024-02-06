@@ -1,15 +1,11 @@
 package com.deiz0n.makeorder.api.controllers.exceptions;
 
-import com.deiz0n.makeorder.domain.services.exceptions.ExistingFieldException;
-import com.deiz0n.makeorder.domain.services.exceptions.GenerateTokenException;
-import com.deiz0n.makeorder.domain.services.exceptions.ResourceNotFoundException;
-import com.deiz0n.makeorder.domain.services.exceptions.ValidateTokenException;
+import com.deiz0n.makeorder.domain.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 
 import java.time.Instant;
 

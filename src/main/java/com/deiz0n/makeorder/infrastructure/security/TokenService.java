@@ -3,10 +3,8 @@ package com.deiz0n.makeorder.infrastructure.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.deiz0n.makeorder.domain.models.Funcionario;
 import com.deiz0n.makeorder.domain.services.exceptions.GenerateTokenException;
-import com.deiz0n.makeorder.domain.services.exceptions.ValidateTokenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +40,8 @@ public class TokenService {
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch (JWTVerificationException exception) { 
-            throw new ValidateTokenException("Não foi possível validar o token");
+        } catch (RuntimeException exception) {
+            return "";
         }
     }
 
