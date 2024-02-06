@@ -3,9 +3,8 @@ package com.deiz0n.makeorder.api.controllers;
 import com.deiz0n.makeorder.domain.dtos.AuthenticationDTO;
 import com.deiz0n.makeorder.domain.models.Funcionario;
 import com.deiz0n.makeorder.infrastructure.security.TokenService;
-import com.deiz0n.makeorder.infrastructure.security.Utils.ResponseToken;
+import com.deiz0n.makeorder.domain.dtos.TokenDTO;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +33,7 @@ public class AutheticationController {
         var auth = authenticationManager.authenticate(login);
 
         var token = tokenService.generateToken((Funcionario) auth.getPrincipal());
-        var responseToken = new ResponseToken(token);
+        var responseToken = new TokenDTO(token);
         return ResponseEntity.ok().body(responseToken);
     }
 

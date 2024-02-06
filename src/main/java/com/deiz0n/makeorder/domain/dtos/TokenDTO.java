@@ -1,11 +1,11 @@
-package com.deiz0n.makeorder.infrastructure.security.Utils;
+package com.deiz0n.makeorder.domain.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ResponseToken {
+public class TokenDTO {
 
     private String token;
 

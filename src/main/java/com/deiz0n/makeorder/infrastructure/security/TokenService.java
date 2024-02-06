@@ -42,7 +42,7 @@ public class TokenService {
                     .build()
                     .verify(token)
                     .getSubject();
-        } catch (JWTVerificationException exception) {
+        } catch (JWTVerificationException exception) { 
             throw new ValidateTokenException("Não foi possível validar o token");
         }
     }

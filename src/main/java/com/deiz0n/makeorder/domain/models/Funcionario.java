@@ -42,9 +42,9 @@ public class Funcionario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.cargo == Cargo.ADMINISTRADOR) return List.of(new SimpleGrantedAuthority("CARGO_ADMINISTRADOR"), new SimpleGrantedAuthority("CARGO_GARCOM"));
-        if(this.cargo == Cargo.GARCOM) return List.of(new SimpleGrantedAuthority("CARGO_GARCOM"));
-        else return List.of(new SimpleGrantedAuthority("CARGO_GARCOM"));
+        if(this.cargo == Cargo.ADMINISTRADOR) return List.of(new SimpleGrantedAuthority("ROLE_ADMINISTRADOR"), new SimpleGrantedAuthority("ROLE_GARCOM"));
+        if(this.cargo == Cargo.GARCOM) return List.of(new SimpleGrantedAuthority("ROLE_GARCOM"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_COZINHEIRO"));
     }
 
     @Override
