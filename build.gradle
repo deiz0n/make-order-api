@@ -31,10 +31,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     runtimeOnly 'org.postgresql:postgresql'
     // https://mvnrepository.com/artifact/org.flywaydb/flyway-core
-<<<<<<< HEAD
+
     runtimeOnly 'org.postgresql:postgresql'
     // https://mvnrepository.com/artifact/org.flywaydb/flyway-database-postgresql
-=======
+
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '9.21.0'
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
@@ -45,10 +45,7 @@ dependencies {
     implementation 'com.auth0:java-jwt:4.4.0'
 
 
-
->>>>>>> test
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
 }
