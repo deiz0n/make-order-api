@@ -1,4 +1,4 @@
-package com.deiz0n.makeorder.models.enums;
+package com.deiz0n.makeorder.domain.models.enums;
 
 public enum FormaPagamento {
 

@@ -1,15 +1,13 @@
-package com.deiz0n.makeorder.models;
+package com.deiz0n.makeorder.domain.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -19,12 +17,18 @@ import java.math.BigDecimal;
 public class Item {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
-    private Long id;
+    private UUID id;
+    @Column(unique = true, nullable = false, length = 50)
     private String nome;
+    @Column(nullable = false)
     private BigDecimal preco;
+    @Column(nullable = false, columnDefinition = "text")
     private String descricao;
+    @Column(nullable = false)
     private Integer quantidade;
 
+    @ManyToOne
+    private Categoria categoria;
 }
