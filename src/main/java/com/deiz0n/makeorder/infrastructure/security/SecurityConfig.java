@@ -38,6 +38,8 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "api/v1.0/itens").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1.0/itens/create").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "api/v1.0/itens/update/{id}").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "api/v1.0/itens/delete/{id}").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/v1.0/pedidos/create").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.DELETE, "api/v1.0/pedidos/delete/").hasRole("GARCOM")
