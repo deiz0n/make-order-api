@@ -1,7 +1,6 @@
 package com.deiz0n.makeorder.domain.dtos;
 
 import com.deiz0n.makeorder.domain.models.Categoria;
-import com.deiz0n.makeorder.domain.models.Pedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

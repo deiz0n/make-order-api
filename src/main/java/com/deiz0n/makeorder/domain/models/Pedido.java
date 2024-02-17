@@ -46,12 +46,4 @@ public class Pedido {
     )
     private List<Item> itens;
 
-    public Double valorTotal() {
-        var soma = 0.0;
-        for (Item x : itens) {
-            soma += x.getPreco().doubleValue() * x.getQuantidade();
-        }
-        return soma;
-    }
-
 }
