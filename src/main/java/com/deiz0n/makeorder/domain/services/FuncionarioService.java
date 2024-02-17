@@ -37,7 +37,6 @@ public class FuncionarioService {
         funcionarioRepository.save(funcionario);
         return newFuncionario;
     }
-
     public void dataValidation(FuncionarioDTO newFuncionario) {
         if (funcionarioRepository.findFirstByEmail(newFuncionario.getEmail()) != null) throw new ExistingFieldException("Email já cadastrado. Tente novamente");
         if (funcionarioRepository.findFirstByCpf(newFuncionario.getCpf()).isPresent()) throw new ExistingFieldException("CPF já cadastrado");
