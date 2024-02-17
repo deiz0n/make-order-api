@@ -33,6 +33,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "api/v1.0/funcionarios/create").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/categorias").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/v1.0/categorias/create").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/api/v1.0/pedidos/create").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.DELETE, "api/v1.0/pedidos/delete/").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.GET, "api/v1.0/pedidos").permitAll()
