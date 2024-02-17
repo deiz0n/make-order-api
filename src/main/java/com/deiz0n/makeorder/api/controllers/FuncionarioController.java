@@ -3,6 +3,7 @@ package com.deiz0n.makeorder.api.controllers;
 import com.deiz0n.makeorder.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorder.domain.services.FuncionarioService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -27,7 +28,7 @@ public class FuncionarioController {
 
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody FuncionarioDTO newFuncionario) {
+    public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody @Valid FuncionarioDTO newFuncionario) {
         var funcionario = funcionarioService.createResource(newFuncionario);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
