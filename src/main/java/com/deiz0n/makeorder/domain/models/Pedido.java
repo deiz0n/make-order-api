@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -35,4 +36,15 @@ public class Pedido {
     private Mesa mesa;
     @ManyToOne
     private Funcionario funcionario;
+    @ManyToMany(mappedBy = "pedido")
+    private List<Item> itens;
+
+    public Double valorTotal() {
+        var soma = 0.0;
+        for (Item x : itens) {
+            soma += x.getPreco().doubleValue() * x.getQuantidade();
+        }
+        return soma;
+    }
+
 }

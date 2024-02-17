@@ -4,6 +4,7 @@ import com.deiz0n.makeorder.domain.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -36,28 +37,16 @@ public class HandleController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
     }
 
-    @ExceptionHandler(GenerateTokenException.class)
-    public ResponseEntity<Error> handleGenerateTokenException(GenerateTokenException exception, HttpServletRequest request) {
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Error> handleAccessDeniedException(AccessDeniedException exception, HttpServletRequest request) {
         var error = new Error(
-                "Erro ao gerar token",
-                exception.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Acesso negado",
+                "O usuário não possui permissão para realizar tal ação",
+                HttpStatus.FORBIDDEN,
                 Instant.now(),
                 request.getRequestURI()
         );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(error);
-    }
-
-    @ExceptionHandler(ValidateTokenException.class)
-    public ResponseEntity<Error> handleValidateTokenException(ValidateTokenException exception, HttpServletRequest request) {
-        var error = new Error(
-                "Erro ao validar token",
-                exception.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                Instant.now(),
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(error);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN.value()).body(error);
     }
 
 }

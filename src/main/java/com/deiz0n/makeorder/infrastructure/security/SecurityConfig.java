@@ -35,8 +35,9 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/api/v1.0/pedidos/create").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.DELETE, "api/v1.0/pedidos/delete/").hasRole("GARCOM")
-                        .requestMatchers(HttpMethod.GET, "api/v1.0/pedidos").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/pedidos").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/").hasRole("GARCOM")
+
                         .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/").hasRole("COZINHEIRO")
                         .anyRequest().authenticated()
                 )
