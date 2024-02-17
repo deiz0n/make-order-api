@@ -34,6 +34,6 @@ public class Item {
     @ManyToOne
     private Categoria categoria;
     @JsonIgnore
-    @ManyToMany(mappedBy = "itens")
+    @ManyToMany(mappedBy = "itens", cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
 }
