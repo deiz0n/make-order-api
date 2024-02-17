@@ -4,7 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,10 +38,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/v1.0/categorias").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1.0/categorias/create").permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "api/v1.0/itens").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/v1.0/itens/create").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "api/v1.0/itens/update/{id}").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "api/v1.0/itens/delete/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/itens").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.POST, "api/v1.0/itens/create").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.PUT, "api/v1.0/itens/update/{id}").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.DELETE, "api/v1.0/itens/delete/{id}").hasRole("GARCOM")
 
                         .requestMatchers(HttpMethod.POST, "/api/v1.0/pedidos/create").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.DELETE, "api/v1.0/pedidos/delete/").hasRole("GARCOM")
@@ -47,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/").hasRole("GARCOM")
 
                         .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/").hasRole("COZINHEIRO")
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -62,4 +64,5 @@ public class SecurityConfig {
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
