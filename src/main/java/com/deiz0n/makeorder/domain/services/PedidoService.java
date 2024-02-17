@@ -32,7 +32,8 @@ public class PedidoService {
 
     public Pedido createResource(PedidoDTO newPedido) {
         var pedido = mapper.map(newPedido, Pedido.class);
-        return pedidoRepository.save(pedido);
+        var teste = pedidoRepository.save(pedido);
+        return pedidoRepository.save(teste);
     }
 
     public void deleteResource(UUID id) {

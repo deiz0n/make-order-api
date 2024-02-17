@@ -33,11 +33,7 @@ public class Item {
 
     @ManyToOne
     private Categoria categoria;
-    @ManyToMany
-    @JoinTable(
-            name = "tb_itens_pedidos",
-            joinColumns = @JoinColumn(name = "id_item"),
-            inverseJoinColumns = @JoinColumn(name = "id_pedido")
-    )
-    private List<Pedido> pedido;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "itens")
+    private List<Pedido> pedidos;
 }

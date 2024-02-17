@@ -1,11 +1,13 @@
 package com.deiz0n.makeorder.domain.dtos;
 
 import com.deiz0n.makeorder.domain.models.Categoria;
+import com.deiz0n.makeorder.domain.models.Pedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -19,5 +21,4 @@ public class ItemDTO {
     private String descricao;
     private Integer quantidade;
     private Categoria categoria;
-
 }

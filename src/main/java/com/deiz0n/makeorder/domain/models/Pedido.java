@@ -2,6 +2,7 @@ package com.deiz0n.makeorder.domain.models;
 
 import com.deiz0n.makeorder.domain.models.enums.FormaPagamento;
 import com.deiz0n.makeorder.domain.models.enums.StatusPedido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,7 +37,13 @@ public class Pedido {
     private Mesa mesa;
     @ManyToOne
     private Funcionario funcionario;
-    @ManyToMany(mappedBy = "pedido")
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "tb_item_pedido",
+            joinColumns = @JoinColumn(name = "id_pedido"),
+            inverseJoinColumns = @JoinColumn(name = "id_item")
+    )
     private List<Item> itens;
 
     public Double valorTotal() {

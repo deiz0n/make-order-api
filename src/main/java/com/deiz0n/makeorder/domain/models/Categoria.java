@@ -1,5 +1,6 @@
 package com.deiz0n.makeorder.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class Categoria {
     @Column(unique = true, nullable = false, length = 50)
     private String nome;
 
+    @JsonIgnore
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "categoria")
     private List<Item> items;
