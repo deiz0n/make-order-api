@@ -3,11 +3,11 @@ package com.deiz0n.makeorder.domain.services;
 import java.util.List;
 import java.util.UUID;
 
-public interface ServiceCRUD<T> {
+public interface ServiceCRUD<T, C> {
 
     List<T> getResouces();
-    T createResource(T newResourceRequest);
-    T updateResource(T t, UUID id);
+    C createResource(T newResourceRequest);
+    C updateResource(T t, UUID id);
     void deleteResource(UUID id);
 
 }
