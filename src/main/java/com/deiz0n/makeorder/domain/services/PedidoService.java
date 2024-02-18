@@ -5,6 +5,7 @@ import com.deiz0n.makeorder.domain.models.Pedido;
 import com.deiz0n.makeorder.domain.repositories.PedidoRepository;
 import com.deiz0n.makeorder.domain.services.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,8 +31,8 @@ public class PedidoService {
         return pedidos;
     }
 
-    public Pedido createResource(PedidoDTO newPedido) {
-        var pedido = mapper.map(newPedido, Pedido.class);
+    public Pedido createResource(PedidoDTO newPedidoRequest) {
+        var pedido = mapper.map(newPedidoRequest, Pedido.class);
         var teste = pedidoRepository.save(pedido);
         return pedidoRepository.save(teste);
     }
@@ -41,11 +42,18 @@ public class PedidoService {
         pedidoRepository.delete(pedido);
     }
 
-    public PedidoDTO updateStatus(UUID id, PedidoDTO pedidoDTO) {
+    public PedidoDTO updateStatus(UUID id, PedidoDTO newStatusRequest) {
         var pedido = findByID(id);
-        pedido.setStatusPedido(pedidoDTO.getStatusPedido());
+        pedido.setStatusPedido(newStatusRequest.getStatusPedido());
         pedidoRepository.save(pedido);
-        return pedidoDTO;
+        return newStatusRequest;
+    }
+
+    public PedidoDTO updatePedido(UUID id, PedidoDTO newPedidoRequest) {
+        var pedido = findByID(id);
+        BeanUtils.copyProperties(newPedidoRequest, pedido, "id");
+        pedidoRepository.save(pedido);
+        return newPedidoRequest;
     }
 
     public Pedido findByID(UUID id) {

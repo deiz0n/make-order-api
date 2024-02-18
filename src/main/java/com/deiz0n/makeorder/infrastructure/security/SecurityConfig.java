@@ -8,7 +8,9 @@ import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig implements WebSecurityConfigurer<WebSecurity>  {
 
     private SecurityFilter securityFilter;
 
@@ -31,6 +33,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        //.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+
+                        //.requestMatchers("/swagger-ui/index.html#/**").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "api/v1.0/auth/login").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "api/v1.0/funcionarios/create").permitAll()
@@ -44,12 +50,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "api/v1.0/itens/delete/{id}").hasRole("GARCOM")
 
                         .requestMatchers(HttpMethod.POST, "/api/v1.0/pedidos/create").hasRole("GARCOM")
-                        .requestMatchers(HttpMethod.DELETE, "api/v1.0/pedidos/delete/").hasRole("GARCOM")
-                        .requestMatchers(HttpMethod.GET, "api/v1.0/pedidos").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.DELETE, "api/v1.0/pedidos/delete/{id}").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/pedidos").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.PUT, "api/v1.0/pedidos/update/{id}").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/{id}").hasRole("GARCOM")
 
-                        .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/").hasRole("COZINHEIRO")
-                        .anyRequest().permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "api/v1.0/pedidos/update/status/{id}").hasRole("COZINHEIRO")
+                        .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -65,4 +72,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
+    @Override
+    public void init(WebSecurity builder) throws Exception {
+    }
+
+    @Override
+    public void configure(WebSecurity builder) throws Exception {
+        builder.ignoring().requestMatchers
+                ("swagger-ui/**", "v3-api-docs/**", "/api-docs/**");
+    }
 }

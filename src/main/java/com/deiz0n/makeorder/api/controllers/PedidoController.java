@@ -99,6 +99,30 @@ public class PedidoController {
     }
 
     @Transactional
+    @PutMapping("/update/{id}")
+    @Operation(summary = "Atualiza informações de determinado pedido")
+    @ApiResponses(value =
+            {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Pedido atualizado com sucesso",
+                            content = {@Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = PedidoDTO.class))}),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Pedido não encontrado"),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "O usuário não possui permissão para realizar tal ação"
+                    )
+            }
+    )
+    public ResponseEntity<PedidoDTO> updatePedido(@PathVariable UUID id, @RequestBody PedidoDTO newPedidoRequest) {
+        var pedido = pedidoService.updatePedido(id, newPedidoRequest);
+        return ResponseEntity.ok().body(pedido);
+    }
+
+    @Transactional
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Exclui determinado pedido")
     @ApiResponses(value =
