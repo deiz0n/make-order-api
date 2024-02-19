@@ -4,6 +4,7 @@ package com.deiz0n.makeorderapi.api.controllers;
 import com.deiz0n.makeorderapi.domain.dto.AuthenticationDTO;
 import com.deiz0n.makeorderapi.domain.dto.TokenDTO;
 import com.deiz0n.makeorderapi.domain.models.Funcionario;
+import com.deiz0n.makeorderapi.security.TokenService;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
