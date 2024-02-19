@@ -42,16 +42,21 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
     implementation 'com.auth0:java-jwt:4.4.0'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent
-    implementation 'javax.servlet:javax.servlet-api:4.0.1'
-
 
     tasks.named('test') {
         useJUnitPlatform()
     }
 
-    task stage(dependsOn: ['build', 'clean'])
-    build.mustRunAfter clean
+    task stage() {
+        dependsOn clean, war
+    }
+    war.mustRunAfter clean
 
+    tasks.stage.doLast() {
+        delete fileTree(dir: "build/distributions")
+        delete fileTree(dir: "build/assetCompile")
+        delete fileTree(dir: "build/distributions")
+        delete fileTree(dir: "build/libs", exclude: "*.war")
+    }
 
 }
