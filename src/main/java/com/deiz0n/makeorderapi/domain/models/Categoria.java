@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.models;
+package com.deiz0n.makeorderapi.domain.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.models.enums;
+package com.deiz0n.makeorderapi.domain.models.enums;
 
 public enum StatusPedido {
 

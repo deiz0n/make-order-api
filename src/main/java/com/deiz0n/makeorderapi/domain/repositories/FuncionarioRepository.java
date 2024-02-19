@@ -1,6 +1,6 @@
-package com.deiz0n.makeorderapi.repositories;
+package com.deiz0n.makeorderapi.domain.repositories;
 
-import com.deiz0n.makeorderapi.models.Funcionario;
+import com.deiz0n.makeorderapi.domain.models.Funcionario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

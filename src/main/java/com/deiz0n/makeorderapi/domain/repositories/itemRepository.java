@@ -1,6 +1,6 @@
-package com.deiz0n.makeorderapi.repositories;
+package com.deiz0n.makeorderapi.domain.repositories;
 
-import com.deiz0n.makeorderapi.models.Item;
+import com.deiz0n.makeorderapi.domain.models.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

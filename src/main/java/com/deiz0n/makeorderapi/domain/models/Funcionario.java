@@ -1,6 +1,6 @@
-package com.deiz0n.makeorderapi.models;
+package com.deiz0n.makeorderapi.domain.models;
 
-import com.deiz0n.makeorderapi.models.enums.Cargo;
+import com.deiz0n.makeorderapi.domain.models.enums.Cargo;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,7 +1,7 @@
-package com.deiz0n.makeorderapi.models;
+package com.deiz0n.makeorderapi.domain.models;
 
-import com.deiz0n.makeorderapi.models.enums.FormaPagamento;
-import com.deiz0n.makeorderapi.models.enums.StatusPedido;
+import com.deiz0n.makeorderapi.domain.models.enums.FormaPagamento;
+import com.deiz0n.makeorderapi.domain.models.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
