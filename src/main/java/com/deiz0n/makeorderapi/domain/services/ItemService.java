@@ -23,7 +23,7 @@ public class ItemService implements ServiceCRUD<ItemDTO, Item> {
     }
 
     @Override
-    public List<ItemDTO> getResouces() {
+    public List<ItemDTO> getResources() {
         List<ItemDTO> itens = repository.findAll()
                 .stream()
                 .map(x -> mapper.map(x, ItemDTO.class))

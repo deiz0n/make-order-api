@@ -1,6 +1,7 @@
 package com.deiz0n.makeorderapi.api.controllers;
 
 import com.deiz0n.makeorderapi.domain.dto.PedidoDTO;
+import com.deiz0n.makeorderapi.domain.models.Pedido;
 import com.deiz0n.makeorderapi.domain.services.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @Tag(name = "Pedido Controller")
 public class PedidoController {
 
-    private PedidoService pedidoService;
+    private final PedidoService pedidoService;
 
     public PedidoController(PedidoService pedidoService) {
         this.pedidoService = pedidoService;
@@ -62,7 +63,7 @@ public class PedidoController {
             )
             }
     )
-    public ResponseEntity<PedidoDTO> createPedido(@RequestBody PedidoDTO newPedido) {
+    public ResponseEntity<Pedido> createPedido(@RequestBody PedidoDTO newPedido) {
         newPedido.setData(Instant.now());
         var pedido = pedidoService.createResource(newPedido);
         var uri = ServletUriComponentsBuilder
@@ -70,7 +71,7 @@ public class PedidoController {
                 .path("{id}")
                 .buildAndExpand(pedido.getId())
                 .toUri();
-        return ResponseEntity.created(uri).body(newPedido);
+        return ResponseEntity.created(uri).body(pedido);
     }
 
     @Transactional
@@ -92,7 +93,7 @@ public class PedidoController {
                     )
             }
     )
-    public ResponseEntity<PedidoDTO> updateStatus(@PathVariable UUID id, @RequestBody PedidoDTO newStatus) {
+    public ResponseEntity<Pedido> updateStatus(@PathVariable UUID id, @RequestBody PedidoDTO newStatus) {
         var pedido = pedidoService.updateStatus(id, newStatus);
         return ResponseEntity.ok().body(pedido);
     }
@@ -116,8 +117,8 @@ public class PedidoController {
                     )
             }
     )
-    public ResponseEntity<PedidoDTO> updatePedido(@PathVariable UUID id, @RequestBody PedidoDTO newPedidoRequest) {
-        var pedido = pedidoService.updatePedido(id, newPedidoRequest);
+    public ResponseEntity<Pedido> updatePedido(@RequestBody PedidoDTO newPedidoRequest, @PathVariable UUID id) {
+        var pedido = pedidoService.updateResource(newPedidoRequest, id);
         return ResponseEntity.ok().body(pedido);
     }
 

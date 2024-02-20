@@ -12,52 +12,50 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class PedidoService {
+public class PedidoService implements ServiceCRUD<PedidoDTO, Pedido> {
 
-    private PedidoRepository pedidoRepository;
-    private ModelMapper mapper;
+    private final PedidoRepository repository;
+    private final ModelMapper mapper;
 
-    public PedidoService(PedidoRepository pedidoRepository, ModelMapper mapper) {
-        this.pedidoRepository = pedidoRepository;
+    public PedidoService(PedidoRepository repository, ModelMapper mapper) {
+        this.repository = repository;
         this.mapper = mapper;
     }
 
+    @Override
     public List<PedidoDTO> getResources() {
-        List<PedidoDTO> pedidos = pedidoRepository.findAll()
+        return repository.findAll()
                 .stream()
                 .map(x -> mapper.map(x, PedidoDTO.class))
                 .toList();
-
-        return pedidos;
     }
 
     public Pedido createResource(PedidoDTO newPedidoRequest) {
         var pedido = mapper.map(newPedidoRequest, Pedido.class);
-        var teste = pedidoRepository.save(pedido);
-        return pedidoRepository.save(teste);
+        var teste = repository.save(pedido);
+        return repository.save(teste);
     }
 
     public void deleteResource(UUID id) {
         var pedido = findByID(id);
-        pedidoRepository.delete(pedido);
+        repository.delete(pedido);
     }
 
-    public PedidoDTO updateStatus(UUID id, PedidoDTO newStatusRequest) {
+    public Pedido updateStatus(UUID id, PedidoDTO newStatusRequest) {
         var pedido = findByID(id);
         pedido.setStatusPedido(newStatusRequest.getStatusPedido());
-        pedidoRepository.save(pedido);
-        return newStatusRequest;
+        return repository.save(pedido);
     }
 
-    public PedidoDTO updatePedido(UUID id, PedidoDTO newPedidoRequest) {
+    @Override
+    public Pedido updateResource(PedidoDTO newPedidoRequest, UUID id) {
         var pedido = findByID(id);
         BeanUtils.copyProperties(newPedidoRequest, pedido, "id");
-        pedidoRepository.save(pedido);
-        return newPedidoRequest;
+        return repository.save(pedido);
     }
 
     public Pedido findByID(UUID id) {
-        return pedidoRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format("O pedido com id: %s não foi encontrado", id.toString())));
     }

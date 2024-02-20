@@ -25,7 +25,7 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<ItemDTO>> getItens() {
-        List<ItemDTO> itens = service.getResouces();
+        List<ItemDTO> itens = service.getResources();
         return ResponseEntity.ok().body(itens);
     }
 

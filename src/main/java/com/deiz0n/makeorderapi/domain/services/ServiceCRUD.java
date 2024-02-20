@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public interface ServiceCRUD<T, C> {
 
-    List<T> getResouces();
+    List<T> getResources();
     C createResource(T newResourceRequest);
     C updateResource(T t, UUID id);
     void deleteResource(UUID id);

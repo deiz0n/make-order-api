@@ -38,7 +38,7 @@ public class Pedido {
     @ManyToOne
     private Funcionario funcionario;
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "tb_item_pedido",
             joinColumns = @JoinColumn(name = "id_pedido"),
