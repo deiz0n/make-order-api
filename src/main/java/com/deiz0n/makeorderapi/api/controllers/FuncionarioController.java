@@ -14,22 +14,22 @@ import java.util.List;
 @RequestMapping("/api/v1.0/funcionarios")
 public class FuncionarioController {
 
-    private FuncionarioService funcionarioService;
+    private final FuncionarioService service;
 
-    public FuncionarioController(FuncionarioService funcionarioService) {
-        this.funcionarioService = funcionarioService;
+    public FuncionarioController(FuncionarioService service) {
+        this.service = service;
     }
 
     @GetMapping
     public ResponseEntity<List<FuncionarioDTO>> getFuncionarios() {
-        List<FuncionarioDTO> funcionarios = funcionarioService.getResouces();
+        List<FuncionarioDTO> funcionarios = service.getResouces();
         return ResponseEntity.ok().body(funcionarios);
     }
 
     @Transactional
     @PostMapping("/create")
     public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody @Valid FuncionarioDTO newFuncionario) {
-        var funcionario = funcionarioService.createResource(newFuncionario);
+        var funcionario = service.createResource(newFuncionario);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")

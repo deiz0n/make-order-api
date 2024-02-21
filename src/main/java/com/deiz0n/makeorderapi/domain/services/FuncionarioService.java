@@ -13,20 +13,19 @@ import java.util.List;
 @Service
 public class FuncionarioService {
 
-    private FuncionarioRepository funcionarioRepository;
-    private ModelMapper mapper;
+    private final FuncionarioRepository repository;
+    private final ModelMapper mapper;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository, ModelMapper mapper) {
-        this.funcionarioRepository = funcionarioRepository;
+    public FuncionarioService(FuncionarioRepository repository, ModelMapper mapper) {
+        this.repository = repository;
         this.mapper = mapper;
     }
 
     public List<FuncionarioDTO> getResouces() {
-        List<FuncionarioDTO> funcionarios = funcionarioRepository.findAll()
+        return repository.findAll()
                 .stream()
                 .map(x -> mapper.map(x, FuncionarioDTO.class))
                 .toList();
-        return funcionarios;
     }
 
     public FuncionarioDTO createResource(FuncionarioDTO newFuncionario) {
@@ -34,11 +33,12 @@ public class FuncionarioService {
         var funcionario = mapper.map(newFuncionario, Funcionario.class);
         var encodeSenha =  new BCryptPasswordEncoder().encode(funcionario.getSenha());
         funcionario.setSenha(encodeSenha);
-        funcionarioRepository.save(funcionario);
+        repository.save(funcionario);
         return newFuncionario;
     }
+
     public void dataValidation(FuncionarioDTO newFuncionario) {
-        if (funcionarioRepository.findFirstByEmail(newFuncionario.getEmail()) != null) throw new ExistingFieldException("Email já cadastrado. Tente novamente");
-        if (funcionarioRepository.findFirstByCpf(newFuncionario.getCpf()).isPresent()) throw new ExistingFieldException("CPF já cadastrado");
+        if (repository.findFirstByEmail(newFuncionario.getEmail()) != null) throw new ExistingFieldException("Email já cadastrado");
+        if (repository.findFirstByCpf(newFuncionario.getCpf()).isPresent()) throw new ExistingFieldException("CPF já cadastrado");
     }
 }
