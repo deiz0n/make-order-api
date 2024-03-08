@@ -38,7 +38,7 @@ public class Pedido {
     @ManyToOne
     private Funcionario funcionario;
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_item_pedido",
             joinColumns = @JoinColumn(name = "id_pedido"),
