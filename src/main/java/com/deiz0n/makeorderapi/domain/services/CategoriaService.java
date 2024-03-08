@@ -20,11 +20,10 @@ public class CategoriaService {
     }
 
     public List<CategoriaDTO> getResources() {
-        List<CategoriaDTO> categorias = categoriaRepository.findAll()
+        return categoriaRepository.findAll()
                 .stream()
                 .map(x -> mapper.map(x, CategoriaDTO.class))
                 .toList();
-        return categorias;
     }
 
     public CategoriaDTO createResource(CategoriaDTO newCategoria) {

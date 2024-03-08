@@ -35,6 +35,8 @@ public class SecurityConfig implements WebSecurityConfigurer<WebSecurity>  {
 
                         //.requestMatchers("/swagger-ui/index.html#/**").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/funcionarios/login").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "api/v1.0/auth/login").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "api/v1.0/funcionarios/create").permitAll()

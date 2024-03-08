@@ -10,6 +10,7 @@ import java.util.UUID;
 public interface FuncionarioRepository extends JpaRepository<Funcionario, UUID> {
 
     UserDetails findFirstByEmail(String email);
+    Optional<Funcionario> getFirstByEmail(String email);
     Optional<Funcionario> findFirstByCpf(String cpf);
 
 }

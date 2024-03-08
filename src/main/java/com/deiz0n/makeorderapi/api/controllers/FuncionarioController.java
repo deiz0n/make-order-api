@@ -2,8 +2,10 @@ package com.deiz0n.makeorderapi.api.controllers;
 
 import com.deiz0n.makeorderapi.domain.dto.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.services.FuncionarioService;
+import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,6 +27,12 @@ public class FuncionarioController {
         List<FuncionarioDTO> funcionarios = service.getResouces();
         return ResponseEntity.ok().body(funcionarios);
     }
+
+//    @GetMapping("/login")
+//    @EventListener
+//    public ResponseEntity<Object> getFuncionarioByToken(CustomEvent event) {
+//        return ResponseEntity.ok().body(service.getResourceByToken(event));
+//    }
 
     @Transactional
     @PostMapping("/create")

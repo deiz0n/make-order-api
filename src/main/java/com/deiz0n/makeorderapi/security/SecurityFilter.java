@@ -1,10 +1,13 @@
 package com.deiz0n.makeorderapi.security;
 
 import com.deiz0n.makeorderapi.domain.repositories.FuncionarioRepository;
+import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
+import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,9 +24,12 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final FuncionarioRepository funcionarioRepository;
 
-    public SecurityFilter(TokenService tokenService, FuncionarioRepository funcionarioRepository) {
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    public SecurityFilter(TokenService tokenService, FuncionarioRepository funcionarioRepository, ApplicationEventPublisher applicationEventPublisher) {
         this.tokenService = tokenService;
         this.funcionarioRepository = funcionarioRepository;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -31,7 +37,9 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = recoveryToken(request);
         if (token != null) {
             var login = tokenService.validateToken(token);
-            UserDetails user = funcionarioRepository.findFirstByEmail(login);
+            var user = funcionarioRepository.findFirstByEmail(login);
+
+//            applicationEventPublisher.publishEvent(new CustomEvent(login));
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
