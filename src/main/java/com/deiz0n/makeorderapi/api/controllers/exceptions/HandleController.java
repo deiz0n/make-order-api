@@ -1,5 +1,6 @@
 package com.deiz0n.makeorderapi.api.controllers.exceptions;
 
+import com.deiz0n.makeorderapi.domain.services.exceptions.CreatedOrderException;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ExistingFieldException;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,6 +57,18 @@ public class HandleController {
         var error = new Error(
                 "Campo inválido",
                 exception.getFieldError().getDefaultMessage(),
+                HttpStatus.BAD_REQUEST,
+                Instant.now(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(error);
+    }
+
+    @ExceptionHandler(CreatedOrderException.class)
+    public ResponseEntity<Error> handleCreatedOrderException(CreatedOrderException exception, HttpServletRequest request) {
+        var error = new Error(
+                "Erro ao criar pedido",
+                "O pedido deve conter ao menos 1 item",
                 HttpStatus.BAD_REQUEST,
                 Instant.now(),
                 request.getRequestURI()

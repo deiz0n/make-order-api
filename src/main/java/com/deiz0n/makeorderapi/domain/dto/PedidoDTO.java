@@ -3,6 +3,7 @@ package com.deiz0n.makeorderapi.domain.dto;
 import com.deiz0n.makeorderapi.domain.models.Item;
 import com.deiz0n.makeorderapi.domain.models.enums.FormaPagamento;
 import com.deiz0n.makeorderapi.domain.models.enums.StatusPedido;
+import com.deiz0n.makeorderapi.domain.services.exceptions.CreatedOrderException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,4 +35,5 @@ public class PedidoDTO {
         }
         return soma;
     }
+
 }

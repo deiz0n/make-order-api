@@ -3,11 +3,13 @@ package com.deiz0n.makeorderapi.domain.services;
 import com.deiz0n.makeorderapi.domain.dto.PedidoDTO;
 import com.deiz0n.makeorderapi.domain.models.Pedido;
 import com.deiz0n.makeorderapi.domain.repositories.PedidoRepository;
+import com.deiz0n.makeorderapi.domain.services.exceptions.CreatedOrderException;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.security.cert.CertificateRevokedException;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,8 +34,8 @@ public class PedidoService implements ServiceCRUD<PedidoDTO, Pedido> {
 
     public Pedido createResource(PedidoDTO newPedidoRequest) {
         var pedido = mapper.map(newPedidoRequest, Pedido.class);
-        var teste = repository.save(pedido);
-        return repository.save(teste);
+        if (newPedidoRequest.getItens() == null) throw new CreatedOrderException();
+        return repository.save(pedido);
     }
 
     public void deleteResource(UUID id) {
@@ -59,4 +61,5 @@ public class PedidoService implements ServiceCRUD<PedidoDTO, Pedido> {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format("O pedido com id: %s não foi encontrado", id.toString())));
     }
+
 }
