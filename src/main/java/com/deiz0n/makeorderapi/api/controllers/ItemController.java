@@ -29,6 +29,12 @@ public class ItemController {
         return ResponseEntity.ok().body(itens);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Item> getItemByID(@PathVariable UUID id) {
+        var item = service.getByID(id);
+        return ResponseEntity.ok().body(item);
+    }
+
     @Transactional
     @PostMapping("/create")
     public ResponseEntity<Item> createItem(@RequestBody ItemDTO newItemRequest) {

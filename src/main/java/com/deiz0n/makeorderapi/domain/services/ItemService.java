@@ -50,7 +50,7 @@ public class ItemService implements ServiceCRUD<ItemDTO, Item> {
         repository.delete(item);
     }
 
-    private Item getByID(UUID id) {
+    public Item getByID(UUID id) {
         return repository.findById(id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Item não encontrado"));
