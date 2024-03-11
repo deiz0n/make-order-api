@@ -2,12 +2,11 @@ package com.deiz0n.makeorderapi.domain.services;
 
 import com.deiz0n.makeorderapi.domain.dto.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.models.Funcionario;
+import com.deiz0n.makeorderapi.domain.models.enums.Cargo;
 import com.deiz0n.makeorderapi.domain.repositories.FuncionarioRepository;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ExistingFieldException;
-import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
+import com.deiz0n.makeorderapi.domain.utils.MokTopFuncionarios;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +28,14 @@ public class FuncionarioService {
                 .stream()
                 .map(x -> mapper.map(x, FuncionarioDTO.class))
                 .toList();
+    }
+
+    public List<MokTopFuncionarios> getTopFuncionarios() {
+        return List.of(
+                new MokTopFuncionarios("ADMIN", Cargo.ADMINISTRADOR, 18),
+                new MokTopFuncionarios("Dudu", Cargo.GARCOM, 15),
+                new MokTopFuncionarios("Leandro", Cargo.GARCOM, 10)
+        );
     }
 
 //    @EventListener

@@ -3,6 +3,7 @@ package com.deiz0n.makeorderapi.api.controllers;
 import com.deiz0n.makeorderapi.domain.dto.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.services.FuncionarioService;
 import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
+import com.deiz0n.makeorderapi.domain.utils.MokTopFuncionarios;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.context.event.EventListener;
@@ -25,6 +26,12 @@ public class FuncionarioController {
     @GetMapping
     public ResponseEntity<List<FuncionarioDTO>> getFuncionarios() {
         List<FuncionarioDTO> funcionarios = service.getResouces();
+        return ResponseEntity.ok().body(funcionarios);
+    }
+
+    @GetMapping("/top")
+    public ResponseEntity<List<MokTopFuncionarios>> getTopFuncionarios() {
+        var funcionarios = service.getTopFuncionarios();
         return ResponseEntity.ok().body(funcionarios);
     }
 

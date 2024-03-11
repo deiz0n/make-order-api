@@ -1,6 +1,8 @@
 package com.deiz0n.makeorderapi.domain.dto;
 
+import com.deiz0n.makeorderapi.domain.models.Funcionario;
 import com.deiz0n.makeorderapi.domain.models.Item;
+import com.deiz0n.makeorderapi.domain.models.Mesa;
 import com.deiz0n.makeorderapi.domain.models.enums.FormaPagamento;
 import com.deiz0n.makeorderapi.domain.models.enums.StatusPedido;
 import com.deiz0n.makeorderapi.domain.services.exceptions.CreatedOrderException;
@@ -26,6 +28,9 @@ public class PedidoDTO {
     @JsonProperty("status_pedido")
     private StatusPedido statusPedido;
     private List<Item> itens;
+    private Integer codigo;
+    private Funcionario funcionario;
+    private Mesa mesa;
 
     @JsonProperty(value = "valor_total")
     public Double getValorTotal() {
