@@ -5,16 +5,21 @@ import com.deiz0n.makeorderapi.domain.repositories.MesaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1.0/mesas")
 public class MesaController {
 
     private MesaRepository repository;
+
+    @GetMapping
+    public ResponseEntity<List<Mesa>> getMesas() {
+        var mesas = repository.findAll();
+        return ResponseEntity.ok().body(mesas);
+    }
 
     @Transactional
     @PostMapping("/create")
