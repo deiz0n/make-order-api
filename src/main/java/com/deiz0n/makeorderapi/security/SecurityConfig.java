@@ -46,6 +46,7 @@ public class SecurityConfig implements WebSecurityConfigurer<WebSecurity>  {
 
                         .requestMatchers(HttpMethod.GET, "api/v1.0/itens").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.GET, "api/v1.0/itens/{id}").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/itens/top").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1.0/itens/create").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.PUT, "api/v1.0/itens/update/{id}").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.DELETE, "api/v1.0/itens/delete/{id}").hasRole("GARCOM")

@@ -1,13 +1,17 @@
 package com.deiz0n.makeorderapi.domain.services;
 
 import com.deiz0n.makeorderapi.domain.dto.ItemDTO;
+import com.deiz0n.makeorderapi.domain.models.Categoria;
 import com.deiz0n.makeorderapi.domain.models.Item;
 import com.deiz0n.makeorderapi.domain.repositories.ItemRepository;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
+import com.deiz0n.makeorderapi.domain.utils.MokTopItens;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,6 +33,14 @@ public class ItemService implements ServiceCRUD<ItemDTO, Item> {
                 .map(x -> mapper.map(x, ItemDTO.class))
                 .toList();
         return itens;
+    }
+
+    public List<MokTopItens> getTopItens() {
+        return List.of(
+                new MokTopItens("Massa Carbonara", 31),
+                new MokTopItens("Frango à Parmegiana", 28),
+                new MokTopItens("Frango à Parmegiana", 15)
+        );
     }
 
     @Override
