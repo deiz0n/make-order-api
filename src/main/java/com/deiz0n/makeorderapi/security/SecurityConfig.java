@@ -35,16 +35,22 @@ public class SecurityConfig implements WebSecurityConfigurer<WebSecurity>  {
 
                         //.requestMatchers("/swagger-ui/index.html#/**").permitAll()
 
+                        .requestMatchers(HttpMethod.POST, "api/v1.0/mesas/create").permitAll()
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/mesas").permitAll()
+
                         .requestMatchers(HttpMethod.GET, "api/v1.0/funcionarios/login").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "api/v1.0/auth/login").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/funcionarios/top").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1.0/funcionarios/create").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "api/v1.0/categorias").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1.0/categorias/create").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "api/v1.0/itens").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/itens/{id}").hasRole("GARCOM")
+                        .requestMatchers(HttpMethod.GET, "api/v1.0/itens/top").permitAll()
                         .requestMatchers(HttpMethod.POST, "api/v1.0/itens/create").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.PUT, "api/v1.0/itens/update/{id}").hasRole("GARCOM")
                         .requestMatchers(HttpMethod.DELETE, "api/v1.0/itens/delete/{id}").hasRole("GARCOM")

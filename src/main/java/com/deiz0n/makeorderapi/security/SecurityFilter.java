@@ -1,9 +1,6 @@
 package com.deiz0n.makeorderapi.security;
 
-import com.auth0.jwt.JWT;
 import com.deiz0n.makeorderapi.domain.repositories.FuncionarioRepository;
-import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
-import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,12 +22,9 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private final FuncionarioRepository funcionarioRepository;
 
-    private final ApplicationEventPublisher applicationEventPublisher;
-
-    public SecurityFilter(TokenService tokenService, FuncionarioRepository funcionarioRepository, ApplicationEventPublisher applicationEventPublisher) {
+    public SecurityFilter(TokenService tokenService, FuncionarioRepository funcionarioRepository) {
         this.tokenService = tokenService;
         this.funcionarioRepository = funcionarioRepository;
-        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override

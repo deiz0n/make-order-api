@@ -4,6 +4,7 @@ import com.deiz0n.makeorderapi.domain.dto.ItemDTO;
 import com.deiz0n.makeorderapi.domain.models.Item;
 import com.deiz0n.makeorderapi.domain.repositories.ItemRepository;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
+import com.deiz0n.makeorderapi.domain.utils.MokTopItens;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,14 @@ public class ItemService implements ServiceCRUD<ItemDTO, Item> {
         return itens;
     }
 
+    public List<MokTopItens> getTopItens() {
+        return List.of(
+                new MokTopItens("Massa Carbonara", 31),
+                new MokTopItens("Frango à Parmegiana", 28),
+                new MokTopItens("Frango à Parmegiana", 15)
+        );
+    }
+
     @Override
     public Item createResource(ItemDTO newItemRequest) {
         var item = mapper.map(newItemRequest, Item.class);
@@ -50,7 +59,7 @@ public class ItemService implements ServiceCRUD<ItemDTO, Item> {
         repository.delete(item);
     }
 
-    private Item getByID(UUID id) {
+    public Item getByID(UUID id) {
         return repository.findById(id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Item não encontrado"));

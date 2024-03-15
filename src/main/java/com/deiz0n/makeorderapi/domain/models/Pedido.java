@@ -30,6 +30,8 @@ public class Pedido {
     private FormaPagamento formaPagamento;
     @Column(nullable = false)
     private StatusPedido statusPedido;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer codigo;
 
     @ManyToOne
     private Comanda comanda;

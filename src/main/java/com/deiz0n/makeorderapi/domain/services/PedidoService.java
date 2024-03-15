@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.security.cert.CertificateRevokedException;
 import java.util.List;
 import java.util.UUID;
 

@@ -1,24 +1,17 @@
 package com.deiz0n.makeorderapi.domain.services;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.deiz0n.makeorderapi.domain.dto.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.models.Funcionario;
+import com.deiz0n.makeorderapi.domain.models.enums.Cargo;
 import com.deiz0n.makeorderapi.domain.repositories.FuncionarioRepository;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ExistingFieldException;
-import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
-import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
+import com.deiz0n.makeorderapi.domain.utils.MokTopFuncionarios;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.event.EventListener;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -41,8 +34,17 @@ public class FuncionarioService {
                 .toList();
     }
 
+
     public FuncionarioDTO getResourceByToken(@AuthenticationPrincipal Funcionario funcionario) {
         return mapper.map(funcionario, FuncionarioDTO.class);
+    }
+
+    public List<MokTopFuncionarios> getTopFuncionarios() {
+        return List.of(
+                new MokTopFuncionarios("ADMIN", Cargo.ADMINISTRADOR, 18),
+                new MokTopFuncionarios("Dudu", Cargo.GARCOM, 15),
+                new MokTopFuncionarios("Leandro", Cargo.GARCOM, 10)
+        );
     }
 
     public FuncionarioDTO createResource(FuncionarioDTO newFuncionario) {

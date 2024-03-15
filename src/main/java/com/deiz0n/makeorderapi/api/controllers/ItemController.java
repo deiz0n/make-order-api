@@ -3,6 +3,7 @@ package com.deiz0n.makeorderapi.api.controllers;
 import com.deiz0n.makeorderapi.domain.dto.ItemDTO;
 import com.deiz0n.makeorderapi.domain.models.Item;
 import com.deiz0n.makeorderapi.domain.services.ItemService;
+import com.deiz0n.makeorderapi.domain.utils.MokTopItens;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,18 @@ public class ItemController {
     @GetMapping
     public ResponseEntity<List<ItemDTO>> getItens() {
         List<ItemDTO> itens = service.getResources();
+        return ResponseEntity.ok().body(itens);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Item> getItemByID(@PathVariable UUID id) {
+        var item = service.getByID(id);
+        return ResponseEntity.ok().body(item);
+    }
+
+    @GetMapping("/top")
+    public ResponseEntity<List<MokTopItens>> getTopItens() {
+        var itens = service.getTopItens();
         return ResponseEntity.ok().body(itens);
     }
 
