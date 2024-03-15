@@ -1,5 +1,6 @@
 package com.deiz0n.makeorderapi.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,7 @@ public class Comanda {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @JsonIgnore
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "comanda")
     private List<Pedido> pedidos;

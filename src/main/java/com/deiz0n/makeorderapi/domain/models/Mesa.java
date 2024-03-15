@@ -1,5 +1,6 @@
 package com.deiz0n.makeorderapi.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class Mesa {
     @Column(nullable = false, columnDefinition = "text")
     private String observacoes;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "mesa")
     private List<Pedido> pedidos;
 }

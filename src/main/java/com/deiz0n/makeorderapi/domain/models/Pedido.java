@@ -37,6 +37,7 @@ public class Pedido {
     private Comanda comanda;
     @ManyToOne
     private Mesa mesa;
+    @JsonIgnore
     @ManyToOne
     private Funcionario funcionario;
     @JsonIgnore
