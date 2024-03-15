@@ -19,8 +19,6 @@ import java.util.List;
 public class FuncionarioController {
 
     private final FuncionarioService service;
-    @Value("${api.security.token.secret}")
-    private String secret;
 
     public FuncionarioController(FuncionarioService service) {
         this.service = service;
