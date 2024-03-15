@@ -1,12 +1,18 @@
 package com.deiz0n.makeorderapi.api.controllers;
 
 import com.deiz0n.makeorderapi.domain.dto.FuncionarioDTO;
+import com.deiz0n.makeorderapi.domain.models.Funcionario;
 import com.deiz0n.makeorderapi.domain.services.FuncionarioService;
-import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.springframework.context.event.EventListener;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,6 +23,8 @@ import java.util.List;
 public class FuncionarioController {
 
     private final FuncionarioService service;
+    @Value("${api.security.token.secret}")
+    private String secret;
 
     public FuncionarioController(FuncionarioService service) {
         this.service = service;
@@ -28,11 +36,11 @@ public class FuncionarioController {
         return ResponseEntity.ok().body(funcionarios);
     }
 
-//    @GetMapping("/login")
-//    @EventListener
-//    public ResponseEntity<Object> getFuncionarioByToken(CustomEvent event) {
-//        return ResponseEntity.ok().body(service.getResourceByToken(event));
-//    }
+    @GetMapping("/login")
+    public ResponseEntity<FuncionarioDTO> getFuncionarioByToken(@AuthenticationPrincipal Funcionario funcionario) {
+        var user = service.getResourceByToken(funcionario);
+        return ResponseEntity.ok().body(user);
+    }
 
     @Transactional
     @PostMapping("/create")

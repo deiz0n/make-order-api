@@ -1,16 +1,24 @@
 package com.deiz0n.makeorderapi.domain.services;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.deiz0n.makeorderapi.domain.dto.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.models.Funcionario;
 import com.deiz0n.makeorderapi.domain.repositories.FuncionarioRepository;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ExistingFieldException;
+import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
 import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.ApplicationListener;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -18,6 +26,8 @@ public class FuncionarioService {
 
     private final FuncionarioRepository repository;
     private final ModelMapper mapper;
+    @Value("${api.security.token.secret}")
+    private String secret;
 
     public FuncionarioService(FuncionarioRepository repository, ModelMapper mapper) {
         this.repository = repository;
@@ -31,10 +41,9 @@ public class FuncionarioService {
                 .toList();
     }
 
-//    @EventListener
-//    public Object getResourceByToken(CustomEvent event) {
-//        return event;
-//    }
+    public FuncionarioDTO getResourceByToken(@AuthenticationPrincipal Funcionario funcionario) {
+        return mapper.map(funcionario, FuncionarioDTO.class);
+    }
 
     public FuncionarioDTO createResource(FuncionarioDTO newFuncionario) {
         dataValidation(newFuncionario);
@@ -49,5 +58,7 @@ public class FuncionarioService {
         if (repository.findFirstByEmail(newFuncionario.getEmail()) != null) throw new ExistingFieldException("Email já cadastrado");
         if (repository.findFirstByCpf(newFuncionario.getCpf()).isPresent()) throw new ExistingFieldException("CPF já cadastrado");
     }
+
+
 
 }

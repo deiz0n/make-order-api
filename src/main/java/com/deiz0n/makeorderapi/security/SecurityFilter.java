@@ -1,5 +1,6 @@
 package com.deiz0n.makeorderapi.security;
 
+import com.auth0.jwt.JWT;
 import com.deiz0n.makeorderapi.domain.repositories.FuncionarioRepository;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
 import com.deiz0n.makeorderapi.domain.utils.CustomEvent;
@@ -37,10 +38,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = recoveryToken(request);
         if (token != null) {
             var login = tokenService.validateToken(token);
-            var user = funcionarioRepository.findFirstByEmail(login);
-
-//            applicationEventPublisher.publishEvent(new CustomEvent(login));
-
+            UserDetails user = funcionarioRepository.findFirstByEmail(login);
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

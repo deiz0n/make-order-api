@@ -1,6 +1,7 @@
 package com.deiz0n.makeorderapi.domain.models;
 
 import com.deiz0n.makeorderapi.domain.models.enums.Cargo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,6 +36,7 @@ public class Funcionario implements UserDetails {
     private Date dataNascimento;
     private Cargo cargo;
 
+    @JsonIgnore
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "funcionario")
     private List<Pedido> pedidos;
