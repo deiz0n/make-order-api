@@ -2,6 +2,7 @@ package com.deiz0n.makeorderapi.domain.models;
 
 import com.deiz0n.makeorderapi.domain.models.enums.Cargo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,6 +42,7 @@ public class Funcionario implements UserDetails {
     @OneToMany(mappedBy = "funcionario")
     private List<Pedido> pedidos;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.cargo == Cargo.ADMINISTRADOR) return List.of(new SimpleGrantedAuthority("ROLE_ADMINISTRADOR"), new SimpleGrantedAuthority("ROLE_GARCOM"));

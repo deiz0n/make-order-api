@@ -3,7 +3,6 @@ package com.deiz0n.makeorderapi.api.controllers;
 import com.deiz0n.makeorderapi.domain.dto.ItemDTO;
 import com.deiz0n.makeorderapi.domain.models.Item;
 import com.deiz0n.makeorderapi.domain.services.ItemService;
-import com.deiz0n.makeorderapi.domain.utils.MokTopItens;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +37,7 @@ public class ItemController {
     }
 
     @GetMapping("/top")
-    public ResponseEntity<List<MokTopItens>> getTopItens() {
+    public ResponseEntity<String> getTopItens() {
         var itens = service.getTopItens();
         return ResponseEntity.ok().body(itens);
     }

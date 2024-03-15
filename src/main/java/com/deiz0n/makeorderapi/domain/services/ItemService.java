@@ -3,12 +3,13 @@ package com.deiz0n.makeorderapi.domain.services;
 import com.deiz0n.makeorderapi.domain.dto.ItemDTO;
 import com.deiz0n.makeorderapi.domain.models.Item;
 import com.deiz0n.makeorderapi.domain.repositories.ItemRepository;
+import com.deiz0n.makeorderapi.domain.repositories.PedidoRepository;
 import com.deiz0n.makeorderapi.domain.services.exceptions.ResourceNotFoundException;
-import com.deiz0n.makeorderapi.domain.utils.MokTopItens;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,10 +18,12 @@ public class ItemService implements ServiceCRUD<ItemDTO, Item> {
 
     private ItemRepository repository;
     private ModelMapper mapper;
+    private PedidoRepository pedidoRepository;
 
-    public ItemService(ItemRepository itemRepository, ModelMapper mapper) {
+    public ItemService(ItemRepository itemRepository, ModelMapper mapper, PedidoRepository pedidoRepository) {
         this.repository = itemRepository;
         this.mapper = mapper;
+        this.pedidoRepository = pedidoRepository;
     }
 
     @Override
@@ -32,12 +35,20 @@ public class ItemService implements ServiceCRUD<ItemDTO, Item> {
         return itens;
     }
 
-    public List<MokTopItens> getTopItens() {
-        return List.of(
-                new MokTopItens("Massa Carbonara", 31),
-                new MokTopItens("Frango à Parmegiana", 28),
-                new MokTopItens("Frango à Parmegiana", 15)
-        );
+    public String getTopItens() {
+        var itensPedido = new Hashtable<UUID, Item>();
+        for (var pedido : pedidoRepository.findAll()) {
+            for (var item : pedido.getItens()) {
+                if (itensPedido.containsKey(item.getId())) {
+                    var newItem = itensPedido.get(item.getId());
+                    newItem.setQuantidade(newItem.getQuantidade() + item.getQuantidade());
+                    itensPedido.put(item.getId(), newItem);
+                } else {
+                    itensPedido.put(item.getId(), item);
+                }
+            }
+        }
+        return itensPedido.toString();
     }
 
     @Override

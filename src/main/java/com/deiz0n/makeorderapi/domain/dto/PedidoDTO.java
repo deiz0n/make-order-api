@@ -11,7 +11,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -20,7 +22,7 @@ import java.util.UUID;
 public class PedidoDTO {
 
     private UUID id;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Instant data;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY, value = "forma_pagamento")
     private FormaPagamento formaPagamento;
@@ -39,5 +41,4 @@ public class PedidoDTO {
         }
         return soma;
     }
-
 }
