@@ -24,7 +24,7 @@ public class PedidoDTO {
     private StatusPedido statusPedido;
     private List<Item> itens;
     private Integer codigo;
-    private Funcionario funcionario;
+    private FuncionarioDTO funcionario;
     private Mesa mesa;
 
 }
