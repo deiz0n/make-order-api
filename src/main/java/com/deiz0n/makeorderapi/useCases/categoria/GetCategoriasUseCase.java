@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.useCases;
+package com.deiz0n.makeorderapi.useCases.categoria;
 
 import com.deiz0n.makeorderapi.core.domain.dtos.CategoriaDTO;
 

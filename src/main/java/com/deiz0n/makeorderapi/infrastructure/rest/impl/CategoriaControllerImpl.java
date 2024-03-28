@@ -3,12 +3,11 @@ package com.deiz0n.makeorderapi.infrastructure.rest.impl;
 import com.deiz0n.makeorderapi.adapters.services.CategoriaService;
 import com.deiz0n.makeorderapi.core.domain.dtos.CategoriaDTO;
 import com.deiz0n.makeorderapi.infrastructure.entities.Categoria;
-import com.deiz0n.makeorderapi.infrastructure.rest.CategoriaController;
+import com.deiz0n.makeorderapi.controllers.CategoriaController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 

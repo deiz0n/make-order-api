@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.infrastructure.rest;
+package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.core.domain.dtos.CategoriaDTO;
 import com.deiz0n.makeorderapi.infrastructure.entities.Categoria;
@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
