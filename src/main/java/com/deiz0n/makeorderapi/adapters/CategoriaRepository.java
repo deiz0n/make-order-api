@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public interface CategoriaRepository {
 
-    //Add a entidade categoria do infrastructure como parâmetro
     Categoria createCategoria(Categoria categoria);
     Optional<Categoria> getCategoria(UUID id);
     List<Categoria> getCategorias();
