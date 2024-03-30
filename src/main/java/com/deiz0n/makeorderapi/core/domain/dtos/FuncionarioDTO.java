@@ -1,6 +1,9 @@
 package com.deiz0n.makeorderapi.core.domain.dtos;
 
 import com.deiz0n.makeorderapi.core.domain.enums.Cargo;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +18,8 @@ public class FuncionarioDTO {
 
     private UUID id;
     private String nome;
-    private String cpf;
     private String email;
-    private String senha;
+    @JsonProperty(value = "data_nascimento")
     private Date dataNascimento;
     private Cargo cargo;
 

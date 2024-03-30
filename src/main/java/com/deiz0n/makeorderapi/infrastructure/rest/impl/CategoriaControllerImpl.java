@@ -24,7 +24,7 @@ public class CategoriaControllerImpl implements CategoriaController {
     public ResponseEntity<CategoriaDTO> createCategoria(Categoria newRequestCategoria) {
         var categoria = categoriaService.createCategoria(newRequestCategoria);
         var uri = ServletUriComponentsBuilder
-                .fromCurrentRequestUri()
+                .fromCurrentRequest()
                 .path("{id}")
                 .buildAndExpand(categoria.getId())
                 .toUri();

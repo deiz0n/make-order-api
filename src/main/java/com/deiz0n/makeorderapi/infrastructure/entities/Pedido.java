@@ -3,6 +3,7 @@ package com.deiz0n.makeorderapi.infrastructure.entities;
 import com.deiz0n.makeorderapi.core.domain.enums.FormaPagamento;
 import com.deiz0n.makeorderapi.core.domain.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,10 +38,10 @@ public class Pedido {
     private Comanda comanda;
     @ManyToOne
     private Mesa mesa;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Funcionario funcionario;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "tb_item_pedido",
