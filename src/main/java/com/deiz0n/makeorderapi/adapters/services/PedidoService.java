@@ -1,6 +1,7 @@
 package com.deiz0n.makeorderapi.adapters.services;
 
 import com.deiz0n.makeorderapi.core.domain.dtos.PedidoDTO;
+import com.deiz0n.makeorderapi.core.domain.enums.StatusPedido;
 import com.deiz0n.makeorderapi.core.exceptions.PedidoNotFoundException;
 import com.deiz0n.makeorderapi.infrastructure.config.ModelMapperConfig;
 import com.deiz0n.makeorderapi.infrastructure.entities.Pedido;
@@ -8,6 +9,7 @@ import com.deiz0n.makeorderapi.infrastructure.persistence.impl.PedidoRepositoryI
 import com.deiz0n.makeorderapi.useCases.pedido.*;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +27,9 @@ public class PedidoService implements CreatePedidoUseCase, DeletePedidoUseCase, 
 
     @Override
     public PedidoDTO createPedido(Pedido newPedidoRequest) {
+        newPedidoRequest.setData(Instant.now());
+        newPedidoRequest.setStatusPedido(StatusPedido.PENDENTE);
+
         var pedido = pedidoRepository.createPedido(newPedidoRequest);
         return mapperConfig.modelMapper().map(pedido, PedidoDTO.class);
     }

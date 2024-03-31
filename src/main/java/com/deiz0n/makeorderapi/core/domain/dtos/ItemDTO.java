@@ -21,7 +21,6 @@ public class ItemDTO {
     private String descricao;
     @JsonProperty(value = "quantidade_disponivel")
     private Integer quantidadeDisponivel;
-    private Integer quantidade;
     private CategoriaDTO categoria;
     @JsonIgnore
     private List<PedidoDTO> pedidos;
