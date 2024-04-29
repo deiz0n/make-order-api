@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.useCases.pedido;
+package com.deiz0n.makeorderapi.usecases.pedido;
 
 import java.util.UUID;
 

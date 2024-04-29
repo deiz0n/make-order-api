@@ -1,14 +1,14 @@
 package com.deiz0n.makeorderapi.core.domain.enums;
 
-public enum Cargo {
+public enum Setor {
 
     GARCOM("garcom"),
-    COZINHEIRO("cozinheiro"),
-    ADMINISTRADOR("administrador");
+    COZINHA("cozinha"),
+    ADMINISTRACAO("administracao");
 
     private String cargo;
 
-    Cargo(String cargo) {
+    Setor(String cargo) {
         this.cargo = cargo;
     }
 
