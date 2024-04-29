@@ -25,10 +25,8 @@ public class Mesa {
     private Integer numero;
     @Column(unique = true, nullable = false, length = 75)
     private String cliente;
-    @Column(nullable = false, columnDefinition = "text")
-    private String observacoes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "mesa")
+    @OneToMany(mappedBy = "mesa", cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
 }

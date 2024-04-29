@@ -2,7 +2,6 @@ package com.deiz0n.makeorderapi.infrastructure.entities;
 
 import com.deiz0n.makeorderapi.core.domain.enums.FormaPagamento;
 import com.deiz0n.makeorderapi.core.domain.enums.StatusPedido;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,26 +27,32 @@ public class Pedido {
     @Column(nullable = false)
     private Instant data;
     @Column(nullable = false)
+    @JsonProperty(value = "forma_pagamento")
     private FormaPagamento formaPagamento;
     @Column(nullable = false)
-    private StatusPedido statusPedido;
+    private StatusPedido status;
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer codigo;
+    @Column(nullable = false, columnDefinition = "text")
+    private String observacoes;
 
+    @OneToMany(mappedBy = "pedido")
+    private List<ItensPedido> itens;
     @ManyToOne
     private Comanda comanda;
-    @ManyToOne
-    private Mesa mesa;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Funcionario funcionario;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "tb_item_pedido",
-            joinColumns = @JoinColumn(name = "id_pedido"),
-            inverseJoinColumns = @JoinColumn(name = "id_item")
-    )
-    private List<Item> itens;
+    @ManyToOne
+    private Mesa mesa;
+
+    @JsonProperty(value = "valor_total")
+    public Double getValorTotal() {
+        var soma = 0.0;
+        for (ItensPedido iten : itens) {
+            if (iten.getItem().getPreco() != null) soma += iten.getQuantidade() * iten.getItem().getPreco().doubleValue();
+        }
+        return soma;
+    }
 
 }

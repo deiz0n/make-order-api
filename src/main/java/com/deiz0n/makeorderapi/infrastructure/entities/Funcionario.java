@@ -1,7 +1,8 @@
 package com.deiz0n.makeorderapi.infrastructure.entities;
 
-import com.deiz0n.makeorderapi.core.domain.enums.Cargo;
+import com.deiz0n.makeorderapi.core.domain.enums.Setor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,9 +29,11 @@ public class Funcionario {
     private String email;
     @Column(nullable = false, length = 100)
     private String senha;
+    @JsonProperty(value = "data_nascimento")
     @Column(nullable = false)
     private Date dataNascimento;
-    private Cargo cargo;
+    @Column(nullable = false)
+    private Setor setor;
 
     @JsonIgnore
     @Setter(AccessLevel.NONE)
