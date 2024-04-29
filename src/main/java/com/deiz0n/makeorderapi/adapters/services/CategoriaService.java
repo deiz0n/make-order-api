@@ -6,9 +6,9 @@ import com.deiz0n.makeorderapi.core.exceptions.CategoriaNotFoundException;
 import com.deiz0n.makeorderapi.infrastructure.config.ModelMapperConfig;
 import com.deiz0n.makeorderapi.infrastructure.entities.Categoria;
 import com.deiz0n.makeorderapi.infrastructure.persistence.impl.CategoriaRepositoryImpl;
-import com.deiz0n.makeorderapi.useCases.categoria.CreateCategoriaUseCase;
-import com.deiz0n.makeorderapi.useCases.categoria.GetCategoriaUseCase;
-import com.deiz0n.makeorderapi.useCases.categoria.GetCategoriasUseCase;
+import com.deiz0n.makeorderapi.usecases.categoria.CreateCategoriaUseCase;
+import com.deiz0n.makeorderapi.usecases.categoria.GetCategoriaUseCase;
+import com.deiz0n.makeorderapi.usecases.categoria.GetCategoriasUseCase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

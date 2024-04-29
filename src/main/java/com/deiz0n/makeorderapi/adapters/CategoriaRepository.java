@@ -2,7 +2,6 @@ package com.deiz0n.makeorderapi.adapters;
 
 import com.deiz0n.makeorderapi.infrastructure.entities.Categoria;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

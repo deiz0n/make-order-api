@@ -5,7 +5,6 @@ import com.deiz0n.makeorderapi.infrastructure.entities.Categoria;
 import com.deiz0n.makeorderapi.infrastructure.persistence.repositories.CategoriaRepositoryJpa;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
