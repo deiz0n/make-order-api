@@ -34,6 +34,9 @@ public class PedidoDTO {
     public Double getValorTotal() {
         var soma = 0.0;
         for (ItensPedido iten : itens) {
+            if (iten.getItem().getPreco() == null) {
+                break;
+            }
             soma += iten.getQuantidade() * iten.getItem().getPreco().doubleValue();
         }
        return soma;
