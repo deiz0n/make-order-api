@@ -38,7 +38,7 @@ public class CategoriaController {
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")
-                .buildAndExpand()
+                .buildAndExpand(categoria.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(categoria);
     }
