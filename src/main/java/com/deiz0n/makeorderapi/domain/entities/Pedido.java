@@ -36,7 +36,7 @@ public class Pedido {
     @Column(nullable = false, columnDefinition = "text")
     private String observacoes;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItensPedido> itens;
     @ManyToOne
     private Comanda comanda;
