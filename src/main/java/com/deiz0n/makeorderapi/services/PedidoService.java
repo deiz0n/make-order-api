@@ -51,15 +51,6 @@ public class PedidoService {
 
         var pedido = pedidoRepository.save(newPedido);
 
-//        for (int i = 0; i < pedido.getItens().size(); i++) {
-//            itensPedidoRepository.save(new ItensPedido(
-//                    UUID.randomUUID(),
-//                    pedido.getItens().get(i).getQuantidade(),
-//                    pedido.getItens().get(i).getItem(),
-//                    pedido
-//            ));
-//        }
-
         for (ItensPedido itens : pedido.getItens()) {
             itensPedidoRepository.save(new ItensPedido(
                     UUID.randomUUID(),
@@ -79,14 +70,14 @@ public class PedidoService {
 
     public PedidoDTO update(UUID id, Pedido newData) {
         var pedido = getById(id);
-        BeanUtils.copyProperties(newData, pedido, "id", "codigo");
+        BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data");
         pedidoRepository.save(mapper.map(pedido, Pedido.class));
         return pedido;
     }
 
-    public PedidoDTO updateStatus(UUID id, StatusPedido newStatus) {
+    public PedidoDTO updateStatus(UUID id, Pedido newStatus) {
         var pedido = getById(id);
-        pedido.setStatus(newStatus);
+        pedido.setStatus(newStatus.getStatus());
         pedidoRepository.save(mapper.map(pedido, Pedido.class));
         return pedido;
     }

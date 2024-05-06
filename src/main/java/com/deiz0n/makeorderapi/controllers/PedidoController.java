@@ -62,7 +62,7 @@ public class PedidoController {
 
     @Transactional
     @PatchMapping("/update/status/{id}")
-    public ResponseEntity<PedidoDTO> updateStatus(@PathVariable UUID id, @RequestBody StatusPedido request) {
+    public ResponseEntity<PedidoDTO> updateStatus(@PathVariable UUID id, @RequestBody Pedido request) {
         var pedido = service.updateStatus(id, request);
         return ResponseEntity.ok(pedido);
     }
