@@ -2,6 +2,7 @@ package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.CategoriaDTO;
 import com.deiz0n.makeorderapi.domain.entities.Categoria;
+import com.deiz0n.makeorderapi.domain.exceptions.CategoriaExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.CategoriaNotFoundException;
 import com.deiz0n.makeorderapi.repositories.CategoriaRepository;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,7 @@ public class CategoriaService {
     }
 
     public CategoriaDTO create(Categoria newCategoria) {
+        if (categoriaRepository.findByNome(newCategoria.getNome()).isPresent()) throw new CategoriaExistingException("Categoria já cadastrada");
         var categoria = categoriaRepository.save(newCategoria);
         return mapper.map(categoria, CategoriaDTO.class);
     }
