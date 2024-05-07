@@ -1,5 +1,6 @@
 package com.deiz0n.makeorderapi.controllers;
 
+import com.deiz0n.makeorderapi.domain.exceptions.ResourceExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.ResourceNotFoundException;
 import com.deiz0n.makeorderapi.domain.utils.Error;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,5 +24,17 @@ public class HandleExceptionController {
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler({ResourceExistingException.class})
+    public ResponseEntity<Error> handleResourceExistingExcepion(ResourceExistingException exception, HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Recurdo existente",
+                exception.getMessage(),
+                HttpStatus.CONFLICT,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 }
