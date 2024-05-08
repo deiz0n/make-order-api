@@ -10,12 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoriaService {
 
-    private final CategoriaRepository categoriaRepository;
-    private final ModelMapper mapper;
+    private CategoriaRepository categoriaRepository;
+    private ModelMapper mapper;
 
     public CategoriaService(CategoriaRepository categoriaRepository, ModelMapper mapper) {
         this.categoriaRepository = categoriaRepository;
@@ -26,7 +27,7 @@ public class CategoriaService {
         return categoriaRepository.findAll()
                 .stream()
                 .map(categoria -> mapper.map(categoria, CategoriaDTO.class))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public CategoriaDTO getById(UUID id) {
