@@ -1,0 +1,28 @@
+version: "3.9"
+
+networks:
+  mk-network:
+    driver: "bridge"
+
+services:
+  mk-database:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: 1234567
+      POSTGRES_DB: makeorder
+    ports:
+      - "5435:5432"
+    networks:
+      - mk-network
+
+  mk-api:
+    build: .
+    image: make-order-api
+    environment:
+      HOST: mk-database
+    ports:
+      - "8080:8080"
+    networks:
+      - mk-network
+    depends_on:
+      - mk-database
