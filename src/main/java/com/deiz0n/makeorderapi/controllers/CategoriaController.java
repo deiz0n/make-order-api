@@ -4,6 +4,7 @@ import com.deiz0n.makeorderapi.domain.dtos.CategoriaDTO;
 import com.deiz0n.makeorderapi.domain.entities.Categoria;
 import com.deiz0n.makeorderapi.services.CategoriaService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -14,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/v2.0/categorias")
 public class CategoriaController {
 
-    private final CategoriaService service;
+    private CategoriaService service;
 
     public CategoriaController(CategoriaService service) {
         this.service = service;
@@ -32,6 +33,7 @@ public class CategoriaController {
         return ResponseEntity.ok(categoria);
     }
 
+    @Transactional
     @PostMapping("/create")
     public ResponseEntity<CategoriaDTO> createCategoria(@RequestBody Categoria request) {
         var categoria = service.create(request);
@@ -43,6 +45,7 @@ public class CategoriaController {
         return ResponseEntity.created(uri).body(categoria);
     }
 
+    @Transactional
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCategoria(@PathVariable UUID id) {
         service.delete(id);
