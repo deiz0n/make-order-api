@@ -19,6 +19,6 @@ public class FuncionarioDTO {
     private String email;
     @JsonProperty(value = "data_nascimento")
     private Date dataNascimento;
-    private Setor cargo;
+    private Setor setor;
 
 }
