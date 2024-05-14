@@ -3,6 +3,7 @@ package com.deiz0n.makeorderapi.controllers;
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import com.deiz0n.makeorderapi.services.FuncionarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class FuncionarioController {
 
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody Funcionario request) {
+    public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody @Valid Funcionario request) {
         var funcionario = service.create(request);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -45,14 +46,16 @@ public class FuncionarioController {
         return ResponseEntity.created(uri).body(funcionario);
     }
 
+    @Transactional
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteFuncionario(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Transactional
     @PutMapping("/update/{id}")
-    public ResponseEntity<FuncionarioDTO> updateFuncionario(@PathVariable UUID id, @RequestBody Funcionario request) {
+    public ResponseEntity<FuncionarioDTO> updateFuncionario(@PathVariable UUID id, @RequestBody @Valid Funcionario request) {
         var funcionario = service.update(id, request);
         return ResponseEntity.ok(funcionario);
     }
