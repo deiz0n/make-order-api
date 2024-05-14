@@ -7,6 +7,7 @@ import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioNotFoundException;
 import com.deiz0n.makeorderapi.repositories.FuncionarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.FatalBeanException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class FuncionarioService {
     public FuncionarioDTO getById(UUID id) {
         return funcionarioRepository.findById(id)
                 .map(funcionario -> mapper.map(funcionario, FuncionarioDTO.class))
-                .orElseThrow(() -> new FuncionarioNotFoundException("Funcionário não encontradp"));
+                .orElseThrow(() -> new FuncionarioNotFoundException("Funcionário não encontrado"));
     }
 
     public FuncionarioDTO create(Funcionario newFuncionario) {
@@ -50,12 +51,19 @@ public class FuncionarioService {
     }
 
     public FuncionarioDTO update(UUID id, Funcionario newData) {
-        var funcionario = getById(id);
-        if (funcionarioRepository.findByCpf(newData.getCpf()).isPresent() && !funcionario.getId().equals(funcionario.getId()))
+        var funcionario = funcionarioRepository.getReferenceById(id);
+        if (funcionarioRepository.findByCpf(newData.getCpf()).isPresent() && !funcionario.getId().equals(newData.getId())) {
             throw new FuncionarioExistingException("CPF já vinculado a um funcionário");
-        if (funcionarioRepository.findByEmail(newData.getEmail()).isPresent() && !funcionario.getId().equals(funcionario.getId()))
+        }
+        if (funcionarioRepository.findByEmail(newData.getEmail()).isPresent() && !funcionario.getId().equals(newData.getId())) {
             throw new FuncionarioExistingException("Email já vinculado a um funcionário");
-        BeanUtils.copyProperties(newData, funcionario, "id", "dataNascimento");
-        return mapper.map(newData, FuncionarioDTO.class);
+        }
+        try {
+            BeanUtils.copyProperties(newData, funcionario, "id", "dataNascimento");
+            funcionarioRepository.save(funcionario);
+            return mapper.map(funcionario, FuncionarioDTO.class);
+        } catch (FatalBeanException e) {
+            throw new FuncionarioNotFoundException("Funcionário não encontrado");
+        }
     }
 }
