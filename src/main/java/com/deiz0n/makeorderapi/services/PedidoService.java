@@ -85,9 +85,9 @@ public class PedidoService {
 //    }
 
     public PedidoDTO updateStatus(UUID id, Pedido newStatus) {
-        var pedido = getById(id);
+        var pedido = pedidoRepository.getReferenceById(id);
         pedido.setStatus(newStatus.getStatus());
-        pedidoRepository.save(mapper.map(pedido, Pedido.class));
-        return pedido;
+        pedidoRepository.save(pedido);
+        return mapper.map(pedido, PedidoDTO.class);
     }
 }
