@@ -18,11 +18,20 @@ services:
   mk-api:
     build: .
     image: make-order-api
+    command: ["/wait-for-it.sh", "-t", "10", "mk-database:5435", "--", "java", "-jar", "mk-api.jar"]
     environment:
       HOST: mk-database
-    ports:
-      - "8080:8080"
     networks:
       - mk-network
     depends_on:
       - mk-database
+
+  mk-proxy:
+    build: ./nginx
+    image: mk-proxy
+    ports:
+      - "80:80"
+    networks:
+      - mk-network
+    depends_on:
+      - mk-api
