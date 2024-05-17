@@ -9,21 +9,23 @@ import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.FatalBeanException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
 
-    private final PedidoRepository pedidoRepository;
-    private final ItensPedidoRepository itensPedidoRepository;
-    private final ModelMapper mapper;
-    private final Integer MIN = 1;
-    private final Integer MAX = 1000;
+    private PedidoRepository pedidoRepository;
+    private ItensPedidoRepository itensPedidoRepository;
+    private ModelMapper mapper;
+    private static final Integer MIN = 1;
+    private static final Integer MAX = 1000;
 
     public PedidoService(PedidoRepository pedidoRepository, ItensPedidoRepository itensPedidoRepository, ModelMapper mapper) {
         this.pedidoRepository = pedidoRepository;
@@ -68,12 +70,19 @@ public class PedidoService {
         pedidoRepository.deleteById(pedido.getId());
     }
 
-    public PedidoDTO update(UUID id, Pedido newData) {
-        var pedido = getById(id);
-        BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data");
-        pedidoRepository.save(mapper.map(pedido, Pedido.class));
-        return pedido;
-    }
+
+//    public PedidoDTO update(UUID id, Pedido newData) {
+//        try {
+//        var pedido = pedidoRepository.getReferenceById(id);
+//        BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data");
+//
+//        pedidoRepository.save(pedido);
+//
+//        return mapper.map(pedido, PedidoDTO.class);
+//        } catch (FatalBeanException e) {
+//            throw new PedidoNotFoundException("Não foi possível encontrar um pedido com o Id informado");
+//        }
+//    }
 
     public PedidoDTO updateStatus(UUID id, Pedido newStatus) {
         var pedido = getById(id);

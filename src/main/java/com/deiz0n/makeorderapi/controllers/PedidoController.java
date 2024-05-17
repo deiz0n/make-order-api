@@ -53,12 +53,12 @@ public class PedidoController {
         return ResponseEntity.noContent().build();
     }
 
-    @Transactional
-    @PutMapping("/update/{id}")
-    public ResponseEntity<PedidoDTO> updatePedido(@PathVariable UUID id, @RequestBody Pedido request) {
-        var pedido = service.update(id, request);
-        return ResponseEntity.ok(pedido);
-    }
+//    @Transactional
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<PedidoDTO> updatePedido(@PathVariable UUID id, @RequestBody Pedido request) {
+//        var pedido = service.update(id, request);
+//        return ResponseEntity.ok(pedido);
+//    }
 
     @Transactional
     @PatchMapping("/update/status/{id}")
