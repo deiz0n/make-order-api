@@ -8,6 +8,14 @@ DELETE FROM tb_itens_pedido;
 DELETE FROM tb_mesa;
 DELETE FROM tb_pedido;
 
+LOCK TABLE makeorder.public.tb_categoria IN ACCESS EXCLUSIVE MODE NOWAIT;
+LOCK TABLE makeorder.public.tb_comanda IN ACCESS EXCLUSIVE MODE NOWAIT;
+LOCK TABLE makeorder.public.tb_funcionario IN ACCESS EXCLUSIVE MODE NOWAIT;
+LOCK TABLE makeorder.public.tb_item IN ACCESS EXCLUSIVE MODE NOWAIT;
+LOCK TABLE makeorder.public.tb_mesa IN ACCESS EXCLUSIVE MODE NOWAIT;
+LOCK TABLE makeorder.public.tb_pedido IN ACCESS EXCLUSIVE MODE NOWAIT;
+LOCK TABLE makeorder.public.tb_itens_pedido IN ACCESS EXCLUSIVE MODE NOWAIT;
+
 SET session_replication_role = "origin";
 
 INSERT INTO tb_categoria (id, nome) VALUES ('3d8b1f72-95b6-4c40-a45a-8d0a5e77e2a4', 'Bebidas'),
