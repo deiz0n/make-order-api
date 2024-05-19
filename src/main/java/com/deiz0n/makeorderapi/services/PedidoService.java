@@ -5,32 +5,34 @@ import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
+import com.deiz0n.makeorderapi.event.ItensPedidoCreatedEvent;
 import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.FatalBeanException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
 
-    private PedidoRepository pedidoRepository;
-    private ItensPedidoRepository itensPedidoRepository;
-    private ModelMapper mapper;
     private static final Integer MIN = 1;
     private static final Integer MAX = 1000;
 
-    public PedidoService(PedidoRepository pedidoRepository, ItensPedidoRepository itensPedidoRepository, ModelMapper mapper) {
+    private PedidoRepository pedidoRepository;
+    private ModelMapper mapper;
+    private ApplicationEventPublisher publisher;
+
+    public PedidoService(PedidoRepository pedidoRepository, ModelMapper mapper, ApplicationEventPublisher publisher) {
         this.pedidoRepository = pedidoRepository;
-        this.itensPedidoRepository = itensPedidoRepository;
         this.mapper = mapper;
+        this.publisher = publisher;
     }
 
     public List<PedidoDTO> getAll() {
@@ -54,14 +56,15 @@ public class PedidoService {
         var pedido = pedidoRepository.save(newPedido);
 
         for (ItensPedido itens : pedido.getItens()) {
-            itensPedidoRepository.save(new ItensPedido(
+            var itensPedido = new ItensPedido(
                     UUID.randomUUID(),
                     itens.getQuantidade(),
                     itens.getItem(),
                     pedido
-            ));
+            );
+            var event = new ItensPedidoCreatedEvent(this, itensPedido);
+            publisher.publishEvent(event);
         }
-
         return mapper.map(pedido, PedidoDTO.class);
     }
 
@@ -69,7 +72,6 @@ public class PedidoService {
         var pedido = getById(id);
         pedidoRepository.deleteById(pedido.getId());
     }
-
 
 //    public PedidoDTO update(UUID id, Pedido newData) {
 //        try {
@@ -90,4 +92,5 @@ public class PedidoService {
         pedidoRepository.save(pedido);
         return mapper.map(pedido, PedidoDTO.class);
     }
+
 }
