@@ -36,7 +36,7 @@ public class Pedido {
     @Column(nullable = false, columnDefinition = "text")
     private String observacoes;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.DETACH)
     private List<ItensPedido> itens;
     @ManyToOne
     private Comanda comanda;
@@ -45,7 +45,7 @@ public class Pedido {
     private Funcionario funcionario;
     @ManyToOne
     private Mesa mesa;
-
+    
     @JsonProperty(value = "valor_total")
     public Double getValorTotal() {
         var soma = 0.0;

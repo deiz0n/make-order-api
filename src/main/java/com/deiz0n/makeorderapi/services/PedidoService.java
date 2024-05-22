@@ -6,13 +6,10 @@ import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
 import com.deiz0n.makeorderapi.event.ItensPedidoCreatedEvent;
-import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -73,18 +70,20 @@ public class PedidoService {
         pedidoRepository.deleteById(pedido.getId());
     }
 
-//    public PedidoDTO update(UUID id, Pedido newData) {
-//        try {
-//        var pedido = pedidoRepository.getReferenceById(id);
-//        BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data");
-//
-//        pedidoRepository.save(pedido);
-//
-//        return mapper.map(pedido, PedidoDTO.class);
-//        } catch (FatalBeanException e) {
-//            throw new PedidoNotFoundException("Não foi possível encontrar um pedido com o Id informado");
-//        }
-//    }
+/*
+    public PedidoDTO update(UUID id, Pedido newData) {
+        try {
+        var pedido = pedidoRepository.getReferenceById(id);
+        BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data");
+
+        pedidoRepository.save(pedido);
+
+        return mapper.map(pedido, PedidoDTO.class);
+        } catch (FatalBeanException e) {
+            throw new PedidoNotFoundException("Não foi possível encontrar um pedido com o Id informado");
+        }
+    }
+*/
 
     public PedidoDTO updateStatus(UUID id, Pedido newStatus) {
         var pedido = pedidoRepository.getReferenceById(id);
