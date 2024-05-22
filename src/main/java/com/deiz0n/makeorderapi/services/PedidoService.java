@@ -5,7 +5,7 @@ import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
-import com.deiz0n.makeorderapi.event.ItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.event.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -51,6 +51,8 @@ public class PedidoService {
         newPedido.setCodigo((int) (Math.random() * MAX) + MIN);
         newPedido.setData(Instant.now());
         newPedido.setStatus(StatusPedido.PENDENTE);
+
+
 
         var pedido = pedidoRepository.save(newPedido);
 
