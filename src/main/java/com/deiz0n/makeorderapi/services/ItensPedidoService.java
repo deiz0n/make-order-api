@@ -15,17 +15,19 @@ public class ItensPedidoService {
         this.itensPedidoRepository = itensPedidoRepository;
     }
 
-    @EventListener
+    @EventListener(condition = "#event.id == null")
     public void createListener(ItensPedidoEvent event) {
         itensPedidoRepository.save(event.getItensPedido());
     }
 
-    @EventListener
+    @EventListener(condition = "#event.id != null ")
     public void updateListener(ItensPedidoEvent event) {
+        System.out.println(event.getSource());
+
         var itensPedido = itensPedidoRepository.getReferenceById(event.getId());
 
-        BeanUtils.copyProperties(event.getItensPedido(), itensPedido, "id", "pedido_id");
-
+        BeanUtils.copyProperties(event.getItensPedido(), itensPedido, "id");
+        
         itensPedidoRepository.save(itensPedido);
     }
 

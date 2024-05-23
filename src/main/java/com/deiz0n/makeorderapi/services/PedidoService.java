@@ -4,6 +4,7 @@ import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
+import com.deiz0n.makeorderapi.domain.exceptions.ItensPedidoEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
 import com.deiz0n.makeorderapi.domain.event.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
@@ -52,7 +53,7 @@ public class PedidoService {
         newPedido.setData(Instant.now());
         newPedido.setStatus(StatusPedido.PENDENTE);
 
-
+        if (newPedido.getItens().isEmpty()) throw new ItensPedidoEmptyException("Não foram adicionados itens aos pedido");
 
         var pedido = pedidoRepository.save(newPedido);
 
@@ -72,14 +73,23 @@ public class PedidoService {
     public PedidoDTO update(UUID id, Pedido newData) {
         try {
             var pedido = pedidoRepository.getReferenceById(id);
-            BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data");
 
-            for (ItensPedido item : newData.getItens()) {
-                var event = new ItensPedidoEvent(this, item, item.getId());
-                publisher.publishEvent(event);
+            if (newData.getItens().isEmpty()) {
+                BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data", "itens");
+                pedidoRepository.save(pedido);
             }
+            else {
+                BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data");
 
-            pedidoRepository.save(pedido);
+                for (ItensPedido itens : newData.getItens()) {
+                    pedidoRepository.save(pedido);
+
+                    itens.setPedido(pedido);
+
+                    var event = new ItensPedidoEvent("Evento enviado", itens, itens.getId());
+                    publisher.publishEvent(event);
+                }
+            }
 
             return mapper.map(pedido, PedidoDTO.class);
         } catch (FatalBeanException e) {
