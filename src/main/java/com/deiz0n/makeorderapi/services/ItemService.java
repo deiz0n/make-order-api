@@ -6,6 +6,7 @@ import com.deiz0n.makeorderapi.domain.exceptions.ItemNotFoundException;
 import com.deiz0n.makeorderapi.repositories.ItemRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.FatalBeanException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,12 +48,16 @@ public class ItemService {
     }
 
     public ItemDTO update(UUID id, Item newData) {
-        var item = itemRepository.getReferenceById(id);
+        try {
+            var item = itemRepository.getReferenceById(id);
 
-        BeanUtils.copyProperties(newData, item, "id", "itensPedidos", "categoria");
+            BeanUtils.copyProperties(newData, item, "id", "itensPedidos", "categoria");
 
-        itemRepository.save(item);
+            itemRepository.save(item);
 
-        return mapper.map(item, ItemDTO.class);
+            return mapper.map(item, ItemDTO.class);
+        } catch (FatalBeanException e) {
+            throw new ItemNotFoundException("Não foi possível encontrar um pedido com o Id informado");
+        }
     }
 }
