@@ -45,7 +45,7 @@ public class PedidoService {
     public PedidoDTO getById(UUID id) {
         return pedidoRepository.findById(id)
                 .map(pedido -> mapper.map(pedido, PedidoDTO.class))
-                .orElseThrow(() -> new PedidoNotFoundException("Não foi possível encontrar o pedido com o Id informado"));
+                .orElseThrow(() -> new PedidoNotFoundException("Não foi possível encontrar um pedido com o Id informado"));
     }
 
     public PedidoDTO create(Pedido newPedido) {
