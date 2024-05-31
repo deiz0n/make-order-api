@@ -22,8 +22,6 @@ public class ItensPedidoService {
 
     @EventListener(condition = "#event.id != null ")
     public void updateListener(ItensPedidoEvent event) {
-        System.out.println(event.getSource());
-
         var itensPedido = itensPedidoRepository.getReferenceById(event.getId());
 
         BeanUtils.copyProperties(event.getItensPedido(), itensPedido, "id");
