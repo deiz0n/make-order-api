@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ class PedidoServiceTest {
     private ItensPedidoRepository itensPedidoRepository;
     @Mock
     private ModelMapper mapper;
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
 
     private Pedido pedido;
     private PedidoDTO pedidoDTO;
