@@ -163,7 +163,6 @@ class PedidoServiceTest {
     @Test
     void whenDeleteThenThrowPedidoNotFoundException() {
         when(pedidoRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
-        when(mapper.map(any(), any())).thenReturn(pedidoDTO);
 
         var exception = assertThrows(
                 PedidoNotFoundException.class,
@@ -174,7 +173,43 @@ class PedidoServiceTest {
     }
 
     @Test
-    void whenUpdateStatusThenReturn() {
+    void whenUpdateThenReturnPedidoDTO() {
+        doNothing().when(eventPublisher).publishEvent(any());
+
+        when(pedidoRepository.getReferenceById(any(UUID.class))).thenReturn(pedido);
+        when(pedidoRepository.save(any())).thenReturn(pedido);
+        when(mapper.map(any(), any())).thenReturn(pedidoDTO);
+
+        PedidoDTO response = service.updateStatus(ID, pedido);
+
+        assertNotNull(response);
+        assertEquals(PedidoDTO.class, response.getClass());
+
+        assertEquals(ID, response.getId());
+        assertEquals(INSTANT, response.getData());
+        assertEquals(FORMA_PAGAMENTO, response.getFormaPagamento());
+        assertEquals(STATUS_PEDIDO, response.getStatus());
+        assertEquals(CODIGO, response.getCodigo());
+        assertEquals(OBSERVACOES, response.getObservacoes());
+        assertEquals(COMANDA, response.getComanda());
+        assertEquals(FUNCIONARIO_DTO, response.getFuncionario());
+        assertEquals(MESA, response.getMesa());
+    }
+
+    @Test
+    void whenUpdateThenThrowPedidoNotFoundException() {
+        when(pedidoRepository.getReferenceById(any(UUID.class))).thenReturn(isNull());
+
+        var exception = assertThrows(
+                PedidoNotFoundException.class,
+                () -> pedidoService.update(ID, pedido)
+        );
+
+        assertEquals("Não foi possível encontrar o pedido com o Id informado", exception.getMessage());
+    }
+
+    @Test
+    void whenUpdateStatusThenReturnPedidoDTO() {
         when(pedidoRepository.getReferenceById(any(UUID.class))).thenReturn(pedido);
         when(pedidoRepository.save(any())).thenReturn(pedido);
         when(mapper.map(any(), any())).thenReturn(pedidoDTO);
@@ -190,6 +225,15 @@ class PedidoServiceTest {
 
     @Test
     void whenUpdateStatusThenThrowPedidoNotFoundException() {
+        when(pedidoRepository.getReferenceById(any(UUID.class))).thenReturn(null);
+
+        var exception = assertThrows(
+                PedidoNotFoundException.class,
+                () -> pedidoService.updateStatus(ID, pedido)
+        );
+
+        assertEquals("Não foi possível encontrar o pedido com o Id informado", exception.getMessage());
+
     }
 
     public void mockData() {

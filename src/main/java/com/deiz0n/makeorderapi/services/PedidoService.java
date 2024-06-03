@@ -8,6 +8,7 @@ import com.deiz0n.makeorderapi.domain.exceptions.ItensPedidoEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
 import com.deiz0n.makeorderapi.domain.event.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
@@ -99,9 +100,15 @@ public class PedidoService {
 
     public PedidoDTO updateStatus(UUID id, Pedido newStatus) {
         var pedido = pedidoRepository.getReferenceById(id);
-        pedido.setStatus(newStatus.getStatus());
-        pedidoRepository.save(pedido);
-        return mapper.map(pedido, PedidoDTO.class);
+
+        try {
+            pedido.setStatus(newStatus.getStatus());
+            pedidoRepository.save(pedido);
+            return mapper.map(pedido, PedidoDTO.class);
+        } catch (EntityNotFoundException | NullPointerException e) {
+            throw new PedidoNotFoundException("Não foi possível encontrar o pedido com o Id informado");
+        }
+
     }
 
 }
