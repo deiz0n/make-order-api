@@ -7,6 +7,7 @@ import com.deiz0n.makeorderapi.domain.entities.*;
 import com.deiz0n.makeorderapi.domain.enums.FormaPagamento;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
+import com.deiz0n.makeorderapi.domain.exceptions.ResourceNotFoundException;
 import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -58,6 +60,8 @@ class PedidoServiceTest {
     private Pedido pedido;
     private PedidoDTO pedidoDTO;
     private Optional<Pedido> optional;
+    @Autowired
+    private PedidoService pedidoService;
 
     @BeforeEach
     void setUp() {
@@ -114,12 +118,12 @@ class PedidoServiceTest {
         when(pedidoRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
         when(mapper.map(any(), any())).thenReturn(pedidoDTO);
 
-        try {
-            PedidoDTO response = service.getById(ID);
-        } catch (Exception e) {
-            assertEquals(PedidoNotFoundException.class, e.getClass());
-            assertEquals("Não foi possível encontrar um pedido com o Id informado", e.getMessage());
-        }
+        var exception = assertThrows(
+                PedidoNotFoundException.class,
+                () -> pedidoService.getById(ID)
+        );
+
+        assertEquals("Não foi possível encontrar um pedido com o Id informado", exception.getMessage());
     }
 
     @Test
@@ -161,12 +165,12 @@ class PedidoServiceTest {
         when(pedidoRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
         when(mapper.map(any(), any())).thenReturn(pedidoDTO);
 
-        try {
-            service.delete(ID);
-        } catch (Exception e) {
-            assertEquals(PedidoNotFoundException.class, e.getClass());
-            assertEquals("Não foi possível encontrar um pedido com o Id informado", e.getMessage());
-        }
+        var exception = assertThrows(
+                PedidoNotFoundException.class,
+                () -> pedidoService.delete(ID)
+        );
+
+        assertEquals("Não foi possível encontrar um pedido com o Id informado", exception.getMessage());
     }
 
     @Test
