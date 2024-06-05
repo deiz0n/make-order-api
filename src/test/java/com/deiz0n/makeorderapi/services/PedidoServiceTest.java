@@ -225,7 +225,7 @@ class PedidoServiceTest {
 
     @Test
     void whenUpdateStatusThenThrowPedidoNotFoundException() {
-        when(pedidoRepository.getReferenceById(any(UUID.class))).thenReturn(null);
+        when(pedidoRepository.getReferenceById(any(UUID.class))).thenReturn(isNull());
 
         var exception = assertThrows(
                 PedidoNotFoundException.class,
@@ -233,7 +233,6 @@ class PedidoServiceTest {
         );
 
         assertEquals("Não foi possível encontrar o pedido com o Id informado", exception.getMessage());
-
     }
 
     public void mockData() {

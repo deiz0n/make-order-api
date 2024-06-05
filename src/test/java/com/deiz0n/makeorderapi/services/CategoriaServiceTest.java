@@ -79,7 +79,7 @@ class CategoriaServiceTest {
     }
 
     @Test
-    void whenGetByIdThenReturnCategoriaNotFoundException() {
+    void whenGetByIdThenThrowCategoriaNotFoundException() {
         when(repository.findById(any(UUID.class))).thenReturn(Optional.empty());
 
         try {
@@ -107,7 +107,7 @@ class CategoriaServiceTest {
     }
 
     @Test
-    void whenCreateThenReturnCategoriaExistingException() {
+    void whenCreateThenThrowCategoriaExistingException() {
         when(repository.findByNome(any())).thenReturn(optional);
         when(repository.save(any())).thenReturn(categoria);
         when(mapper.map(any(), any())).thenReturn(categoriaDTO);
@@ -133,7 +133,7 @@ class CategoriaServiceTest {
     }
 
     @Test
-    void whenDeleteThenReturnCategoriaNotFoundException() {
+    void whenDeleteThenThrowCategoriaNotFoundException() {
         when(repository.findById(any(UUID.class))).thenReturn(Optional.empty());
         when(mapper.map(any(), any())).thenReturn(categoriaDTO);
 
