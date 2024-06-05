@@ -53,10 +53,11 @@ class ItensPedidoServiceTest {
 
     @Test
     void listenerUpdatedItensPedido() {
+        when(itensPedidoRepository.getReferenceById(any(UUID.class))).thenReturn(itensPedido);
         when(itensPedidoRepository.save(any())).thenReturn(itensPedido);
         doNothing().when(eventPublisher).publishEvent(any());
 
-        service.createListener(eventUpdated);
+        service.updateListener(eventUpdated);
 
         verify(itensPedidoRepository, times(1)).save(any());
     }
