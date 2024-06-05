@@ -102,10 +102,10 @@ public class PedidoService {
         var pedido = pedidoRepository.getReferenceById(id);
 
         try {
-            pedido.setStatus(newStatus.getStatus());
+            BeanUtils.copyProperties(newStatus, pedido, "id", "codigo", "data", "itens");
             pedidoRepository.save(pedido);
             return mapper.map(pedido, PedidoDTO.class);
-        } catch (EntityNotFoundException | NullPointerException e) {
+        } catch (FatalBeanException e) {
             throw new PedidoNotFoundException("Não foi possível encontrar o pedido com o Id informado");
         }
 
