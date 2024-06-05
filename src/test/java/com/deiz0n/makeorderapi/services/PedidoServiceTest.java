@@ -225,7 +225,7 @@ class PedidoServiceTest {
 
     @Test
     void whenUpdateStatusThenThrowPedidoNotFoundException() {
-        when(pedidoRepository.getReferenceById(any(UUID.class))).thenReturn(isNull());
+        when(pedidoRepository.getReferenceById(any(UUID.class))).thenReturn(null);
 
         var exception = assertThrows(
                 PedidoNotFoundException.class,
