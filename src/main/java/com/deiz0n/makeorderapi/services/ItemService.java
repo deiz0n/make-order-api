@@ -34,7 +34,7 @@ public class ItemService {
     public ItemDTO getById(UUID id) {
         return itemRepository.findById(id)
                 .map(item -> mapper.map(item, ItemDTO.class))
-                .orElseThrow(() -> new ItemNotFoundException("Não foi possível encontrar um pedido com o Id informado"));
+                .orElseThrow(() -> new ItemNotFoundException("Não foi possível encontrar um item com o Id informado"));
     }
 
     public ItemDTO create(Item newItem) {
@@ -48,16 +48,14 @@ public class ItemService {
     }
 
     public ItemDTO update(UUID id, Item newData) {
+        var item = itemRepository.getReferenceById(id);
+
         try {
-            var item = itemRepository.getReferenceById(id);
-
             BeanUtils.copyProperties(newData, item, "id", "itensPedidos", "categoria");
-
             itemRepository.save(item);
-
             return mapper.map(item, ItemDTO.class);
-        } catch (FatalBeanException e) {
-            throw new ItemNotFoundException("Não foi possível encontrar um pedido com o Id informado");
+        } catch (FatalBeanException | IllegalArgumentException e) {
+            throw new ItemNotFoundException("Não foi possível encontrar um item com o Id informado");
         }
     }
 }
