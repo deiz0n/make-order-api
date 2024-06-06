@@ -2,9 +2,9 @@ package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.MesaDTO;
 import com.deiz0n.makeorderapi.domain.entities.Mesa;
+import com.deiz0n.makeorderapi.domain.exceptions.MesaExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.MesaNotFoundException;
 import com.deiz0n.makeorderapi.repositories.MesaRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +34,9 @@ public class MesaService {
     }
 
     public MesaDTO create(Mesa newMesa) {
+        if (repository.findByNumero(newMesa.getNumero()).isPresent())
+            throw new MesaExistingException("Mesa já cadastrada");
+
         var mesa = repository.save(newMesa);
         return new MesaDTO(mesa.getId(), mesa.getNumero(), mesa.getCliente());
     }
