@@ -99,9 +99,9 @@ public class PedidoService {
     }
 
     public PedidoDTO updateStatus(UUID id, Pedido newStatus) {
-        var pedido = pedidoRepository.getReferenceById(id);
-
         try {
+            var pedido = pedidoRepository.getReferenceById(id);
+
             BeanUtils.copyProperties(newStatus, pedido, "id", "codigo", "data", "itens");
             pedidoRepository.save(pedido);
             return mapper.map(pedido, PedidoDTO.class);
