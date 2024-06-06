@@ -35,7 +35,7 @@ public class FuncionarioService {
     public FuncionarioDTO getById(UUID id) {
         return funcionarioRepository.findById(id)
                 .map(funcionario -> mapper.map(funcionario, FuncionarioDTO.class))
-                .orElseThrow(() -> new FuncionarioNotFoundException("Funcionário não encontrado"));
+                .orElseThrow(() -> new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o Id informado"));
     }
 
     public FuncionarioDTO create(Funcionario newFuncionario) {
@@ -51,19 +51,22 @@ public class FuncionarioService {
     }
 
     public FuncionarioDTO update(UUID id, Funcionario newData) {
-        var funcionario = funcionarioRepository.getReferenceById(id);
-        if (funcionarioRepository.findByCpf(newData.getCpf()).isPresent() && !funcionario.getId().equals(newData.getId())) {
-            throw new FuncionarioExistingException("CPF já vinculado a um funcionário");
-        }
-        if (funcionarioRepository.findByEmail(newData.getEmail()).isPresent() && !funcionario.getId().equals(newData.getId())) {
-            throw new FuncionarioExistingException("Email já vinculado a um funcionário");
-        }
         try {
+            var funcionario = funcionarioRepository.getReferenceById(id);
+
+            var getByCpf = funcionarioRepository.findByCpf(newData.getCpf());
+            if (getByCpf.isPresent() && !getByCpf.get().getId().equals(id))
+                throw new FuncionarioExistingException("CPF já vinculado a um funcionário");
+
+            var getByEmail = funcionarioRepository.findByEmail(newData.getEmail());
+            if (getByEmail.isPresent() && !getByEmail.get().getId().equals(id))
+                throw new FuncionarioExistingException("Email já vinculado a um funcionário");
+
             BeanUtils.copyProperties(newData, funcionario, "id", "dataNascimento");
             funcionarioRepository.save(funcionario);
             return mapper.map(funcionario, FuncionarioDTO.class);
         } catch (FatalBeanException e) {
-            throw new FuncionarioNotFoundException("Funcionário não encontrado");
+            throw new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o Id informado");
         }
     }
 }
