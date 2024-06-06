@@ -48,9 +48,9 @@ public class ItemService {
     }
 
     public ItemDTO update(UUID id, Item newData) {
-        var item = itemRepository.getReferenceById(id);
-
         try {
+            var item = itemRepository.getReferenceById(id);
+
             BeanUtils.copyProperties(newData, item, "id", "itensPedidos", "categoria");
             itemRepository.save(item);
             return mapper.map(item, ItemDTO.class);
