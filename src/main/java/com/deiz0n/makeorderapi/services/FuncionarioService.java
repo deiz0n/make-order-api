@@ -65,7 +65,7 @@ public class FuncionarioService {
             BeanUtils.copyProperties(newData, funcionario, "id", "dataNascimento");
             funcionarioRepository.save(funcionario);
             return mapper.map(funcionario, FuncionarioDTO.class);
-        } catch (FatalBeanException e) {
+        } catch (FatalBeanException | IllegalArgumentException e) {
             throw new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o Id informado");
         }
     }
