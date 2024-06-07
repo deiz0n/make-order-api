@@ -39,7 +39,7 @@ public class MesaConrtoller {
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")
-                .buildAndExpand(mesa.id())
+                .buildAndExpand(mesa.getId())
                 .toUri();
         return ResponseEntity.created(uri).body(mesa);
     }
