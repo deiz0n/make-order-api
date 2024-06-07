@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ class MesaServiceTest {
     private MesaService service;
     @Mock
     private MesaRepository repository;
+    @Mock
+    private ModelMapper mapper;
 
     private Mesa mesa;
     private MesaDTO mesaDTO;
@@ -47,6 +50,7 @@ class MesaServiceTest {
     @Test
     void whenGetAllThenReturnListOfMesaDTO() {
         when(repository.findAll()).thenReturn(List.of(mesa));
+        when(mapper.map(any(), any())).thenReturn(mesaDTO);
 
         List<MesaDTO> responseList = service.getAll();
 
@@ -54,23 +58,24 @@ class MesaServiceTest {
         assertEquals(ArrayList.class, responseList.getClass());
         assertEquals(MesaDTO.class, responseList.get(INDEX).getClass());
 
-        assertEquals(ID, responseList.get(INDEX).id());
-        assertEquals(NUMERO, responseList.get(INDEX).numero());
-        assertEquals(CLIENTE, responseList.get(INDEX).cliente());
+        assertEquals(ID, responseList.get(INDEX).getId());
+        assertEquals(NUMERO, responseList.get(INDEX).getNumero());
+        assertEquals(CLIENTE, responseList.get(INDEX).getClient());
     }
 
     @Test
     void whenGetByThenReturnMesaDTO() {
         when(repository.findById(any(UUID.class))).thenReturn(optional);
+        when(mapper.map(any(), any())).thenReturn(mesaDTO);
 
         MesaDTO response = service.getById(ID);
 
         assertNotNull(response);
         assertEquals(MesaDTO.class, response.getClass());
 
-        assertEquals(ID, response.id());
-        assertEquals(NUMERO, response.numero());
-        assertEquals(CLIENTE, response.cliente());
+        assertEquals(ID, response.getId());
+        assertEquals(NUMERO, response.getNumero());
+        assertEquals(CLIENTE, response.getClient());
     }
 
     @Test
@@ -89,15 +94,16 @@ class MesaServiceTest {
     void whenCreateThenReturnMesaDTO() {
         when(repository.findByNumero(anyInt())).thenReturn(Optional.empty());
         when(repository.save(any())).thenReturn(mesa);
+        when(mapper.map(any(), any())).thenReturn(mesaDTO);
 
         MesaDTO response = service.create(mesa);
 
         assertNotNull(response);
         assertEquals(MesaDTO.class, response.getClass());
 
-        assertEquals(ID, response.id());
-        assertEquals(NUMERO, response.numero());
-        assertEquals(CLIENTE, response.cliente());
+        assertEquals(ID, response.getId());
+        assertEquals(NUMERO, response.getNumero());
+        assertEquals(CLIENTE, response.getClient());
     }
 
     @Test
@@ -115,6 +121,7 @@ class MesaServiceTest {
     @Test
     void whenDeleteThenDontReturn() {
         when(repository.findById(any(UUID.class))).thenReturn(optional);
+        when(mapper.map(any(), any())).thenReturn(mesaDTO);
 
         doNothing().when(repository).deleteById(any(UUID.class));
 

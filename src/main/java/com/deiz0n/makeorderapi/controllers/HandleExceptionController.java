@@ -1,5 +1,6 @@
 package com.deiz0n.makeorderapi.controllers;
 
+import com.deiz0n.makeorderapi.domain.exceptions.DataIntegrityException;
 import com.deiz0n.makeorderapi.domain.exceptions.ResourceExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.ResourceNotFoundException;
 import com.deiz0n.makeorderapi.domain.utils.Error;
@@ -53,5 +54,17 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
                 request.getDescription(false)
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler({DataIntegrityException.class})
+    public ResponseEntity<Error> handleDataIntegrityException(DataIntegrityException exception, HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Recurdo em uso",
+                exception.getMessage(),
+                HttpStatus.CONFLICT,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 }
