@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.config;
+package com.deiz0n.makeorderapi.infrastructure.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
