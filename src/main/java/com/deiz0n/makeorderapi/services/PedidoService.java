@@ -79,11 +79,11 @@ public class PedidoService {
             var pedido = pedidoRepository.getReferenceById(id);
 
             if (newData.getItens().isEmpty()) {
-                BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data", "itens");
+                BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data", "itens", "comanda", "funcionario", "mesa");
                 pedidoRepository.save(pedido);
             }
             else {
-                BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data");
+                BeanUtils.copyProperties(newData, pedido, "id", "codigo", "data", "comanda", "funcionario", "mesa");
 
                 for (ItensPedido itens : newData.getItens()) {
                     pedidoRepository.save(pedido);
