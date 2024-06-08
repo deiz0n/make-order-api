@@ -2,11 +2,9 @@ package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.MesaDTO;
 import com.deiz0n.makeorderapi.domain.entities.Mesa;
-import com.deiz0n.makeorderapi.domain.exceptions.DataIntegrityException;
 import com.deiz0n.makeorderapi.domain.exceptions.MesaExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.MesaNotFoundException;
 import com.deiz0n.makeorderapi.repositories.MesaRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,11 +43,6 @@ public class MesaService {
 
     public void delete(UUID id) {
         var mesa = getById(id);
-
-        try {
-            repository.deleteById(mesa.id());
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException("A Mesa não pode ser excluida pois possui pedidos em andamento");
-        }
+        repository.deleteById(mesa.id());
     }
 }
