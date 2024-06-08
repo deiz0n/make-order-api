@@ -43,6 +43,6 @@ public class MesaService {
 
     public void delete(UUID id) {
         var mesa = getById(id);
-        repository.deleteById(mesa.id());
+        repository.deleteById(mesa.getId());
     }
 }

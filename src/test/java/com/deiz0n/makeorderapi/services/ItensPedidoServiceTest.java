@@ -3,7 +3,7 @@ package com.deiz0n.makeorderapi.services;
 import com.deiz0n.makeorderapi.domain.entities.Item;
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
-import com.deiz0n.makeorderapi.domain.event.ItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,8 @@
 package com.deiz0n.makeorderapi.controllers;
 
+import com.deiz0n.makeorderapi.domain.exceptions.DataIntegrityException;
 import com.deiz0n.makeorderapi.domain.exceptions.ResourceExistingException;
+import com.deiz0n.makeorderapi.domain.exceptions.ResourceIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.ResourceNotFoundException;
 import com.deiz0n.makeorderapi.domain.utils.Error;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +46,30 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
+    @ExceptionHandler({DataIntegrityException.class})
+    public ResponseEntity<Error> handleDataIntegrityException(DataIntegrityException exception, HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Recurdo em uso",
+                exception.getMessage(),
+                HttpStatus.CONFLICT,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler({ResourceIsEmptyException.class})
+    public ResponseEntity<Error> handleResourceIsEmptyException(ResourceIsEmptyException exception, HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Campo vazio",
+                exception.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var error = new Error(
@@ -54,4 +81,18 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Formato inválido",
+                "O JSON informado possui formato inválido",
+                HttpStatus.BAD_REQUEST,
+                request.getDescription(false)
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+
 }
