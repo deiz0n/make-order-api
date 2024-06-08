@@ -19,6 +19,6 @@ public class Comanda {
     private UUID id;
     @JsonIgnore
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "comanda")
+    @OneToMany(mappedBy = "comanda", cascade = CascadeType.DETACH)
     private List<Pedido> pedidos;
 }

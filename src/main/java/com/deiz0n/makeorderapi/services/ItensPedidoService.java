@@ -1,6 +1,6 @@
 package com.deiz0n.makeorderapi.services;
 
-import com.deiz0n.makeorderapi.domain.event.ItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.event.EventListener;

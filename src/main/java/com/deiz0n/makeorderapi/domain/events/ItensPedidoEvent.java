@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.domain.event;
+package com.deiz0n.makeorderapi.domain.events;
 
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import lombok.Getter;

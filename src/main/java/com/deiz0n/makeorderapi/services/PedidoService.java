@@ -1,14 +1,16 @@
 package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
+import com.deiz0n.makeorderapi.domain.entities.Comanda;
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
+import com.deiz0n.makeorderapi.domain.events.ComandaCreatedEvent;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.ItensPedidoIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.MesaIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
-import com.deiz0n.makeorderapi.domain.event.ItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -59,12 +61,15 @@ public class PedidoService {
         if (newPedido.getFuncionario() == null) throw new FuncionarioIsEmptyException("Nenhum funcionário foi vinculado ao pedido");
         if (newPedido.getMesa() == null) throw new MesaIsEmptyException("Nenhuma mesa foi vinculada ao pedido");
 
+        var comandaEvent = new ComandaCreatedEvent(this, newPedido.getComanda());
+        publisher.publishEvent(comandaEvent);
+
         var pedido = pedidoRepository.save(newPedido);
 
         for (ItensPedido item : pedido.getItens()) {
             item.setPedido(pedido);
-            var event = new ItensPedidoEvent(this, item);
-            publisher.publishEvent(event);
+            var itensPedidoEvent = new ItensPedidoEvent(this, item);
+            publisher.publishEvent(itensPedidoEvent);
         }
         return mapper.map(pedido, PedidoDTO.class);
     }
