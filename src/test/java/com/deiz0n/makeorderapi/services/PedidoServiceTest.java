@@ -6,8 +6,7 @@ import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
 import com.deiz0n.makeorderapi.domain.entities.*;
 import com.deiz0n.makeorderapi.domain.enums.FormaPagamento;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
-import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
-import com.deiz0n.makeorderapi.domain.exceptions.ResourceNotFoundException;
+import com.deiz0n.makeorderapi.domain.exceptions.*;
 import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -146,6 +145,51 @@ class PedidoServiceTest {
         assertEquals(COMANDA, response.getComanda());
         assertEquals(FUNCIONARIO_DTO, response.getFuncionario());
         assertEquals(MESA, response.getMesa());
+    }
+
+    @Test
+    void whenCreateThenThrowItensPedidoIsEmptyException() {
+        pedido.setItens(List.of());
+
+        when(pedidoRepository.save(any())).thenReturn(pedido);
+        when(mapper.map(any(), any())).thenReturn(pedidoDTO);
+
+        var exception = assertThrows(
+                ItensPedidoIsEmptyException.class,
+                () -> service.create(pedido)
+        );
+
+        assertEquals("Não foram adicionados itens aos pedido", exception.getMessage());
+    }
+
+    @Test
+    void whenCreateThenThrowFuncionarioIsEmptyException() {
+        pedido.setFuncionario(null);
+
+        when(pedidoRepository.save(any())).thenReturn(pedido);
+        when(mapper.map(any(), any())).thenReturn(pedidoDTO);
+
+        var exception = assertThrows(
+                FuncionarioIsEmptyException.class,
+                () -> service.create(pedido)
+        );
+
+        assertEquals("Nenhum funcionário foi vinculado ao pedido", exception.getMessage());
+    }
+
+    @Test
+    void whenCreateThenThrowMesaIsEmptyException() {
+        pedido.setMesa(null);
+
+        when(pedidoRepository.save(any())).thenReturn(pedido);
+        when(mapper.map(any(), any())).thenReturn(pedidoDTO);
+
+        var exception = assertThrows(
+                MesaIsEmptyException.class,
+                () -> service.create(pedido)
+        );
+
+        assertEquals("Nenhuma mesa foi vinculada ao pedido", exception.getMessage());
     }
 
     @Test
