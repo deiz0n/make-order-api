@@ -4,11 +4,12 @@ import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
-import com.deiz0n.makeorderapi.domain.exceptions.ItensPedidoEmptyException;
+import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioIsEmptyException;
+import com.deiz0n.makeorderapi.domain.exceptions.ItensPedidoIsEmptyException;
+import com.deiz0n.makeorderapi.domain.exceptions.MesaIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
 import com.deiz0n.makeorderapi.domain.event.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
@@ -54,7 +55,9 @@ public class PedidoService {
         newPedido.setData(Instant.now());
         newPedido.setStatus(StatusPedido.PENDENTE);
 
-        if (newPedido.getItens().isEmpty()) throw new ItensPedidoEmptyException("Não foram adicionados itens aos pedido");
+        if (newPedido.getItens().isEmpty()) throw new ItensPedidoIsEmptyException("Não foram adicionados itens aos pedido");
+        if (newPedido.getFuncionario() == null) throw new FuncionarioIsEmptyException("Nenhum funcionário foi vinculado ao pedido");
+        if (newPedido.getMesa() == null) throw new MesaIsEmptyException("Nenhuma mesa foi vinculada ao pedido");
 
         var pedido = pedidoRepository.save(newPedido);
 
