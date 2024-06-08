@@ -1,6 +1,8 @@
 package com.deiz0n.makeorderapi.controllers;
 
+import com.deiz0n.makeorderapi.domain.exceptions.DataIntegrityException;
 import com.deiz0n.makeorderapi.domain.exceptions.ResourceExistingException;
+import com.deiz0n.makeorderapi.domain.exceptions.ResourceIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.ResourceNotFoundException;
 import com.deiz0n.makeorderapi.domain.utils.Error;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,12 +47,39 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
         var error = new Error(
                 Instant.now(),
                 "Campo inválido",
                 ex.getFieldError().getDefaultMessage(),
                 HttpStatus.BAD_REQUEST,
                 request.getDescription(false)
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler({DataIntegrityException.class})
+    public ResponseEntity<Error> handleDataIntegrityException(DataIntegrityException exception, HttpServletRequest request) {
+
+        var error = new Error(
+                Instant.now(),
+                "Recurdo em uso",
+                exception.getMessage(),
+                HttpStatus.CONFLICT,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler({ResourceIsEmptyException.class})
+    public ResponseEntity<Error> handleResourceIsEmptyException(ResourceIsEmptyException exception, HttpServletRequest request) {
+
+        var error = new Error(
+                Instant.now(),
+                "Campo não informado",
+                exception.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
