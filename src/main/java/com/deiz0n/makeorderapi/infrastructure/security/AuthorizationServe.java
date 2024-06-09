@@ -1,12 +1,12 @@
 package com.deiz0n.makeorderapi.infrastructure.security;
 
 import com.deiz0n.makeorderapi.repositories.FuncionarioRepository;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-@Configuration
+@Service
 public class AuthorizationServe implements UserDetailsService {
 
     private FuncionarioRepository repository;
@@ -17,6 +17,6 @@ public class AuthorizationServe implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.getByUsername(username);
+        return repository.getByEmail(username);
     }
 }
