@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 SET session_replication_role = "replica";
 
 DELETE FROM tb_categoria;
@@ -30,11 +31,11 @@ INSERT INTO tb_comanda (id) VALUES ('550e8400-e29b-41d4-a716-446655440000'),
                                    ('6ba7b812-9dad-11d1-80b4-00c04fd430c8'),
                                    ('6ba7b814-9dad-11d1-80b4-00c04fd430c8');
 
-INSERT INTO tb_funcionario (setor, data_nascimento, cpf, id, email, nome, senha) VALUES (0, '1980-01-01 00:00:00', '50283944072', '550e8400-e29b-41d4-a716-446655440001', 'funcionario1@email.com', 'Funcionario 1', 'senha123'),
-                                                                                        (1, '1985-05-05 00:00:00', '95874478086', '6ba7b810-9dad-11d1-80b4-00c04fd430c9', 'funcionario2@email.com', 'Funcionario 2', 'senha123'),
-                                                                                        (2, '1990-10-10 00:00:00', '17714005017', '6ba7b811-9dad-11d1-80b4-00c04fd430ca', 'funcionario3@email.com', 'Funcionario 3', 'senha123'),
-                                                                                        (0, '1995-03-15 00:00:00', '81214869041', '6ba7b812-9dad-11d1-80b4-00c04fd430cb', 'funcionario4@email.com', 'Funcionario 4', 'senha123'),
-                                                                                        (1, '2000-07-20 00:00:00', '13709676088', '6ba7b814-9dad-11d1-80b4-00c04fd430cc', 'funcionario5@email.com', 'Funcionario 5', 'senha123');
+INSERT INTO tb_funcionario (setor, data_nascimento, cpf, id, email, nome, senha) VALUES (0, '1980-01-01 00:00:00', '50283944072', '550e8400-e29b-41d4-a716-446655440001', 'funcionario1@email.com', 'Funcionario 1', ENCODE(HMAC('123', 'key', 'sha256'), 'hex')),
+                                                                                        (1, '1985-05-05 00:00:00', '95874478086', '6ba7b810-9dad-11d1-80b4-00c04fd430c9', 'funcionario2@email.com', 'Funcionario 2', ENCODE(HMAC('123', 'key', 'sha256'), 'hex')),
+                                                                                        (2, '1990-10-10 00:00:00', '17714005017', '6ba7b811-9dad-11d1-80b4-00c04fd430ca', 'funcionario3@email.com', 'Funcionario 3', ENCODE(HMAC('123', 'key', 'sha256'), 'hex')),
+                                                                                        (0, '1995-03-15 00:00:00', '81214869041', '6ba7b812-9dad-11d1-80b4-00c04fd430cb', 'funcionario4@email.com', 'Funcionario 4', ENCODE(HMAC('123', 'key', 'sha256'), 'hex')),
+                                                                                        (1, '2000-07-20 00:00:00', '13709676088', '6ba7b814-9dad-11d1-80b4-00c04fd430cc', 'funcionario5@email.com', 'Funcionario 5', ENCODE(HMAC('123', 'key', 'sha256'), 'hex'));
 
 INSERT INTO tb_item (preco, quantidade_disponivel, categoria_id, id, nome, descricao) VALUES (10.00, 100, '3d8b1f72-95b6-4c40-a45a-8d0a5e77e2a4', '550e8400-e29b-41d4-a716-446655440002', 'Item 1', 'Descrição do Item 1'),
                                                                                              (15.00, 200, '6a2f41a3-c54c-4b73-ae60-bf5c2f4907e2', '6ba7b810-9dad-11d1-80b4-00c04fd430d0', 'Item 2', 'Descrição do Item 2'),
