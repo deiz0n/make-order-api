@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -13,10 +15,12 @@ public class SecurityConfig  {
 
     private CustomAuthenticationEntryPoint authenticationEntryPoint;
     private CustomAccessDeniedException accessDeniedException;
+    private SecurityFilter securityFilter;
 
-    public SecurityConfig(CustomAuthenticationEntryPoint authenticationEntryPoint, CustomAccessDeniedException accessDeniedException) {
+    public SecurityConfig(CustomAuthenticationEntryPoint authenticationEntryPoint, CustomAccessDeniedException accessDeniedException, SecurityFilter securityFilter) {
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.accessDeniedException = accessDeniedException;
+        this.securityFilter = securityFilter;
     }
 
     @Bean
@@ -40,14 +44,12 @@ public class SecurityConfig  {
                         .requestMatchers("api/v2.0/funcionarios/**").hasRole("ADMINISTRACAO")
                         .requestMatchers("api/v2.0/funcionarios").hasRole("ADMINISTRACAO")
                 )
-
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(handling -> handling
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedException)
                 )
-
                 .build();
     }
-
 
 }
