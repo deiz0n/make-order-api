@@ -11,6 +11,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig  {
 
+    private CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private CustomAccessDeniedException accessDeniedException;
+
+    public SecurityConfig(CustomAuthenticationEntryPoint authenticationEntryPoint, CustomAccessDeniedException accessDeniedException) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.accessDeniedException = accessDeniedException;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -29,11 +37,15 @@ public class SecurityConfig  {
                         .requestMatchers("api/v2.0/mesas/**").hasRole("GARCOM")
                         .requestMatchers("api/v2.0/mesas").hasRole("GARCOM")
 
-
                         .requestMatchers("api/v2.0/funcionarios/**").hasRole("ADMINISTRACAO")
                         .requestMatchers("api/v2.0/funcionarios").hasRole("ADMINISTRACAO")
-
                 )
+
+                .exceptionHandling(handling -> handling
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedException)
+                )
+
                 .build();
     }
 
