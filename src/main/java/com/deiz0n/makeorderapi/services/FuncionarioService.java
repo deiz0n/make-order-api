@@ -8,6 +8,7 @@ import com.deiz0n.makeorderapi.repositories.FuncionarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +20,12 @@ public class FuncionarioService {
 
     private FuncionarioRepository funcionarioRepository;
     private ModelMapper mapper;
+    private BCryptPasswordEncoder cryptPasswordEncoder;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository, ModelMapper mapper) {
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, ModelMapper mapper, BCryptPasswordEncoder cryptPasswordEncoder) {
         this.funcionarioRepository = funcionarioRepository;
         this.mapper = mapper;
+        this.cryptPasswordEncoder = cryptPasswordEncoder;
     }
 
     public List<FuncionarioDTO> getAll() {
@@ -41,6 +44,9 @@ public class FuncionarioService {
     public FuncionarioDTO create(Funcionario newFuncionario) {
         if (funcionarioRepository.findByCpf(newFuncionario.getCpf()).isPresent()) throw new FuncionarioExistingException("CPF já vinculado a um funcionário");
         if (funcionarioRepository.findByEmail(newFuncionario.getEmail()).isPresent()) throw new FuncionarioExistingException("Email já vinculado a um funcionário");
+
+        newFuncionario.setSenha(cryptPasswordEncoder.encode(newFuncionario.getSenha()));
+
         funcionarioRepository.save(newFuncionario);
         return mapper.map(newFuncionario, FuncionarioDTO.class);
     }
@@ -63,6 +69,9 @@ public class FuncionarioService {
                 throw new FuncionarioExistingException("Email já vinculado a um funcionário");
 
             BeanUtils.copyProperties(newData, funcionario, "id", "dataNascimento");
+
+            funcionario.setSenha(cryptPasswordEncoder.encode(funcionario.getSenha()));
+
             funcionarioRepository.save(funcionario);
             return mapper.map(funcionario, FuncionarioDTO.class);
         } catch (FatalBeanException | IllegalArgumentException e) {
