@@ -17,14 +17,14 @@ public class TokenService {
 
     public static final String ISSUER = "mk-api";
 
-    @Value("${api.secret.key}")
+    @Value("${api.secret.token.key}")
     private String secret;
 
     public String generateToken(Funcionario funcionario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withIssuer("mk-api")
+                    .withIssuer(ISSUER)
                     .withSubject(funcionario.getEmail())
                     .withExpiresAt(expirationInstant())
                     .sign(algorithm);
