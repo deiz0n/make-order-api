@@ -11,6 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -94,5 +99,44 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler({AuthenticationException.class})
+    public ResponseEntity<?> handlerAuthenticationException() {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
 
+    @ExceptionHandler({InsufficientAuthenticationException.class})
+    public ResponseEntity<Error> handleInsufficientAuthenticationException(HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Token inválido",
+                "Token inválido, expirado ou nulo",
+                HttpStatus.UNAUTHORIZED,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler({BadCredentialsException.class, InternalAuthenticationServiceException.class})
+    public ResponseEntity<Error> handleBadCredentialsException(HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Credenciais inválidas",
+                "Email ou senha inválido(a)",
+                HttpStatus.UNAUTHORIZED,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<Error> handleAccessDeniedException(HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Acesso negado",
+                "O funcionário não tem permissão para acessar tal recurso",
+                HttpStatus.FORBIDDEN,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
 }
