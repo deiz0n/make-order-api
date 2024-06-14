@@ -2,7 +2,6 @@ package com.deiz0n.makeorderapi.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,14 +31,15 @@ public class SecurityConfig  {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> request
 
-                        .requestMatchers(HttpMethod.GET, "api/v2.0/pedidos").hasRole("ADMINISTRACAO")
-                        .requestMatchers(HttpMethod.GET, "api/v2.0/mesas").hasRole("GARCOM")
-                        .requestMatchers(HttpMethod.GET, "api/v2.0/itens").hasRole("COZINHA")
+                        .requestMatchers("api/v2.0/funcionarios**").hasRole("ADMINISTRACAO")
 
-                        .requestMatchers(HttpMethod.POST, "api/v2.0/authentication/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "api/v2.0/funcionarios/create").permitAll()
+                        .requestMatchers("api/v2.0/mesas**").hasRole("GARCOM")
 
-                        .requestMatchers(HttpMethod.GET, "api/v2.0/funcionarios").permitAll()
+                        .requestMatchers("api/v2.0/categorias**").hasRole("COZINHA")
+                        .requestMatchers("api/v2.0/pedidos**").hasRole("COZINHA")
+                        .requestMatchers("api/v2.0/itens**").hasRole("COZINHA")
+
+                        .requestMatchers("api/v2.0/authentication/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
