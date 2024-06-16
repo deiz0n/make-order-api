@@ -4,6 +4,7 @@ import com.deiz0n.makeorderapi.domain.dtos.AuthenticationDTO;
 import com.deiz0n.makeorderapi.domain.dtos.TokenDTO;
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import com.deiz0n.makeorderapi.infrastructure.security.TokenService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> singIn(@RequestBody AuthenticationDTO request) {
+    public ResponseEntity<TokenDTO> singIn(@RequestBody @Valid AuthenticationDTO request) {
         var user = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getSenha());
         var authentication = authenticationManager.authenticate(user);
 
