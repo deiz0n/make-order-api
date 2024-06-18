@@ -5,7 +5,6 @@ import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import com.deiz0n.makeorderapi.domain.events.SendEmailEvent;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioNotFoundException;
-import com.deiz0n.makeorderapi.domain.utils.Mensagem;
 import com.deiz0n.makeorderapi.repositories.FuncionarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -14,7 +13,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -91,12 +89,7 @@ public class FuncionarioService {
         if (user.isEmpty())
             throw new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o email informado");
 
-        var mensagem = new Mensagem(
-                user.get().getEmail(),
-                "Recuperação da senha",
-                "Teste"
-        );
-        var sendEmail = new SendEmailEvent(this, mensagem);
+        var sendEmail = new SendEmailEvent(this, user.get().getEmail());
         eventPublisher.publishEvent(sendEmail);
     }
 }

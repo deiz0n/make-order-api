@@ -1,19 +1,20 @@
 package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
-import com.deiz0n.makeorderapi.domain.dtos.ItemDTO;
 import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
 import com.deiz0n.makeorderapi.domain.entities.*;
 import com.deiz0n.makeorderapi.domain.enums.FormaPagamento;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
-import com.deiz0n.makeorderapi.domain.exceptions.*;
+import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioIsEmptyException;
+import com.deiz0n.makeorderapi.domain.exceptions.ItensPedidoIsEmptyException;
+import com.deiz0n.makeorderapi.domain.exceptions.MesaIsEmptyException;
+import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
 import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

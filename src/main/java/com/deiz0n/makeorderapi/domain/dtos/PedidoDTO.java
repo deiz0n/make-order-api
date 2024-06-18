@@ -1,10 +1,10 @@
 package com.deiz0n.makeorderapi.domain.dtos;
 
-import com.deiz0n.makeorderapi.domain.enums.FormaPagamento;
-import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
 import com.deiz0n.makeorderapi.domain.entities.Comanda;
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Mesa;
+import com.deiz0n.makeorderapi.domain.enums.FormaPagamento;
+import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

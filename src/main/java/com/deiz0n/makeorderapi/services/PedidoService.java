@@ -1,16 +1,15 @@
 package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
-import com.deiz0n.makeorderapi.domain.entities.Comanda;
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
 import com.deiz0n.makeorderapi.domain.events.ComandaCreatedEvent;
+import com.deiz0n.makeorderapi.domain.events.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.ItensPedidoIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.MesaIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.PedidoNotFoundException;
-import com.deiz0n.makeorderapi.domain.events.ItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
