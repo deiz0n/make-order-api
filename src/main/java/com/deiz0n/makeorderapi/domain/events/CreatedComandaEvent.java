@@ -5,11 +5,11 @@ import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
 @Getter
-public class ComandaCreatedEvent extends ApplicationEvent {
+public class CreatedComandaEvent extends ApplicationEvent {
 
     private Comanda comanda;
 
-    public ComandaCreatedEvent(Object source, Comanda comanda) {
+    public CreatedComandaEvent(Object source, Comanda comanda) {
         super(source);
         this.comanda = comanda;
     }
