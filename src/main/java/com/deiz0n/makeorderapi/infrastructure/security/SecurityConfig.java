@@ -39,7 +39,7 @@ public class SecurityConfig  {
                         .requestMatchers("api/v2.0/pedidos**").hasRole("COZINHA")
                         .requestMatchers("api/v2.0/itens**").hasRole("COZINHA")
 
-                        .requestMatchers("api/v2.0/authentication/**").permitAll()
+                        .requestMatchers("api/v2.0/auth/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
