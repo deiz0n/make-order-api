@@ -2,15 +2,19 @@ package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
+import com.deiz0n.makeorderapi.domain.events.SendEmailEvent;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioNotFoundException;
+import com.deiz0n.makeorderapi.domain.utils.Mensagem;
 import com.deiz0n.makeorderapi.repositories.FuncionarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,11 +25,13 @@ public class FuncionarioService {
     private FuncionarioRepository funcionarioRepository;
     private ModelMapper mapper;
     private BCryptPasswordEncoder cryptPasswordEncoder;
+    private ApplicationEventPublisher eventPublisher;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository, ModelMapper mapper, BCryptPasswordEncoder cryptPasswordEncoder) {
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, ModelMapper mapper, BCryptPasswordEncoder cryptPasswordEncoder, ApplicationEventPublisher eventPublisher) {
         this.funcionarioRepository = funcionarioRepository;
         this.mapper = mapper;
         this.cryptPasswordEncoder = cryptPasswordEncoder;
+        this.eventPublisher = eventPublisher;
     }
 
     public List<FuncionarioDTO> getAll() {
@@ -77,5 +83,20 @@ public class FuncionarioService {
         } catch (FatalBeanException | IllegalArgumentException e) {
             throw new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o Id informado");
         }
+    }
+
+    public void recovery(String email) {
+        var user = funcionarioRepository.findByEmail(email);
+
+        if (user.isEmpty())
+            throw new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o email informado");
+
+        var mensagem = new Mensagem(
+                user.get().getEmail(),
+                "Recuperação da senha",
+                "Teste"
+        );
+        var sendEmail = new SendEmailEvent(this, mensagem);
+        eventPublisher.publishEvent(sendEmail);
     }
 }

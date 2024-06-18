@@ -9,7 +9,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Mensagem {
 
-    private Set<String> destinatario;
+    private String destinatario;
     private String assunto;
     private String corpo;
 
