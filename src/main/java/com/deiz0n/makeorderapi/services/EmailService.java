@@ -1,36 +1,38 @@
 package com.deiz0n.makeorderapi.services;
 
+import com.deiz0n.makeorderapi.domain.events.SendEmailEvent;
 import com.deiz0n.makeorderapi.domain.exceptions.SendEmailException;
-import com.deiz0n.makeorderapi.domain.utils.Mensagem;
-import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class EmailService {
 
     private JavaMailSender mailSender;
 
-    @Value("${mk-api.email.remetente}")
+    @Value("${spring.mail.username}")
     private String emailFrom;
 
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
-    private void send(Mensagem msg) {
+    @EventListener
+    private void send(SendEmailEvent event) {
         try {
-            MimeMessage mimeMailMessage = mailSender.createMimeMessage();
+            var message = new SimpleMailMessage();
 
-            var helper = new MimeMessageHelper(mimeMailMessage, "UTF-8");
-            helper.setFrom(emailFrom);
-            helper.setTo(msg.getDestinatario().toArray(new String[0]));
-            helper.setSubject(msg.getAssunto());
-            helper.setText(msg.getCorpo(), true);
+            message.setFrom(emailFrom);
+            message.setTo(event.getMensagem().getDestinatario());
+            message.setSubject(event.getMensagem().getAssunto());
+            message.setText(event.getMensagem().getCorpo());
 
+            mailSender.send(message);
         } catch (Exception e) {
-            throw new SendEmailException("Erro ao enviar o email");
+            throw new RuntimeException("erro ao enviar email", e);
         }
     }
 
