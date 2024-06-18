@@ -4,8 +4,9 @@ import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
-import com.deiz0n.makeorderapi.domain.events.ComandaCreatedEvent;
-import com.deiz0n.makeorderapi.domain.events.ItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.CreatedComandaEvent;
+import com.deiz0n.makeorderapi.domain.events.CreatedItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.UpdatedItensPedidoEvent;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.ItensPedidoIsEmptyException;
 import com.deiz0n.makeorderapi.domain.exceptions.MesaIsEmptyException;
@@ -60,15 +61,15 @@ public class PedidoService {
         if (newPedido.getFuncionario() == null) throw new FuncionarioIsEmptyException("Nenhum funcionário foi vinculado ao pedido");
         if (newPedido.getMesa() == null) throw new MesaIsEmptyException("Nenhuma mesa foi vinculada ao pedido");
 
-        var comandaEvent = new ComandaCreatedEvent(this, newPedido.getComanda());
+        var comandaEvent = new CreatedComandaEvent(this, newPedido.getComanda());
         publisher.publishEvent(comandaEvent);
 
         var pedido = pedidoRepository.save(newPedido);
 
         for (ItensPedido item : pedido.getItens()) {
             item.setPedido(pedido);
-            var itensPedidoEvent = new ItensPedidoEvent(this, item);
-            publisher.publishEvent(itensPedidoEvent);
+            var createdEvent = new CreatedItensPedidoEvent(this, item);
+            publisher.publishEvent(createdEvent);
         }
         return mapper.map(pedido, PedidoDTO.class);
     }
@@ -94,8 +95,8 @@ public class PedidoService {
 
                     itens.setPedido(pedido);
 
-                    var event = new ItensPedidoEvent("Evento enviado", itens, itens.getId());
-                    publisher.publishEvent(event);
+                    var updatedEvent = new UpdatedItensPedidoEvent(this, itens);
+                    publisher.publishEvent(updatedEvent);
                 }
             }
 
