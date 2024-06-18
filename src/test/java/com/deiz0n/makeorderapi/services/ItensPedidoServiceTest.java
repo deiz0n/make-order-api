@@ -3,7 +3,8 @@ package com.deiz0n.makeorderapi.services;
 import com.deiz0n.makeorderapi.domain.entities.Item;
 import com.deiz0n.makeorderapi.domain.entities.ItensPedido;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
-import com.deiz0n.makeorderapi.domain.events.ItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.CreatedItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.UpdatedItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,8 @@ class ItensPedidoServiceTest {
     private ApplicationEventPublisher eventPublisher;
 
     private ItensPedido itensPedido;
-    private ItensPedidoEvent eventCreated;
-    private ItensPedidoEvent eventUpdated;
+    private CreatedItensPedidoEvent eventCreated;
+    private UpdatedItensPedidoEvent eventUpdated;
 
     @BeforeEach
     void setUp() {
@@ -64,8 +65,8 @@ class ItensPedidoServiceTest {
 
     private void mockData() {
         itensPedido = new ItensPedido(ID, QUANTIDADE, new Item(), new Pedido());
-        eventCreated = new ItensPedidoEvent(this, itensPedido);
-        eventUpdated = new ItensPedidoEvent(this, itensPedido, ID);
+        eventCreated = new CreatedItensPedidoEvent(this, itensPedido);
+        eventUpdated = new UpdatedItensPedidoEvent(this, itensPedido);
     }
 
 

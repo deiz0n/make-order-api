@@ -1,6 +1,6 @@
 package com.deiz0n.makeorderapi.services;
 
-import com.deiz0n.makeorderapi.domain.events.ComandaCreatedEvent;
+import com.deiz0n.makeorderapi.domain.events.CreatedComandaEvent;
 import com.deiz0n.makeorderapi.repositories.ComandaRepository;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class ComandaService {
     }
 
     @EventListener
-    public void create(ComandaCreatedEvent event) {
+    public void create(CreatedComandaEvent event) {
         repository.save(event.getComanda());
     }
 

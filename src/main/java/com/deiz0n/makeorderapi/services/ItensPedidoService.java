@@ -1,6 +1,7 @@
 package com.deiz0n.makeorderapi.services;
 
-import com.deiz0n.makeorderapi.domain.events.ItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.CreatedItensPedidoEvent;
+import com.deiz0n.makeorderapi.domain.events.UpdatedItensPedidoEvent;
 import com.deiz0n.makeorderapi.repositories.ItensPedidoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.event.EventListener;
@@ -15,14 +16,14 @@ public class ItensPedidoService {
         this.itensPedidoRepository = itensPedidoRepository;
     }
 
-    @EventListener(condition = "#event.id == null")
-    public void createListener(ItensPedidoEvent event) {
+    @EventListener
+    public void createListener(CreatedItensPedidoEvent event) {
         itensPedidoRepository.save(event.getItensPedido());
     }
 
-    @EventListener(condition = "#event.id != null ")
-    public void updateListener(ItensPedidoEvent event) {
-        var itensPedido = itensPedidoRepository.getReferenceById(event.getId());
+    @EventListener
+    public void updateListener(UpdatedItensPedidoEvent event) {
+        var itensPedido = itensPedidoRepository.getReferenceById(event.getItensPedido().getId());
 
         BeanUtils.copyProperties(event.getItensPedido(), itensPedido, "id");
         
