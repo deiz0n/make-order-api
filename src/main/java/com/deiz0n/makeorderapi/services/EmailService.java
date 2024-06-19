@@ -38,7 +38,7 @@ public class EmailService {
 
             mailSender.send(message);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao enviar email", e);
+            throw new SendEmailException("Erro ao enviar email");
         }
     }
 

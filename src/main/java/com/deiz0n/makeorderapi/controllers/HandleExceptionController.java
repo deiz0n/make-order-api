@@ -1,9 +1,6 @@
 package com.deiz0n.makeorderapi.controllers;
 
-import com.deiz0n.makeorderapi.domain.exceptions.DataIntegrityException;
-import com.deiz0n.makeorderapi.domain.exceptions.ResourceExistingException;
-import com.deiz0n.makeorderapi.domain.exceptions.ResourceIsEmptyException;
-import com.deiz0n.makeorderapi.domain.exceptions.ResourceNotFoundException;
+import com.deiz0n.makeorderapi.domain.exceptions.*;
 import com.deiz0n.makeorderapi.domain.utils.Error;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
@@ -138,5 +135,29 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
+    @ExceptionHandler({GenerateCodeException.class})
+    public ResponseEntity<Error> handleGenerateCodeException(GenerateCodeException exception, HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Erro no servidor interno",
+                exception.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    @ExceptionHandler({SendEmailException.class})
+    public ResponseEntity<Error> handleSendEmailException(SendEmailException exception, HttpServletRequest request) {
+        var error = new Error(
+                Instant.now(),
+                "Erro no servidor interno",
+                exception.getMessage(),
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 }
