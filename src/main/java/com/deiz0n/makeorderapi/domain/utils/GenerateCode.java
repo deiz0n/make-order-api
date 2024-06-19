@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public class GenerateCode {
 
+    //Organiza o codigo gerado e o retorna
     public static String generate() {
         String[] code = new String[4];
         int x = 0;
@@ -17,11 +18,13 @@ public class GenerateCode {
         return (Arrays.toString(code).replace(", ", "").substring(1, 5));
     }
 
+    //Gera um número aleatorio
     private static String sortNumber() {
         var calc = Math.random() * 9;
         return String.format("%.0f", calc);
     }
 
+    //Gera uma letra aleatoria
     private static String sortLetter(int index) {
         if (index < 1 || index > 26)
             throw new GenerateCodeException("Erro ao gerar código de recuperação");
