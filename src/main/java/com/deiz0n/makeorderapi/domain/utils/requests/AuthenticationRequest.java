@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.domain.dtos;
+package com.deiz0n.makeorderapi.domain.utils.requests;
 
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationDTO {
+public class AuthenticationRequest {
 
     @Email
     private String email;

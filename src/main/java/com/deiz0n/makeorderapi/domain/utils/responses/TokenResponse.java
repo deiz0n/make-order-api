@@ -1,4 +1,4 @@
-package com.deiz0n.makeorderapi.domain.dtos;
+package com.deiz0n.makeorderapi.domain.utils.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenDTO {
+public class TokenResponse {
 
     private String token;
 
