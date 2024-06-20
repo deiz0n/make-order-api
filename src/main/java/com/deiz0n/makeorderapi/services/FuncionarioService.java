@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -91,5 +92,10 @@ public class FuncionarioService {
 
         var sendEmail = new SendEmailEvent(this, user.get().getEmail());
         eventPublisher.publishEvent(sendEmail);
+    }
+
+    public FuncionarioDTO getBySession(Authentication authentication) {
+        var funcionario = authentication.getPrincipal();
+        return mapper.map(funcionario, FuncionarioDTO.class);
     }
 }
