@@ -1,7 +1,7 @@
 package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.exceptions.*;
-import com.deiz0n.makeorderapi.domain.utils.Error;
+import com.deiz0n.makeorderapi.domain.utils.responses.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,8 +25,8 @@ import java.time.Instant;
 public class HandleExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ResourceNotFoundException.class})
-    public ResponseEntity<Error> handleResourceNotFound(ResourceNotFoundException exception, HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException exception, HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Recurso não encontrado",
                 exception.getMessage(),
@@ -37,8 +37,8 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({ResourceExistingException.class})
-    public ResponseEntity<Error> handleResourceExistingExcepion(ResourceExistingException exception, HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleResourceExistingExcepion(ResourceExistingException exception, HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Recurdo existente",
                 exception.getMessage(),
@@ -49,8 +49,8 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({DataIntegrityException.class})
-    public ResponseEntity<Error> handleDataIntegrityException(DataIntegrityException exception, HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleDataIntegrityException(DataIntegrityException exception, HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Recurdo em uso",
                 exception.getMessage(),
@@ -61,8 +61,8 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({ResourceIsEmptyException.class})
-    public ResponseEntity<Error> handleResourceIsEmptyException(ResourceIsEmptyException exception, HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleResourceIsEmptyException(ResourceIsEmptyException exception, HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Campo vazio",
                 exception.getMessage(),
@@ -74,7 +74,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        var error = new Error(
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Campo inválido",
                 ex.getFieldError().getDefaultMessage(),
@@ -86,7 +86,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        var error = new Error(
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Formato inválido",
                 "O JSON informado possui formato inválido",
@@ -102,8 +102,8 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({InsufficientAuthenticationException.class})
-    public ResponseEntity<Error> handleInsufficientAuthenticationException(HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleInsufficientAuthenticationException(HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Token inválido",
                 "Token inválido, expirado ou nulo",
@@ -114,8 +114,8 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({BadCredentialsException.class, InternalAuthenticationServiceException.class})
-    public ResponseEntity<Error> handleBadCredentialsException(HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleBadCredentialsException(HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Credenciais inválidas",
                 "Email ou senha inválido(a)",
@@ -126,8 +126,8 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({AccessDeniedException.class})
-    public ResponseEntity<Error> handleAccessDeniedException(HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Acesso negado",
                 "O funcionário não tem permissão para acessar tal recurso",
@@ -138,8 +138,8 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({GenerateCodeException.class})
-    public ResponseEntity<Error> handleGenerateCodeException(GenerateCodeException exception, HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleGenerateCodeException(GenerateCodeException exception, HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Erro no servidor interno",
                 exception.getMessage(),
@@ -150,8 +150,8 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({SendEmailException.class})
-    public ResponseEntity<Error> handleSendEmailException(SendEmailException exception, HttpServletRequest request) {
-        var error = new Error(
+    public ResponseEntity<ErrorResponse> handleSendEmailException(SendEmailException exception, HttpServletRequest request) {
+        var error = new ErrorResponse(
                 Instant.now(),
                 "Erro no servidor interno",
                 exception.getMessage(),
