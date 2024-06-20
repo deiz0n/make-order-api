@@ -1,9 +1,13 @@
 package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
+import com.deiz0n.makeorderapi.domain.events.GenerateTokenEvent;
+import com.deiz0n.makeorderapi.domain.events.GeneratedTokenEvent;
 import com.deiz0n.makeorderapi.domain.utils.requests.AuthenticationRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.TokenResponse;
 import com.deiz0n.makeorderapi.infrastructure.security.TokenService;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -12,20 +16,26 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
     private AuthenticationManager authenticationManager;
-    private TokenService tokenService;
-    private FuncionarioService funcionarioService;
+    private ApplicationEventPublisher eventPublisher;
+    private TokenResponse token;
 
-    public AuthenticationService(AuthenticationManager authenticationManager, TokenService tokenService, FuncionarioService funcionarioService) {
+    public AuthenticationService(AuthenticationManager authenticationManager, ApplicationEventPublisher eventPublisher) {
         this.authenticationManager = authenticationManager;
-        this.tokenService = tokenService;
-        this.funcionarioService = funcionarioService;
+        this.eventPublisher = eventPublisher;
     }
 
     public TokenResponse singIn(AuthenticationRequest newData) {
         var user = new UsernamePasswordAuthenticationToken(newData.getEmail(), newData.getSenha());
         var authentication = authenticationManager.authenticate(user);
 
-        var token = tokenService.generateToken((Funcionario) authentication.getPrincipal());
-        return new TokenResponse(token);
+        var generateToken = new GenerateTokenEvent(this, (Funcionario) authentication.getPrincipal());
+        eventPublisher.publishEvent(generateToken);
+
+        return token;
+    }
+
+    @EventListener
+    public void getToken(GeneratedTokenEvent event) {
+        token = event.getResponse();
     }
 }
