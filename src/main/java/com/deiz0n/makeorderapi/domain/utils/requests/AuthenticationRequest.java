@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
-    @Email
+    @Email(message = "Email inválido")
     private String email;
     private String senha;
 
