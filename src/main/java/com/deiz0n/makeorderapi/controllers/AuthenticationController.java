@@ -3,20 +3,14 @@ package com.deiz0n.makeorderapi.controllers;
 import com.deiz0n.makeorderapi.domain.utils.requests.AuthenticationRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.TokenResponse;
-import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import com.deiz0n.makeorderapi.domain.utils.requests.RecoveryPasswordRequest;
-import com.deiz0n.makeorderapi.infrastructure.security.TokenService;
 import com.deiz0n.makeorderapi.services.AuthenticationService;
 import com.deiz0n.makeorderapi.services.FuncionarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 
@@ -42,7 +36,7 @@ public class AuthenticationController {
     public ResponseEntity<ResponseRequest> recoveryPassword(@RequestBody RecoveryPasswordRequest request) {
         funcionarioService.recovery(request.getEmail());
 
-        ResponseRequest response = ResponseRequest
+        var response = ResponseRequest
                 .builder()
                 .instant(Instant.now())
                 .title("Email enviado")
@@ -53,4 +47,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/authenticated")
+    public ResponseEntity<?> authenticated(Authentication authentication) {
+        var funcionario = funcionarioService.getBySession(authentication);
+        return ResponseEntity.ok(funcionario);
+    }
 }
