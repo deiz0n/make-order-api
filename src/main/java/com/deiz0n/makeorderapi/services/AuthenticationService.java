@@ -5,7 +5,6 @@ import com.deiz0n.makeorderapi.domain.events.GenerateTokenEvent;
 import com.deiz0n.makeorderapi.domain.events.GeneratedTokenEvent;
 import com.deiz0n.makeorderapi.domain.utils.requests.AuthenticationRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.TokenResponse;
-import com.deiz0n.makeorderapi.infrastructure.security.TokenService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.AuthenticationManager;
