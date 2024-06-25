@@ -2,14 +2,17 @@ package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
+import com.deiz0n.makeorderapi.domain.events.ResetedPasswordEvent;
 import com.deiz0n.makeorderapi.domain.events.SendEmailEvent;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioNotFoundException;
+import com.deiz0n.makeorderapi.domain.exceptions.PasswordNotEqualsException;
 import com.deiz0n.makeorderapi.repositories.FuncionarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -90,12 +93,24 @@ public class FuncionarioService {
         if (user.isEmpty())
             throw new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o email informado");
 
-        var sendEmail = new SendEmailEvent(this, user.get().getEmail());
+        var sendEmail = new SendEmailEvent(this, mapper.map(user.get(), FuncionarioDTO.class));
         eventPublisher.publishEvent(sendEmail);
     }
 
     public FuncionarioDTO getBySession(Authentication authentication) {
         var funcionario = authentication.getPrincipal();
         return mapper.map(funcionario, FuncionarioDTO.class);
+    }
+
+    @EventListener
+    public void resetPassword(ResetedPasswordEvent event) {
+        var user = funcionarioRepository.getReferenceById((UUID) event.getSource());
+
+        if (!event.getResetPassword().getPassword().equals(event.getResetPassword().getConfirmPassword()))
+            throw new PasswordNotEqualsException("As senhas não coincidem");
+
+        user.setSenha(cryptPasswordEncoder.encode(event.getResetPassword().getConfirmPassword()));
+
+        funcionarioRepository.save(user);
     }
 }
