@@ -1,6 +1,7 @@
 package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.utils.requests.AuthenticationRequest;
+import com.deiz0n.makeorderapi.domain.utils.requests.ResetPasswordRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.TokenResponse;
 import com.deiz0n.makeorderapi.domain.utils.requests.RecoveryPasswordRequest;
@@ -13,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2.0/auth")
@@ -41,6 +43,21 @@ public class AuthenticationController {
                 .instant(Instant.now())
                 .title("Email enviado")
                 .description("Verifique o código enviado para o seu endereço de email")
+                .status(HttpStatus.OK.value())
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/recovery/user")
+    public ResponseEntity<ResponseRequest> resetPassword(@RequestParam(name = "id") UUID funcionarioId, @RequestBody ResetPasswordRequest request) {
+        authenticationService.resetPassword(request, funcionarioId);
+
+        var response = ResponseRequest
+                .builder()
+                .instant(Instant.now())
+                .title("Senha alterada")
+                .description("Sua senha foi alterada com sucesso")
                 .status(HttpStatus.OK.value())
                 .build();
 
