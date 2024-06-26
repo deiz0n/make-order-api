@@ -34,6 +34,12 @@ public class FuncionarioController {
         return ResponseEntity.ok(funcionario);
     }
 
+    @GetMapping("/top-sales")
+    public ResponseEntity<?> getTopFuncionarios() {
+        var funcionarios = service.getTop();
+        return ResponseEntity.ok(funcionarios);
+    }
+
     @Transactional
     @PostMapping("/create")
     public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody @Valid Funcionario request) {
