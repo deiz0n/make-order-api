@@ -2,6 +2,7 @@ package com.deiz0n.makeorderapi.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,7 @@ public class SecurityConfig  {
                 .authorizeHttpRequests(request -> request
 
                         .requestMatchers("api/v2.0/funcionarios**").hasRole("ADMINISTRACAO")
+                        .requestMatchers(HttpMethod.GET, "api/v2.0/auth/authenticated").hasRole("ADMINISTRACAO")
 
                         .requestMatchers("api/v2.0/mesas**").hasRole("GARCOM")
 
@@ -39,7 +41,8 @@ public class SecurityConfig  {
                         .requestMatchers("api/v2.0/pedidos**").hasRole("COZINHA")
                         .requestMatchers("api/v2.0/itens**").hasRole("COZINHA")
 
-                        .requestMatchers("api/v2.0/auth/**").permitAll()
+                        .requestMatchers("api/v2.0/auth/login").permitAll()
+                        .requestMatchers("api/v2.0/auth/recovery**").permitAll()
 
                         .anyRequest().authenticated()
                 )
