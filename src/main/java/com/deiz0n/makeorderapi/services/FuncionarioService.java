@@ -93,7 +93,7 @@ public class FuncionarioService {
         if (user.isEmpty())
             throw new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o email informado");
 
-        var sendEmail = new SendEmailEvent(this, mapper.map(user.get(), FuncionarioDTO.class));
+        var sendEmail = new SendEmailEvent(user.get().getSubId(), mapper.map(user, FuncionarioDTO.class));
         eventPublisher.publishEvent(sendEmail);
     }
 
@@ -104,13 +104,16 @@ public class FuncionarioService {
 
     @EventListener
     public void resetPassword(ResetedPasswordEvent event) {
-        var user = funcionarioRepository.getReferenceById((UUID) event.getSource());
+        var user = funcionarioRepository.findBySubId((UUID) event.getSource());
 
         if (!event.getResetPassword().getPassword().equals(event.getResetPassword().getConfirmPassword()))
             throw new PasswordNotEqualsException("As senhas não coincidem");
+        if (user.isEmpty())
+            throw new FuncionarioNotFoundException("Usuário não encontrado");
 
-        user.setSenha(cryptPasswordEncoder.encode(event.getResetPassword().getConfirmPassword()));
+        user.get().setSenha(cryptPasswordEncoder.encode(event.getResetPassword().getConfirmPassword()));
+        user.get().setSubId(UUID.randomUUID());
 
-        funcionarioRepository.save(user);
+        funcionarioRepository.save(user.get());
     }
 }

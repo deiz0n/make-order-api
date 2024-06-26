@@ -241,6 +241,7 @@ class FuncionarioServiceTest {
                 SENHA,
                 DATA_NASCIMENTO,
                 SETOR,
+                ID,
                 List.of()
         );
         funcionarioDTO = new FuncionarioDTO(

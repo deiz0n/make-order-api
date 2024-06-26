@@ -33,7 +33,7 @@ public class EmailService {
     private void send(SendEmailEvent event) {
         var message = new SimpleMailMessage();
 
-        var url = uri+event.getFuncionario().getId().toString();
+        var url = uri+event.getSource().toString();
 
         message.setSentDate(Date.from(Instant.now()));
         try {
