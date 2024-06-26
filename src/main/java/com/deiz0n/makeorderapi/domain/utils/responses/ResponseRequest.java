@@ -2,11 +2,14 @@ package com.deiz0n.makeorderapi.domain.utils.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-@Builder
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ResponseRequest {
 
     private Instant instant;
