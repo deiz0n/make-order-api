@@ -4,6 +4,7 @@ import com.deiz0n.makeorderapi.domain.dtos.ItemDTO;
 import com.deiz0n.makeorderapi.domain.entities.Item;
 import com.deiz0n.makeorderapi.domain.exceptions.ItemNotFoundException;
 import com.deiz0n.makeorderapi.repositories.ItemRepository;
+import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -17,10 +18,12 @@ import java.util.stream.Collectors;
 public class ItemService {
 
     private ItemRepository itemRepository;
+    private PedidoRepository pedidoRepository;
     private ModelMapper mapper;
 
-    public ItemService(ItemRepository itemRepository, ModelMapper mapper) {
+    public ItemService(ItemRepository itemRepository, PedidoRepository pedidoRepository, ModelMapper mapper) {
         this.itemRepository = itemRepository;
+        this.pedidoRepository = pedidoRepository;
         this.mapper = mapper;
     }
 
@@ -39,7 +42,7 @@ public class ItemService {
 
     @JsonProperty()
     public List<Object> getTop() {
-        return itemRepository.getTopSales();
+        return pedidoRepository.getTopItens();
     }
 
     public ItemDTO create(Item newItem) {

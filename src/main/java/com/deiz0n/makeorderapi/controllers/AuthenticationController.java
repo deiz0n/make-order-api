@@ -38,14 +38,12 @@ public class AuthenticationController {
     public ResponseEntity<ResponseRequest> recoveryPassword(@RequestBody RecoveryPasswordRequest request) {
         funcionarioService.recovery(request.getEmail());
 
-        var response = ResponseRequest
-                .builder()
-                .instant(Instant.now())
-                .title("Email enviado")
-                .description("Verifique o código enviado para o seu endereço de email")
-                .status(HttpStatus.OK.value())
-                .build();
-
+        var response = new ResponseRequest(
+                Instant.now(),
+                "Email enviado",
+                "Verifique o endereço enviado para o seu endereço de email",
+                HttpStatus.OK.value()
+        );
         return ResponseEntity.ok(response);
     }
 
@@ -53,14 +51,12 @@ public class AuthenticationController {
     public ResponseEntity<ResponseRequest> resetPassword(@RequestParam(name = "id") UUID funcionarioId, @RequestBody ResetPasswordRequest request) {
         authenticationService.resetPassword(request, funcionarioId);
 
-        var response = ResponseRequest
-                .builder()
-                .instant(Instant.now())
-                .title("Senha alterada")
-                .description("Sua senha foi alterada com sucesso")
-                .status(HttpStatus.OK.value())
-                .build();
-
+        var response = new ResponseRequest(
+                Instant.now(),
+                "Senha alterada",
+                "Sua senha foi alterada com sucesso",
+                HttpStatus.OK.value()
+        );
         return ResponseEntity.ok(response);
     }
 
