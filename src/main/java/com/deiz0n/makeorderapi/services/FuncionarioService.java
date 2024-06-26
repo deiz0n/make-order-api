@@ -8,6 +8,7 @@ import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioNotFoundException;
 import com.deiz0n.makeorderapi.domain.exceptions.PasswordNotEqualsException;
 import com.deiz0n.makeorderapi.repositories.FuncionarioRepository;
+import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
@@ -25,12 +26,14 @@ import java.util.stream.Collectors;
 public class FuncionarioService {
 
     private FuncionarioRepository funcionarioRepository;
+    private PedidoRepository pedidoRepository;
     private ModelMapper mapper;
     private BCryptPasswordEncoder cryptPasswordEncoder;
     private ApplicationEventPublisher eventPublisher;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository, ModelMapper mapper, BCryptPasswordEncoder cryptPasswordEncoder, ApplicationEventPublisher eventPublisher) {
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, PedidoRepository pedidoRepository, ModelMapper mapper, BCryptPasswordEncoder cryptPasswordEncoder, ApplicationEventPublisher eventPublisher) {
         this.funcionarioRepository = funcionarioRepository;
+        this.pedidoRepository = pedidoRepository;
         this.mapper = mapper;
         this.cryptPasswordEncoder = cryptPasswordEncoder;
         this.eventPublisher = eventPublisher;
@@ -47,6 +50,10 @@ public class FuncionarioService {
         return funcionarioRepository.findById(id)
                 .map(funcionario -> mapper.map(funcionario, FuncionarioDTO.class))
                 .orElseThrow(() -> new FuncionarioNotFoundException("Não foi possível encontrar um funcionário com o Id informado"));
+    }
+
+    public List<Object> getTop() {
+        return pedidoRepository.getTopFuncionaios();
     }
 
     public FuncionarioDTO create(Funcionario newFuncionario) {
