@@ -2,6 +2,7 @@ package com.deiz0n.makeorderapi.repositories;
 
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
@@ -11,6 +12,7 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, UUID> 
 
     Optional<Funcionario> findByCpf(String cpf);
     Optional<Funcionario> findByEmail(String email);
+    Optional<Funcionario> findBySubId(UUID id);
     UserDetails getByEmail(String email);
 
 }
