@@ -32,6 +32,12 @@ public class ItemController {
         return ResponseEntity.ok(pedido);
     }
 
+    @GetMapping("/top-sales")
+    public ResponseEntity<?> getTopItens() {
+        var itens = itemService.getTop();
+        return ResponseEntity.ok(itens);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<ItemDTO> createItem(@RequestBody Item request) {
         var pedido = itemService.create(request);
