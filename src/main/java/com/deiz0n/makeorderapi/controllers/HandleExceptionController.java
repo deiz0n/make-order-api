@@ -13,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -109,6 +110,18 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @Override
+    protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        var error = new ErrorResponse(
+                Instant.now(),
+                "Recurso não aceito",
+                "Os formatos aceitos são: [application/json, application/*+json].",
+                HttpStatus.valueOf(status.value()),
+                request.getDescription(false)
+        );
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(error);
+    }
+
     @ExceptionHandler({AuthenticationException.class})
     public ResponseEntity<?> handlerAuthenticationException() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -172,5 +185,17 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    @ExceptionHandler({PasswordNotEqualsException.class})
+    public ResponseEntity<ErrorResponse> handlePasswordNotEqualsException(PasswordNotEqualsException exception, HttpServletRequest request) {
+        var error = new ErrorResponse(
+                Instant.now(),
+                "Erro ao alterar a senha",
+                exception.getMessage(),
+                HttpStatus.UNAUTHORIZED,
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 }
