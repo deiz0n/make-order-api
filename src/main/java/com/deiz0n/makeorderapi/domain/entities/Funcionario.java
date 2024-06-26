@@ -42,6 +42,9 @@ public class Funcionario implements UserDetails {
     private Date dataNascimento;
     @Column(nullable = false)
     private Setor setor;
+    @Column(name = "sub_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID subId;
 
     @JsonIgnore
     @Setter(AccessLevel.NONE)
