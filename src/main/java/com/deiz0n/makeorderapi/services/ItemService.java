@@ -4,13 +4,13 @@ import com.deiz0n.makeorderapi.domain.dtos.ItemDTO;
 import com.deiz0n.makeorderapi.domain.entities.Item;
 import com.deiz0n.makeorderapi.domain.exceptions.ItemNotFoundException;
 import com.deiz0n.makeorderapi.repositories.ItemRepository;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +35,11 @@ public class ItemService {
         return itemRepository.findById(id)
                 .map(item -> mapper.map(item, ItemDTO.class))
                 .orElseThrow(() -> new ItemNotFoundException("Não foi possível encontrar um item com o Id informado"));
+    }
+
+    @JsonProperty()
+    public List<Object> getTop() {
+        return itemRepository.getTopSales();
     }
 
     public ItemDTO create(Item newItem) {
