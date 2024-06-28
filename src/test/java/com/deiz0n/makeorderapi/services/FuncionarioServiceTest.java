@@ -6,6 +6,7 @@ import com.deiz0n.makeorderapi.domain.enums.Setor;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioExistingException;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioNotFoundException;
 import com.deiz0n.makeorderapi.repositories.FuncionarioRepository;
+import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -40,6 +41,8 @@ class FuncionarioServiceTest {
     @Mock
     private FuncionarioRepository funcionarioRepository;
     @Mock
+    private PedidoRepository pedidoRepository;
+    @Mock
     private ModelMapper mapper;
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
@@ -70,6 +73,16 @@ class FuncionarioServiceTest {
         assertEquals(EMAIL, responseList.get(INDEX).getEmail());
         assertEquals(DATA_NASCIMENTO, responseList.get(INDEX).getDataNascimento());
         assertEquals(SETOR, responseList.get(INDEX).getSetor());
+    }
+
+    @Test
+    void whenGetTopThenReturnListOfObject() {
+        when(pedidoRepository.getTopFuncionaios()).thenReturn(List.of(new Object()));
+
+        List<Object> responseList = funcionarioService.getTop();
+
+        assertNotNull(responseList);
+        assertEquals(Object.class, responseList.get(INDEX).getClass());
     }
 
     @Test
