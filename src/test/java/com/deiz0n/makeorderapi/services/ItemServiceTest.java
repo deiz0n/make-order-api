@@ -6,6 +6,7 @@ import com.deiz0n.makeorderapi.domain.entities.Categoria;
 import com.deiz0n.makeorderapi.domain.entities.Item;
 import com.deiz0n.makeorderapi.domain.exceptions.ItemNotFoundException;
 import com.deiz0n.makeorderapi.repositories.ItemRepository;
+import com.deiz0n.makeorderapi.repositories.PedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -39,6 +40,8 @@ class ItemServiceTest {
     @Mock
     private ItemRepository itemRepository;
     @Mock
+    private PedidoRepository pedidoRepository;
+    @Mock
     private ModelMapper mapper;
 
     private Item item;
@@ -68,6 +71,16 @@ class ItemServiceTest {
         assertEquals(PRECO, responseList.get(INDEX).getPreco());
         assertEquals(DESCRICAO, responseList.get(INDEX).getDescricao());
         assertEquals(QUANTIDADE_DISPONIVEL, responseList.get(INDEX).getQuantidadeDisponivel());
+    }
+
+    @Test
+    void whenGetTopThenReturnListOfObject() {
+        when(pedidoRepository.getTopFuncionaios()).thenReturn(List.of(new Object()));
+
+        List<Object> responseList = itemService.getTop();
+
+        assertNotNull(responseList);
+        assertEquals(Object.class, responseList.get(INDEX).getClass());
     }
 
     @Test
