@@ -30,7 +30,7 @@ public class EmailService {
     }
 
     @EventListener
-    private void send(SendEmailEvent event) {
+    public void send(SendEmailEvent event) {
         var message = new SimpleMailMessage();
 
         var url = uri+event.getSource().toString();

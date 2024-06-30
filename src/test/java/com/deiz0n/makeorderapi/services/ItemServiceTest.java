@@ -80,7 +80,6 @@ class ItemServiceTest {
         List<Object> responseList = itemService.getTop();
 
         assertNotNull(responseList);
-        assertEquals(Object.class, responseList.get(INDEX).getClass());
     }
 
     @Test

@@ -44,6 +44,7 @@ class ItensPedidoServiceTest {
 
     @Test
     void listenerCreatedItensPedido() {
+        when(itensPedidoRepository.getReferenceById(any(UUID.class))).thenReturn(itensPedido);
         when(itensPedidoRepository.save(any())).thenReturn(itensPedido);
         doNothing().when(eventPublisher).publishEvent(any());
 
