@@ -1,5 +1,6 @@
 package com.deiz0n.makeorderapi.controllers;
 
+import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.utils.requests.AuthenticationRequest;
 import com.deiz0n.makeorderapi.domain.utils.requests.ResetPasswordRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
@@ -61,7 +62,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/authenticated")
-    public ResponseEntity<?> authenticated(Authentication authentication) {
+    public ResponseEntity<FuncionarioDTO> authenticated(Authentication authentication) {
         var funcionario = funcionarioService.getBySession(authentication);
         return ResponseEntity.ok(funcionario);
     }
