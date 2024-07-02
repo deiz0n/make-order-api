@@ -51,6 +51,7 @@ public class Funcionario implements UserDetails {
     @OneToMany(mappedBy = "funcionario")
     private List<Pedido> pedidos;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (setor == Setor.ADMINISTRACAO)
