@@ -18,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -114,7 +115,7 @@ class AuthenticationControllerTest {
 
     @Test
     void whenAuthenticatedThenReturnHttpOk() throws Exception {
-        when(controller.authenticated(any())).thenReturn(ResponseEntity.ok(funcionarioDTO));
+        when(controller.authenticated(any(Authentication.class))).thenReturn(ResponseEntity.ok(funcionarioDTO));
 
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/v2.0/auth/authenticated")
