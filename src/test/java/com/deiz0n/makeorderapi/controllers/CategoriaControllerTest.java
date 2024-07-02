@@ -40,8 +40,6 @@ class CategoriaControllerTest {
 
     @MockBean
     private CategoriaController controller;
-    @MockBean
-    private CategoriaService service;
     @Autowired
     private MockMvc mockMvc;
 

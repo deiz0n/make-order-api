@@ -2,13 +2,16 @@ package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
+import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.FuncionarioService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +38,7 @@ public class FuncionarioController {
     }
 
     @GetMapping("/top-sales")
-    public ResponseEntity<?> getTopFuncionarios() {
+    public ResponseEntity<List<Object>> getTopFuncionarios() {
         var funcionarios = service.getTop();
         return ResponseEntity.ok(funcionarios);
     }
@@ -54,9 +57,17 @@ public class FuncionarioController {
 
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteFuncionario(@PathVariable UUID id) {
+    public ResponseEntity<ResponseRequest> deleteFuncionario(@PathVariable UUID id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
+
+        var response = new ResponseRequest(
+                Instant.now(),
+                "Recurso excluído",
+                String.format("O funcionário com id: {%s} foi excluído com sucesso", id.toString()),
+                HttpStatus.NO_CONTENT.value()
+        );
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 
     @Transactional
