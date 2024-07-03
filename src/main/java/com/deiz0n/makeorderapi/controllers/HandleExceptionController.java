@@ -1,7 +1,9 @@
 package com.deiz0n.makeorderapi.controllers;
 
+import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import com.deiz0n.makeorderapi.domain.exceptions.*;
 import com.deiz0n.makeorderapi.domain.utils.responses.ErrorResponse;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.Objects;
 
 @ControllerAdvice
 public class HandleExceptionController extends ResponseEntityExceptionHandler {
@@ -88,13 +92,26 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+
+        var detail = new StringBuilder();
+
+        if (ex.getCause().toString().contains("Setor"))
+            detail.append("Os cargos disponíveis são: [GARCOM, COZINHA, ADMINISTRACAO]");
+        if (ex.getCause().toString().contains("FormaPagamento"))
+            detail.append("As formas de pagamentos disponíveis são: [PIX, DINHEIRO, CREDITO, DEBITO]");
+        if (ex.getCause().toString().contains("StatusPedido"))
+            detail.append("Os status do pedido são: [PENDENTE, CONFIRMADO, CONCLUIDO]");
+        if (detail.isEmpty())
+            detail.append("O JSON informado possui formato inválido");
+
         var error = new ErrorResponse(
                 Instant.now(),
                 "Formato inválido",
-                "O JSON informado possui formato inválido",
+                detail.toString(),
                 HttpStatus.BAD_REQUEST,
                 request.getDescription(false)
         );
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
