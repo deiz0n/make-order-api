@@ -2,12 +2,15 @@ package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
+import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.PedidoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,9 +50,17 @@ public class PedidoController {
 
     @Transactional
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deletePedido(@PathVariable UUID id) {
+    public ResponseEntity<ResponseRequest> deletePedido(@PathVariable UUID id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
+
+        var response = new ResponseRequest(
+                Instant.now(),
+                "Recurso excluído",
+                String.format("O pedido com id: {%s} foi excluído com sucesso", id.toString()),
+                HttpStatus.NO_CONTENT.value()
+        );
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 
     @Transactional
