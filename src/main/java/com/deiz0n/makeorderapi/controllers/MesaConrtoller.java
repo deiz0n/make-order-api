@@ -2,12 +2,16 @@ package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.dtos.MesaDTO;
 import com.deiz0n.makeorderapi.domain.entities.Mesa;
+import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.MesaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +37,7 @@ public class MesaConrtoller {
         return ResponseEntity.ok(mesa);
     }
 
+    @Transactional
     @PostMapping("/create")
     public ResponseEntity<MesaDTO> createMesa(@RequestBody Mesa request) {
         var mesa = service.create(request);
@@ -44,9 +49,18 @@ public class MesaConrtoller {
         return ResponseEntity.created(uri).body(mesa);
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMesa(@PathVariable UUID id) {
+    public ResponseEntity<ResponseRequest> deleteMesa(@PathVariable UUID id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();
+
+        var response = new ResponseRequest(
+                Instant.now(),
+                "Recurso excluído",
+                String.format("A mesa com id: {%s} foi excluída com sucesso", id.toString()),
+                HttpStatus.NO_CONTENT.value()
+        );
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 }
