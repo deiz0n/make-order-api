@@ -50,7 +50,7 @@ public class MesaConrtoller {
     }
 
     @Transactional
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<ResponseRequest> deleteMesa(@PathVariable UUID id) {
         service.delete(id);
 
