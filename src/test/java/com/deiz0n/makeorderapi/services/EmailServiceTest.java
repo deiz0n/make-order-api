@@ -2,7 +2,6 @@ package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.events.SendEmailEvent;
-
 import com.deiz0n.makeorderapi.domain.exceptions.SendEmailException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

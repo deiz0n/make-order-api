@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.yaml.snakeyaml.events.Event;
 
 import java.time.Instant;
 import java.util.List;

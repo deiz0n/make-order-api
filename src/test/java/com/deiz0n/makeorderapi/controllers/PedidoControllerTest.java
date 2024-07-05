@@ -1,9 +1,11 @@
 package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
-import com.deiz0n.makeorderapi.domain.dtos.MesaDTO;
 import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
-import com.deiz0n.makeorderapi.domain.entities.*;
+import com.deiz0n.makeorderapi.domain.entities.Comanda;
+import com.deiz0n.makeorderapi.domain.entities.Funcionario;
+import com.deiz0n.makeorderapi.domain.entities.Mesa;
+import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.enums.FormaPagamento;
 import com.deiz0n.makeorderapi.domain.enums.StatusPedido;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
@@ -11,7 +13,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,11 +25,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.net.URI;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;

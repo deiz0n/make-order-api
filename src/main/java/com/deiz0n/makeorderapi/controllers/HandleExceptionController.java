@@ -1,9 +1,7 @@
 package com.deiz0n.makeorderapi.controllers;
 
-import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import com.deiz0n.makeorderapi.domain.exceptions.*;
 import com.deiz0n.makeorderapi.domain.utils.responses.ErrorResponse;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,8 +22,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Objects;
 
 @ControllerAdvice
 public class HandleExceptionController extends ResponseEntityExceptionHandler {
@@ -46,19 +42,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<ErrorResponse> handleResourceExistingExcepion(ResourceExistingException exception, HttpServletRequest request) {
         var error = new ErrorResponse(
                 Instant.now(),
-                "Recurdo existente",
-                exception.getMessage(),
-                HttpStatus.CONFLICT,
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
-    }
-
-    @ExceptionHandler({DataIntegrityException.class})
-    public ResponseEntity<ErrorResponse> handleDataIntegrityException(DataIntegrityException exception, HttpServletRequest request) {
-        var error = new ErrorResponse(
-                Instant.now(),
-                "Recurdo em uso",
+                "Recurso existente",
                 exception.getMessage(),
                 HttpStatus.CONFLICT,
                 request.getRequestURI()
@@ -178,18 +162,6 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
                 request.getRequestURI()
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
-    }
-
-    @ExceptionHandler({GenerateCodeException.class})
-    public ResponseEntity<ErrorResponse> handleGenerateCodeException(GenerateCodeException exception, HttpServletRequest request) {
-        var error = new ErrorResponse(
-                Instant.now(),
-                "Erro no servidor interno",
-                exception.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                request.getRequestURI()
-        );
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
     @ExceptionHandler({SendEmailException.class})

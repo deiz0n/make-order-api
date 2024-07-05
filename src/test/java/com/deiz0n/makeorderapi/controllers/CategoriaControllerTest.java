@@ -3,7 +3,6 @@ package com.deiz0n.makeorderapi.controllers;
 import com.deiz0n.makeorderapi.domain.dtos.CategoriaDTO;
 import com.deiz0n.makeorderapi.domain.entities.Categoria;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
-import com.deiz0n.makeorderapi.services.CategoriaService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +27,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc

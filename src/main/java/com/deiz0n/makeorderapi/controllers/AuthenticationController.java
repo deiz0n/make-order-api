@@ -2,10 +2,10 @@ package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.utils.requests.AuthenticationRequest;
+import com.deiz0n.makeorderapi.domain.utils.requests.RecoveryPasswordRequest;
 import com.deiz0n.makeorderapi.domain.utils.requests.ResetPasswordRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.domain.utils.responses.TokenResponse;
-import com.deiz0n.makeorderapi.domain.utils.requests.RecoveryPasswordRequest;
 import com.deiz0n.makeorderapi.services.AuthenticationService;
 import com.deiz0n.makeorderapi.services.FuncionarioService;
 import jakarta.validation.Valid;
