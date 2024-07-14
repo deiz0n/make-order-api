@@ -56,23 +56,6 @@ class ItemControllerTest {
     }
 
     @Test
-    void whenGetItensThenReturnHttpOk() throws Exception {
-        when(controller.getItens()).thenReturn(ResponseEntity.ok(List.of(itemDTO)));
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/api/v2.0/itens")
-                .accept(MediaType.APPLICATION_JSON)
-                    .with(csrf())
-                    .with(user("dudu")))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(jsonPath("$[0].nome").value(itemDTO.getNome()))
-                .andExpect(jsonPath("$[0].preco").value(itemDTO.getPreco().toString()))
-                .andExpect(jsonPath("$[0].descricao").value(itemDTO.getDescricao()))
-                .andExpect(jsonPath("$[0].quantidade_disponivel").value(itemDTO.getQuantidadeDisponivel()));
-    }
-
-    @Test
     void whenGetItemThenReturnHttpOk() throws Exception {
         when(controller.getItem(any(UUID.class))).thenReturn(ResponseEntity.ok(itemDTO));
 

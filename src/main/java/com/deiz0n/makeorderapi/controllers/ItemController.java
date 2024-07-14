@@ -24,7 +24,7 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping
+    @Deprecated
     public ResponseEntity<List<ItemDTO>> getItens() {
         var pedidos = itemService.getAll();
         return ResponseEntity.ok(pedidos);
