@@ -9,11 +9,17 @@ import java.util.UUID;
 
 public interface PedidoRepository extends JpaRepository<Pedido, UUID> {
 
+    @Query("from tb_pedido p left join fetch tb_itens_pedido ip on ip.pedido.id = p.id " +
+            "left join fetch tb_funcionario f on p.funcionario.id = f.id " +
+            "left join fetch tb_comanda c on p.comanda.id = c.id " +
+            "left join fetch tb_mesa m on p.mesa.id = m.id")
+    List<Pedido> findAll();
+
     @Query("SELECT " +
                 "I.item AS ITEM, " +
                 "COUNT(P.id) AS QNTD_VENDAS " +
             "FROM tb_pedido P " +
-            "INNER JOIN tb_itens_pedido I " +
+            "JOIN FETCH tb_itens_pedido I " +
             "ON P.id = I.pedido.id " +
             "GROUP BY I.item " +
             "ORDER BY QNTD_VENDAS DESC " +
@@ -28,7 +34,7 @@ public interface PedidoRepository extends JpaRepository<Pedido, UUID> {
                 "F.setor) AS FUNCIONARIO, " +
                 "COUNT(P.funcionario.id) AS VENDAS " +
             "FROM tb_pedido P " +
-            "INNER JOIN tb_funcionario F " +
+            "JOIN FETCH tb_funcionario F " +
             "ON P.funcionario.id = F.id " +
             "GROUP BY F.id " +
             "ORDER BY VENDAS DESC " +
