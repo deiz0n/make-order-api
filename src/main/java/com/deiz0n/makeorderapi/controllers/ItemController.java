@@ -4,6 +4,8 @@ import com.deiz0n.makeorderapi.domain.dtos.ItemDTO;
 import com.deiz0n.makeorderapi.domain.entities.Item;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.ItemService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2.0/itens")
+@Tag(name = "Item")
 public class ItemController {
 
     private ItemService itemService;
@@ -30,18 +33,21 @@ public class ItemController {
         return ResponseEntity.ok(pedidos);
     }
 
+    @Operation(description = "Retorna determinado item")
     @GetMapping("/{id}")
     public ResponseEntity<ItemDTO> getItem(@PathVariable UUID id) {
         var pedido = itemService.getById(id);
         return ResponseEntity.ok(pedido);
     }
 
+    @Operation(description = "Retorna os 3 itens mais vendidos")
     @GetMapping("/top-sales")
     public ResponseEntity<List<Object>> getTopItens() {
         var itens = itemService.getTop();
         return ResponseEntity.ok(itens);
     }
 
+    @Operation(description = "Responsável por criar um novo item")
     @Transactional
     @PostMapping("/create")
     public ResponseEntity<ItemDTO> createItem(@RequestBody Item request) {
@@ -54,6 +60,7 @@ public class ItemController {
         return ResponseEntity.created(uri).body(pedido);
     }
 
+    @Operation(description = "Responsável por excluir um item")
     @Transactional
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseRequest> deleteItem(@PathVariable UUID id) {
@@ -69,6 +76,7 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 
+    @Operation(description = "Responsável por atualizar os dados de determinado item")
     @Transactional
     @PutMapping("/update/{id}")
     public ResponseEntity<ItemDTO> updateItem(@PathVariable UUID id, @RequestBody Item request) {

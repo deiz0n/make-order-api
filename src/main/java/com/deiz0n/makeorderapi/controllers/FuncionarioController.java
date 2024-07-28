@@ -4,6 +4,8 @@ import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.FuncionarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2.0/funcionarios")
+@Tag(name = "Funcionário")
 public class FuncionarioController {
 
     private FuncionarioService service;
@@ -25,24 +28,28 @@ public class FuncionarioController {
         this.service = service;
     }
 
+    @Operation(description = "Retorna todos os usuários")
     @GetMapping
     public ResponseEntity<List<FuncionarioDTO>> getFuncionarios() {
         var funcionarios = service.getAll();
         return ResponseEntity.ok(funcionarios);
     }
 
+    @Operation(description = "Retorna determinada categoria")
     @GetMapping("/{id}")
     public ResponseEntity<FuncionarioDTO> getFuncionario(@PathVariable UUID id) {
         var funcionario = service.getById(id);
         return ResponseEntity.ok(funcionario);
     }
 
+    @Operation(description = "Retorna os 3 funcionários com mais vendas realizadas")
     @GetMapping("/top-sales")
     public ResponseEntity<List<Object>> getTopFuncionarios() {
         var funcionarios = service.getTop();
         return ResponseEntity.ok(funcionarios);
     }
 
+    @Operation(description = "Responsável por criar um novo usuário")
     @Transactional
     @PostMapping("/create")
     public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody @Valid Funcionario request) {
@@ -55,6 +62,7 @@ public class FuncionarioController {
         return ResponseEntity.created(uri).body(funcionario);
     }
 
+    @Operation(description = "Responsável por excluir um usuário")
     @Transactional
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseRequest> deleteFuncionario(@PathVariable UUID id) {
@@ -70,6 +78,7 @@ public class FuncionarioController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 
+    @Operation(description = "Responsável por atualizar os dados de determinada usuário")
     @Transactional
     @PutMapping("/update/{id}")
     public ResponseEntity<FuncionarioDTO> updateFuncionario(@PathVariable UUID id, @RequestBody @Valid Funcionario request) {

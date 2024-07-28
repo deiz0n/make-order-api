@@ -4,6 +4,8 @@ import com.deiz0n.makeorderapi.domain.dtos.PedidoDTO;
 import com.deiz0n.makeorderapi.domain.entities.Pedido;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.PedidoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2.0/pedidos")
+@Tag(name = "Pedido")
 public class PedidoController {
 
     private PedidoService service;
@@ -24,18 +27,21 @@ public class PedidoController {
         this.service = service;
     }
 
+    @Operation(description = "Retorna todos os pedidos")
     @GetMapping
     public ResponseEntity<List<PedidoDTO>> getPedidos() {
         var pedidos = service.getAll();
         return ResponseEntity.ok(pedidos);
     }
 
+    @Operation(description = "Retorna determinado pedido")
     @GetMapping("/{id}")
     public ResponseEntity<PedidoDTO> getPedido(@PathVariable UUID id) {
         var pedido = service.getById(id);
         return ResponseEntity.ok(pedido);
     }
 
+    @Operation(description = "Responsável por criar um novo pedido")
     @Transactional
     @PostMapping("/create")
     public ResponseEntity<PedidoDTO> createPedido(@RequestBody Pedido request) {
@@ -48,6 +54,7 @@ public class PedidoController {
         return ResponseEntity.created(uri).body(pedido);
     }
 
+    @Operation(description = "Responsável por excluir um pedido")
     @Transactional
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseRequest> deletePedido(@PathVariable UUID id) {
@@ -63,6 +70,7 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 
+    @Operation(description = "Responsável por atualizar os dados de determinado pedido")
     @Transactional
     @PutMapping("/update/{id}")
     public ResponseEntity<PedidoDTO> updatePedido(@PathVariable UUID id, @RequestBody Pedido request) {
@@ -70,6 +78,7 @@ public class PedidoController {
         return ResponseEntity.ok(pedido);
     }
 
+    @Operation(description = "Responsável por atualizar os status de determinado pedido")
     @Transactional
     @PatchMapping("/update/status/{id}")
     public ResponseEntity<PedidoDTO> updateStatus(@PathVariable UUID id, @RequestBody Pedido request) {

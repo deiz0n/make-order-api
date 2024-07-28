@@ -4,6 +4,8 @@ import com.deiz0n.makeorderapi.domain.dtos.MesaDTO;
 import com.deiz0n.makeorderapi.domain.entities.Mesa;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.MesaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v2.0/mesas")
+@Tag(name = "Mesa")
 public class MesaConrtoller {
 
     private MesaService service;
@@ -25,18 +28,21 @@ public class MesaConrtoller {
         this.service = service;
     }
 
+    @Operation(description = "Retorna todos as mesas")
     @GetMapping
     public ResponseEntity<List<MesaDTO>> getMesas() {
         var mesas = service.getAll();
         return ResponseEntity.ok(mesas);
     }
 
+    @Operation(description = "Retorna determinada mesa")
     @GetMapping("/{id}")
     public ResponseEntity<MesaDTO> getMesa(@PathVariable UUID id) {
         var mesa = service.getById(id);
         return ResponseEntity.ok(mesa);
     }
 
+    @Operation(description = "Responsável criar um novo usuário")
     @Transactional
     @PostMapping("/create")
     public ResponseEntity<MesaDTO> createMesa(@RequestBody Mesa request) {
@@ -49,6 +55,7 @@ public class MesaConrtoller {
         return ResponseEntity.created(uri).body(mesa);
     }
 
+    @Operation(description = "Responsável por excluir uma mesa")
     @Transactional
     @DeleteMapping("delete/{id}")
     public ResponseEntity<ResponseRequest> deleteMesa(@PathVariable UUID id) {
