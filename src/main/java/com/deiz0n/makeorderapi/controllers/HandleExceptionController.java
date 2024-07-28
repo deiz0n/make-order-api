@@ -17,6 +17,7 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -26,6 +27,7 @@ import java.time.Instant;
 @ControllerAdvice
 public class HandleExceptionController extends ResponseEntityExceptionHandler {
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({ResourceNotFoundException.class})
     public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException exception, HttpServletRequest request) {
         var error = new ErrorResponse(
@@ -38,6 +40,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({ResourceExistingException.class})
     public ResponseEntity<ErrorResponse> handleResourceExistingExcepion(ResourceExistingException exception, HttpServletRequest request) {
         var error = new ErrorResponse(
@@ -50,6 +53,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ResourceIsEmptyException.class})
     public ResponseEntity<ErrorResponse> handleResourceIsEmptyException(ResourceIsEmptyException exception, HttpServletRequest request) {
         var error = new ErrorResponse(
@@ -62,6 +66,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var error = new ErrorResponse(
@@ -74,6 +79,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
@@ -99,6 +105,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @Override
     protected ResponseEntity<Object> handleNoResourceFoundException(NoResourceFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var error = new ErrorResponse(
@@ -111,6 +118,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     @Override
     protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         var error = new ErrorResponse(
@@ -123,11 +131,13 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(error);
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler({AuthenticationException.class})
     public ResponseEntity<?> handlerAuthenticationException() {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({InsufficientAuthenticationException.class})
     public ResponseEntity<ErrorResponse> handleInsufficientAuthenticationException(HttpServletRequest request) {
         var error = new ErrorResponse(
@@ -140,6 +150,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({BadCredentialsException.class, InternalAuthenticationServiceException.class})
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(HttpServletRequest request) {
         var error = new ErrorResponse(
@@ -152,6 +163,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(HttpServletRequest request) {
         var error = new ErrorResponse(
@@ -176,6 +188,7 @@ public class HandleExceptionController extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({PasswordNotEqualsException.class})
     public ResponseEntity<ErrorResponse> handlePasswordNotEqualsException(PasswordNotEqualsException exception, HttpServletRequest request) {
         var error = new ErrorResponse(
