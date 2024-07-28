@@ -44,6 +44,8 @@ public class SecurityConfig  {
                         .requestMatchers("api/v2.0/auth/login").permitAll()
                         .requestMatchers("api/v2.0/auth/recovery**").permitAll()
 
+                        .requestMatchers("swagger-ui/**","/v3/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
