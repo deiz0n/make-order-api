@@ -14,6 +14,6 @@ public class MesaDTO {
 
     private UUID id;
     private Integer numero;
-    private String client;
+    private String cliente;
 
 }
