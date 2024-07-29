@@ -1,7 +1,6 @@
 package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.dtos.ItemDTO;
-import com.deiz0n.makeorderapi.domain.entities.Item;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,7 +49,7 @@ public class ItemController {
     @Operation(description = "Responsável por criar um novo item")
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<ItemDTO> createItem(@RequestBody Item request) {
+    public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO request) {
         var pedido = itemService.create(request);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -79,7 +78,7 @@ public class ItemController {
     @Operation(description = "Responsável por atualizar os dados de determinado item")
     @Transactional
     @PutMapping("/update/{id}")
-    public ResponseEntity<ItemDTO> updateItem(@PathVariable UUID id, @RequestBody Item request) {
+    public ResponseEntity<ItemDTO> updateItem(@PathVariable UUID id, @RequestBody ItemDTO request) {
         var item = itemService.update(id, request);
         return ResponseEntity.ok(item);
     }

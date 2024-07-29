@@ -1,7 +1,6 @@
 package com.deiz0n.makeorderapi.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,7 +28,6 @@ public class Item {
     private BigDecimal preco;
     @Column(nullable = false, columnDefinition = "text")
     private String descricao;
-    @JsonProperty(value = "quantidade_disponivel")
     @Column(nullable = false)
     private Integer quantidadeDisponivel;
 

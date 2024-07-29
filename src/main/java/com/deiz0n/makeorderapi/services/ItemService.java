@@ -46,9 +46,10 @@ public class ItemService {
         return pedidoRepository.getTopItens();
     }
 
-    public ItemDTO create(Item newItem) {
-        itemRepository.save(newItem);
-        return mapper.map(newItem, ItemDTO.class);
+    public ItemDTO create(ItemDTO newItem) {
+        var item = mapper.map(newItem, Item.class);
+        itemRepository.save(item);
+        return newItem;
     }
 
     public void delete(UUID id) {
@@ -56,7 +57,7 @@ public class ItemService {
         itemRepository.deleteById(item.getId());
     }
 
-    public ItemDTO update(UUID id, Item newData) {
+    public ItemDTO update(UUID id, ItemDTO newData) {
         try {
             var item = itemRepository.getReferenceById(id);
 
