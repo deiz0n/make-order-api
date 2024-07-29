@@ -44,7 +44,7 @@ public class CategoriaController {
     @Operation(description = "Responsável por criar uma nova categoria")
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<CategoriaDTO> createCategoria(@RequestBody Categoria request) {
+    public ResponseEntity<CategoriaDTO> createCategoria(@RequestBody CategoriaDTO request) {
         var categoria = service.create(request);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()

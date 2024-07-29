@@ -36,10 +36,11 @@ public class CategoriaService {
                 .orElseThrow(() -> new CategoriaNotFoundException("Não foi possível encontrar uma categoria com o Id informado"));
     }
 
-    public CategoriaDTO create(Categoria newCategoria) {
+    public CategoriaDTO create(CategoriaDTO newCategoria) {
         if (categoriaRepository.findByNome(newCategoria.getNome()).isPresent()) throw new CategoriaExistingException("Categoria já cadastrada");
-        var categoria = categoriaRepository.save(newCategoria);
-        return mapper.map(categoria, CategoriaDTO.class);
+        var categoria = mapper.map(newCategoria, Categoria.class);
+        categoriaRepository.save(categoria);
+        return newCategoria;
     }
 
     public void delete (UUID id) {
