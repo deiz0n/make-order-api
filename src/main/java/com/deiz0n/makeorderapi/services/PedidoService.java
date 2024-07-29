@@ -52,7 +52,7 @@ public class PedidoService {
                 .orElseThrow(() -> new PedidoNotFoundException("Não foi possível encontrar um pedido com o Id informado"));
     }
 
-    public PedidoDTO create(Pedido newPedido) {
+    public PedidoDTO create(PedidoDTO newPedido) {
         newPedido.setCodigo((int) (Math.random() * MAX) + MIN);
         newPedido.setData(Instant.now());
         newPedido.setStatus(StatusPedido.PENDENTE);
@@ -64,14 +64,16 @@ public class PedidoService {
         var comandaEvent = new CreatedComandaEvent(this, newPedido.getComanda());
         publisher.publishEvent(comandaEvent);
 
-        var pedido = pedidoRepository.save(newPedido);
+        var pedido = mapper.map(newPedido, Pedido.class);
+
+        pedidoRepository.save(pedido);
 
         for (ItensPedido item : pedido.getItens()) {
             item.setPedido(pedido);
             var createdEvent = new CreatedItensPedidoEvent(this, item);
             publisher.publishEvent(createdEvent);
         }
-        return mapper.map(pedido, PedidoDTO.class);
+        return newPedido;
     }
 
     public void delete(UUID id) {
@@ -79,7 +81,7 @@ public class PedidoService {
         pedidoRepository.deleteById(pedido.getId());
     }
 
-    public PedidoDTO update(UUID id, Pedido newData) {
+    public PedidoDTO update(UUID id, PedidoDTO newData) {
         try {
             var pedido = pedidoRepository.getReferenceById(id);
 
@@ -106,7 +108,7 @@ public class PedidoService {
         }
     }
 
-    public PedidoDTO updateStatus(UUID id, Pedido newStatus) {
+    public PedidoDTO updateStatus(UUID id, PedidoDTO newStatus) {
         try {
             var pedido = pedidoRepository.getReferenceById(id);
 

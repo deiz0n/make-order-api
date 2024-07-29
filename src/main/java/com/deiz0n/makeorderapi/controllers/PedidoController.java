@@ -44,7 +44,7 @@ public class PedidoController {
     @Operation(description = "Responsável por criar um novo pedido")
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<PedidoDTO> createPedido(@RequestBody Pedido request) {
+    public ResponseEntity<PedidoDTO> createPedido(@RequestBody PedidoDTO request) {
         var pedido = service.create(request);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -73,7 +73,7 @@ public class PedidoController {
     @Operation(description = "Responsável por atualizar os dados de determinado pedido")
     @Transactional
     @PutMapping("/update/{id}")
-    public ResponseEntity<PedidoDTO> updatePedido(@PathVariable UUID id, @RequestBody Pedido request) {
+    public ResponseEntity<PedidoDTO> updatePedido(@PathVariable UUID id, @RequestBody PedidoDTO request) {
         var pedido = service.update(id, request);
         return ResponseEntity.ok(pedido);
     }
@@ -81,7 +81,7 @@ public class PedidoController {
     @Operation(description = "Responsável por atualizar os status de determinado pedido")
     @Transactional
     @PatchMapping("/update/status/{id}")
-    public ResponseEntity<PedidoDTO> updateStatus(@PathVariable UUID id, @RequestBody Pedido request) {
+    public ResponseEntity<PedidoDTO> updateStatus(@PathVariable UUID id, @RequestBody PedidoDTO request) {
         var pedido = service.updateStatus(id, request);
         return ResponseEntity.ok(pedido);
     }

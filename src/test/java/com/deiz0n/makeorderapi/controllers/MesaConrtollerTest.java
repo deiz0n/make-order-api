@@ -59,7 +59,7 @@ class MesaConrtollerTest {
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(jsonPath("$[0].id").value(mesaDTO.getId().toString()))
                 .andExpect(jsonPath("$[0].numero").value(mesaDTO.getNumero()))
-                .andExpect(jsonPath("$[0].client").value(mesaDTO.getCliente()));
+                .andExpect(jsonPath("$[0].cliente").value(mesaDTO.getCliente()));
     }
 
     @Test
@@ -75,7 +75,7 @@ class MesaConrtollerTest {
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(jsonPath("$.id").value(mesaDTO.getId().toString()))
                 .andExpect(jsonPath("$.numero").value(mesaDTO.getNumero()))
-                .andExpect(jsonPath("$.client").value(mesaDTO.getCliente()));
+                .andExpect(jsonPath("$.cliente").value(mesaDTO.getCliente()));
     }
 
     @Test
@@ -93,7 +93,7 @@ class MesaConrtollerTest {
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(jsonPath("$.id").value(mesaDTO.getId().toString()))
                 .andExpect(jsonPath("$.numero").value(mesaDTO.getNumero()))
-                .andExpect(jsonPath("$.client").value(mesaDTO.getCliente()));
+                .andExpect(jsonPath("$.cliente").value(mesaDTO.getCliente()));
     }
 
     @Test
