@@ -45,7 +45,7 @@ public class MesaConrtoller {
     @Operation(description = "Responsável criar um novo usuário")
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<MesaDTO> createMesa(@RequestBody Mesa request) {
+    public ResponseEntity<MesaDTO> createMesa(@RequestBody MesaDTO request) {
         var mesa = service.create(request);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
