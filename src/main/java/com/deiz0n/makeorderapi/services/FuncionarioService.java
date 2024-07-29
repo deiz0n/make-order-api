@@ -2,6 +2,7 @@ package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
+import com.deiz0n.makeorderapi.domain.dtos.NewFuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.events.ResetedPasswordEvent;
 import com.deiz0n.makeorderapi.domain.events.SendEmailEvent;
 import com.deiz0n.makeorderapi.domain.exceptions.FuncionarioExistingException;
@@ -56,13 +57,15 @@ public class FuncionarioService {
         return pedidoRepository.getTopFuncionaios();
     }
 
-    public FuncionarioDTO create(Funcionario newFuncionario) {
+    public FuncionarioDTO create(NewFuncionarioDTO newFuncionario) {
         if (funcionarioRepository.findByCpf(newFuncionario.getCpf()).isPresent()) throw new FuncionarioExistingException("CPF já vinculado a um funcionário");
         if (funcionarioRepository.findByEmail(newFuncionario.getEmail()).isPresent()) throw new FuncionarioExistingException("Email já vinculado a um funcionário");
 
         newFuncionario.setSenha(cryptPasswordEncoder.encode(newFuncionario.getSenha()));
 
-        funcionarioRepository.save(newFuncionario);
+        var funcionario = mapper.map(newFuncionario, Funcionario.class);
+        funcionarioRepository.save(funcionario);
+
         return mapper.map(newFuncionario, FuncionarioDTO.class);
     }
 
@@ -71,7 +74,7 @@ public class FuncionarioService {
         funcionarioRepository.deleteById(funcionario.getId());
     }
 
-    public FuncionarioDTO update(UUID id, Funcionario newData) {
+    public FuncionarioDTO update(UUID id, NewFuncionarioDTO newData) {
         try {
             var funcionario = funcionarioRepository.getReferenceById(id);
 

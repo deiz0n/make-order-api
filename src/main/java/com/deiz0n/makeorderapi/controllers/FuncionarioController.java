@@ -1,7 +1,7 @@
 package com.deiz0n.makeorderapi.controllers;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
-import com.deiz0n.makeorderapi.domain.entities.Funcionario;
+import com.deiz0n.makeorderapi.domain.dtos.NewFuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.utils.responses.ResponseRequest;
 import com.deiz0n.makeorderapi.services.FuncionarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,7 +52,7 @@ public class FuncionarioController {
     @Operation(description = "Responsável por criar um novo usuário")
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody @Valid Funcionario request) {
+    public ResponseEntity<FuncionarioDTO> createFuncionario(@RequestBody @Valid NewFuncionarioDTO request) {
         var funcionario = service.create(request);
         var uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -81,7 +81,7 @@ public class FuncionarioController {
     @Operation(description = "Responsável por atualizar os dados de determinada usuário")
     @Transactional
     @PutMapping("/update/{id}")
-    public ResponseEntity<FuncionarioDTO> updateFuncionario(@PathVariable UUID id, @RequestBody @Valid Funcionario request) {
+    public ResponseEntity<FuncionarioDTO> updateFuncionario(@PathVariable UUID id, @RequestBody @Valid NewFuncionarioDTO request) {
         var funcionario = service.update(id, request);
         return ResponseEntity.ok(funcionario);
     }
