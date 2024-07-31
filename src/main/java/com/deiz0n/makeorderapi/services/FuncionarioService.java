@@ -63,10 +63,20 @@ public class FuncionarioService {
 
         newFuncionario.setSenha(cryptPasswordEncoder.encode(newFuncionario.getSenha()));
 
-        var funcionario = mapper.map(newFuncionario, Funcionario.class);
+        var funcionario = new Funcionario(
+                null,
+                newFuncionario.getNome(),
+                newFuncionario.getCpf(),
+                newFuncionario.getEmail(),
+                newFuncionario.getSenha(),
+                newFuncionario.getDataNascimento(),
+                newFuncionario.getSetor(),
+                null,
+                List.of()
+        );
         funcionarioRepository.save(funcionario);
 
-        return mapper.map(newFuncionario, FuncionarioDTO.class);
+        return mapper.map(funcionario, FuncionarioDTO.class);
     }
 
     public void delete(UUID id) {
