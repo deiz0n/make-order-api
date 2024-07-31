@@ -90,33 +90,33 @@ class MesaServiceTest {
         assertEquals("Não foi possível encontrar uma mesa com o id informado", exception.getMessage());
     }
 
-//    @Test
-//    void whenCreateThenReturnMesaDTO() {
-//        when(repository.findByNumero(anyInt())).thenReturn(Optional.empty());
-//        when(repository.save(any())).thenReturn(mesa);
-//        when(mapper.map(any(), any())).thenReturn(mesaDTO);
-//
-//        MesaDTO response = service.create(mesa);
-//
-//        assertNotNull(response);
-//        assertEquals(MesaDTO.class, response.getClass());
-//
-//        assertEquals(ID, response.getId());
-//        assertEquals(NUMERO, response.getNumero());
-//        assertEquals(CLIENTE, response.getCliente());
-//    }
+    @Test
+    void whenCreateThenReturnMesaDTO() {
+        when(repository.findByNumero(anyInt())).thenReturn(Optional.empty());
+        when(mapper.map(any(), any())).thenReturn(mesa);
+        when(repository.save(any())).thenReturn(mesa);
 
-//    @Test
-//    void whenCreateThenThrowMesaExistingException() {
-//        when(repository.findByNumero(anyInt())).thenReturn(optional);
-//
-//        var exception = assertThrows(
-//                MesaExistingException.class,
-//                () -> service.create(mesa)
-//        );
-//
-//        assertEquals("Mesa já cadastrada", exception.getMessage());
-//    }
+        MesaDTO response = service.create(mesaDTO);
+
+        assertNotNull(response);
+        assertEquals(MesaDTO.class, response.getClass());
+
+        assertEquals(ID, response.getId());
+        assertEquals(NUMERO, response.getNumero());
+        assertEquals(CLIENTE, response.getCliente());
+    }
+
+    @Test
+    void whenCreateThenThrowMesaExistingException() {
+        when(repository.findByNumero(anyInt())).thenReturn(optional);
+
+        var exception = assertThrows(
+                MesaExistingException.class,
+                () -> service.create(mesaDTO)
+        );
+
+        assertEquals("Mesa já cadastrada", exception.getMessage());
+    }
 
     @Test
     void whenDeleteThenDontReturn() {

@@ -90,11 +90,11 @@ class CategoriaServiceTest {
 
     }
 
-    //Bug
+    @Test
     void whenCreateThenReturnCategoriaDTO() {
-        when(repository.findByNome(any())).thenReturn(Optional.empty());
+        when(repository.findByNome(anyString())).thenReturn(Optional.empty());
+        when(mapper.map(any(), any())).thenReturn(categoria);
         when(repository.save(any())).thenReturn(categoria);
-        when(mapper.map(any(), any())).thenReturn(categoriaDTO);
 
         CategoriaDTO response = service.create(categoriaDTO);
 

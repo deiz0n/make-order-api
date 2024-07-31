@@ -1,6 +1,7 @@
 package com.deiz0n.makeorderapi.services;
 
 import com.deiz0n.makeorderapi.domain.dtos.FuncionarioDTO;
+import com.deiz0n.makeorderapi.domain.dtos.NewFuncionarioDTO;
 import com.deiz0n.makeorderapi.domain.entities.Funcionario;
 import com.deiz0n.makeorderapi.domain.enums.Setor;
 import com.deiz0n.makeorderapi.domain.events.ResetedPasswordEvent;
@@ -59,6 +60,7 @@ class FuncionarioServiceTest {
 
     private Funcionario funcionario;
     private FuncionarioDTO funcionarioDTO;
+    private NewFuncionarioDTO newFuncionarioDTO;
     private Optional<Funcionario> optional;
     private ResetedPasswordEvent passwordEvent;
     private SendEmailEvent emailEvent;
@@ -126,48 +128,48 @@ class FuncionarioServiceTest {
         assertEquals("Não foi possível encontrar um funcionário com o Id informado", exception.getMessage());
     }
 
-//    @Test
-//    void whenCreateThenReturnFuncionarioDTO() {
-//        when(funcionarioRepository.findByCpf(anyString())).thenReturn(Optional.empty());
-//        when(funcionarioRepository.findByEmail(anyString())).thenReturn(Optional.empty());
-//        when(funcionarioRepository.save(any())).thenReturn(funcionario);
-//        when(mapper.map(any(), any())).thenReturn(funcionarioDTO);
-//
-//        FuncionarioDTO response = funcionarioService.create(funcionario);
-//
-//        assertNotNull(response);
-//        assertEquals(FuncionarioDTO.class, response.getClass());
-//
-//        assertEquals(ID, response.getId());
-//        assertEquals(NOME, response.getNome());
-//        assertEquals(EMAIL, response.getEmail());
-//        assertEquals(DATA_NASCIMENTO, response.getDataNascimento());
-//        assertEquals(SETOR, response.getSetor());
-//    }
-//
-//    @Test
-//    void whenCreateThenThrowFuncionarioExistingExceptionCausedByCPF() {
-//        when(funcionarioRepository.findByCpf(anyString())).thenReturn(optional);
-//
-//        var exception = assertThrows(
-//                FuncionarioExistingException.class,
-//                () -> funcionarioService.create(funcionario)
-//        );
-//
-//        assertEquals("CPF já vinculado a um funcionário", exception.getMessage());
-//    }
+    @Test
+    void whenCreateThenReturnFuncionarioDTO() {
+        when(funcionarioRepository.findByCpf(anyString())).thenReturn(Optional.empty());
+        when(funcionarioRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(mapper.map(any(), any())).thenReturn(funcionarioDTO);
+        when(funcionarioRepository.save(any())).thenReturn(funcionario);
 
-//    @Test
-//    void whenCreateThenThrowFuncionarioExistingExceptionCausedByEmail() {
-//        when(funcionarioRepository.findByEmail(anyString())).thenReturn(optional);
-//
-//        var exception = assertThrows(
-//                FuncionarioExistingException.class,
-//                () -> funcionarioService.create(funcionario)
-//        );
-//
-//        assertEquals("Email já vinculado a um funcionário", exception.getMessage());
-//    }
+        FuncionarioDTO response = funcionarioService.create(newFuncionarioDTO);
+
+        assertNotNull(response);
+        assertEquals(FuncionarioDTO.class, response.getClass());
+
+        assertEquals(ID, response.getId());
+        assertEquals(NOME, response.getNome());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(DATA_NASCIMENTO, response.getDataNascimento());
+        assertEquals(SETOR, response.getSetor());
+    }
+
+    @Test
+    void whenCreateThenThrowFuncionarioExistingExceptionCausedByCPF() {
+        when(funcionarioRepository.findByCpf(anyString())).thenReturn(optional);
+
+        var exception = assertThrows(
+                FuncionarioExistingException.class,
+                () -> funcionarioService.create(newFuncionarioDTO)
+        );
+
+        assertEquals("CPF já vinculado a um funcionário", exception.getMessage());
+    }
+
+    @Test
+    void whenCreateThenThrowFuncionarioExistingExceptionCausedByEmail() {
+        when(funcionarioRepository.findByEmail(anyString())).thenReturn(optional);
+
+        var exception = assertThrows(
+                FuncionarioExistingException.class,
+                () -> funcionarioService.create(newFuncionarioDTO)
+        );
+
+        assertEquals("Email já vinculado a um funcionário", exception.getMessage());
+    }
 
     @Test
     void whenDeleteThenDontReturn() {
@@ -193,69 +195,69 @@ class FuncionarioServiceTest {
         assertEquals("Não foi possível encontrar um funcionário com o Id informado", exception.getMessage());
     }
 
-//    @Test
-//    void whenUpdateThenReturnFuncionarioDTO() {
-//        when(funcionarioRepository.getReferenceById(any(UUID.class))).thenReturn(funcionario);
-//        when(funcionarioRepository.findByCpf(anyString())).thenReturn(Optional.empty());
-//        when(funcionarioRepository.findByEmail(anyString())).thenReturn(Optional.empty());
-//        when(funcionarioRepository.save(any())).thenReturn(funcionario);
-//        when(mapper.map(any(), any())).thenReturn(funcionarioDTO);
-//
-//        FuncionarioDTO response = funcionarioService.update(ID, funcionario);
-//
-//        assertNotNull(response);
-//        assertEquals(FuncionarioDTO.class, response.getClass());
-//
-//        assertEquals(ID, response.getId());
-//        assertEquals(NOME, response.getNome());
-//        assertEquals(EMAIL, response.getEmail());
-//        assertEquals(DATA_NASCIMENTO, response.getDataNascimento());
-//        assertEquals(SETOR, response.getSetor());
-//    }
-//
-//    @Test
-//    void whenUpdateThenThrowFuncionarNotFoundException() {
-//        when(funcionarioRepository.getReferenceById(any(UUID.class))).thenReturn(null);
-//        when(funcionarioRepository.findByCpf(anyString())).thenReturn(Optional.empty());
-//        when(funcionarioRepository.findByEmail(anyString())).thenReturn(Optional.empty());
-//
-//        var exception = assertThrows(
-//                FuncionarioNotFoundException.class,
-//                () -> funcionarioService.update(ID, funcionario)
-//        );
-//
-//        assertEquals("Não foi possível encontrar um funcionário com o Id informado", exception.getMessage());
-//    }
-//
-//    @Test
-//    void whenUpdateThenThrowFuncionarioExistingExceptionCausedByCPF() {
-//        when(funcionarioRepository.getReferenceById(any(UUID.class))).thenReturn(funcionario);
-//        when(funcionarioRepository.findByCpf(anyString())).thenReturn(optional);
-//
-//        funcionario.setId(UUID.randomUUID());
-//
-//        var exception = assertThrows(
-//                FuncionarioExistingException.class,
-//                () -> funcionarioService.update(ID, funcionario)
-//        );
-//
-//        assertEquals("CPF já vinculado a um funcionário", exception.getMessage());
-//    }
-//
-//    @Test
-//    void whenUpdateThenThrowFuncionarioExistingExceptionCausedByEmail() {
-//        when(funcionarioRepository.getReferenceById(any(UUID.class))).thenReturn(funcionario);
-//        when(funcionarioRepository.findByEmail(anyString())).thenReturn(optional);
-//
-//        funcionario.setId(UUID.randomUUID());
-//
-//        var exception = assertThrows(
-//                FuncionarioExistingException.class,
-//                () -> funcionarioService.update(ID, funcionario)
-//        );
-//
-//        assertEquals("Email já vinculado a um funcionário", exception.getMessage());
-//    }
+    @Test
+    void whenUpdateThenReturnFuncionarioDTO() {
+        when(funcionarioRepository.getReferenceById(any(UUID.class))).thenReturn(funcionario);
+        when(funcionarioRepository.findByCpf(anyString())).thenReturn(Optional.empty());
+        when(funcionarioRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(funcionarioRepository.save(any())).thenReturn(funcionario);
+        when(mapper.map(any(), any())).thenReturn(funcionarioDTO);
+
+        FuncionarioDTO response = funcionarioService.update(ID, newFuncionarioDTO);
+
+        assertNotNull(response);
+        assertEquals(FuncionarioDTO.class, response.getClass());
+
+        assertEquals(ID, response.getId());
+        assertEquals(NOME, response.getNome());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(DATA_NASCIMENTO, response.getDataNascimento());
+        assertEquals(SETOR, response.getSetor());
+    }
+
+    @Test
+    void whenUpdateThenThrowFuncionarNotFoundException() {
+        when(funcionarioRepository.getReferenceById(any(UUID.class))).thenReturn(null);
+        when(funcionarioRepository.findByCpf(anyString())).thenReturn(Optional.empty());
+        when(funcionarioRepository.findByEmail(anyString())).thenReturn(Optional.empty());
+
+        var exception = assertThrows(
+                FuncionarioNotFoundException.class,
+                () -> funcionarioService.update(ID, newFuncionarioDTO)
+        );
+
+        assertEquals("Não foi possível encontrar um funcionário com o Id informado", exception.getMessage());
+    }
+
+    @Test
+    void whenUpdateThenThrowFuncionarioExistingExceptionCausedByCPF() {
+        when(funcionarioRepository.getReferenceById(any(UUID.class))).thenReturn(funcionario);
+        when(funcionarioRepository.findByCpf(anyString())).thenReturn(optional);
+
+        funcionario.setId(UUID.randomUUID());
+
+        var exception = assertThrows(
+                FuncionarioExistingException.class,
+                () -> funcionarioService.update(ID, newFuncionarioDTO)
+        );
+
+        assertEquals("CPF já vinculado a um funcionário", exception.getMessage());
+    }
+
+    @Test
+    void whenUpdateThenThrowFuncionarioExistingExceptionCausedByEmail() {
+        when(funcionarioRepository.getReferenceById(any(UUID.class))).thenReturn(funcionario);
+        when(funcionarioRepository.findByEmail(anyString())).thenReturn(optional);
+
+        funcionario.setId(UUID.randomUUID());
+
+        var exception = assertThrows(
+                FuncionarioExistingException.class,
+                () -> funcionarioService.update(ID, newFuncionarioDTO)
+        );
+
+        assertEquals("Email já vinculado a um funcionário", exception.getMessage());
+    }
 
     @Test
     void whenRecoveryThenDontReturn() {
@@ -360,6 +362,14 @@ class FuncionarioServiceTest {
                 ID,
                 NOME,
                 EMAIL,
+                DATA_NASCIMENTO,
+                SETOR
+        );
+        newFuncionarioDTO = new NewFuncionarioDTO(
+                NOME,
+                CPF,
+                EMAIL,
+                SENHA,
                 DATA_NASCIMENTO,
                 SETOR
         );

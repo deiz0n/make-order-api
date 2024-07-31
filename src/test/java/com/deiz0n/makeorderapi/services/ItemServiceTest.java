@@ -111,22 +111,22 @@ class ItemServiceTest {
         assertEquals("Não foi possível encontrar um item com o Id informado", exception.getMessage());
     }
 
-//    @Test
-//    void whenCreateThenReturnItemDTO() {
-//        when(itemRepository.save(any())).thenReturn(item);
-//        when(mapper.map(any(), any())).thenReturn(itemDTO);
-//
-//        ItemDTO response = itemService.create(item);
-//
-//        assertNotNull(response);
-//        assertEquals(ItemDTO.class, response.getClass());
-//
-//        assertEquals(ID, response.getId());
-//        assertEquals(NOME, response.getNome());
-//        assertEquals(PRECO, response.getPreco());
-//        assertEquals(DESCRICAO, response.getDescricao());
-//        assertEquals(QUANTIDADE_DISPONIVEL, response.getQuantidadeDisponivel());
-//    }
+    @Test
+    void whenCreateThenReturnItemDTO() {
+        when(mapper.map(any(), any())).thenReturn(item);
+        when(itemRepository.save(any())).thenReturn(item);
+
+        ItemDTO response = itemService.create(itemDTO);
+
+        assertNotNull(response);
+        assertEquals(ItemDTO.class, response.getClass());
+
+        assertEquals(ID, response.getId());
+        assertEquals(NOME, response.getNome());
+        assertEquals(PRECO, response.getPreco());
+        assertEquals(DESCRICAO, response.getDescricao());
+        assertEquals(QUANTIDADE_DISPONIVEL, response.getQuantidadeDisponivel());
+    }
 
     @Test
     void whenDeleteThenDontReturn() {
@@ -152,36 +152,36 @@ class ItemServiceTest {
         assertEquals("Não foi possível encontrar um item com o Id informado", exception.getMessage());
     }
 
-//    @Test
-//    void whenUpdateThenReturnItemDTO() {
-//        when(itemRepository.getReferenceById(any(UUID.class))).thenReturn(item);
-//        when(itemRepository.save(any())).thenReturn(item);
-//        when(mapper.map(any(), any())).thenReturn(itemDTO);
-//
-//        ItemDTO response = itemService.update(ID, item);
-//
-//        assertNotNull(response);
-//        assertEquals(ItemDTO.class, response.getClass());
-//
-//        assertEquals(ID, response.getId());
-//        assertEquals(NOME, response.getNome());
-//        assertEquals(PRECO, response.getPreco());
-//        assertEquals(DESCRICAO, response.getDescricao());
-//        assertEquals(QUANTIDADE_DISPONIVEL, response.getQuantidadeDisponivel());
-//    }
+    @Test
+    void whenUpdateThenReturnItemDTO() {
+        when(itemRepository.getReferenceById(any(UUID.class))).thenReturn(item);
+        when(itemRepository.save(any())).thenReturn(item);
+        when(mapper.map(any(), any())).thenReturn(item);
 
-//    @Test
-//    void whenUpdateThenThrowItemNotFoundException() {
-//        when(itemRepository.getReferenceById(any(UUID.class))).thenReturn(null);
-//        when(itemRepository.save(any())).thenReturn(item);
-//
-//        var exception = assertThrows(
-//                ItemNotFoundException.class,
-//                () -> itemService.update(ID, item)
-//        );
-//
-//        assertEquals("Não foi possível encontrar um item com o Id informado", exception.getMessage());
-//    }
+        ItemDTO response = itemService.update(ID, itemDTO);
+
+        assertNotNull(response);
+        assertEquals(ItemDTO.class, response.getClass());
+
+        assertEquals(ID, response.getId());
+        assertEquals(NOME, response.getNome());
+        assertEquals(PRECO, response.getPreco());
+        assertEquals(DESCRICAO, response.getDescricao());
+        assertEquals(QUANTIDADE_DISPONIVEL, response.getQuantidadeDisponivel());
+    }
+
+    @Test
+    void whenUpdateThenThrowItemNotFoundException() {
+        when(itemRepository.getReferenceById(any(UUID.class))).thenReturn(null);
+        when(itemRepository.save(any())).thenReturn(item);
+
+        var exception = assertThrows(
+                ItemNotFoundException.class,
+                () -> itemService.update(ID, itemDTO)
+        );
+
+        assertEquals("Não foi possível encontrar um item com o Id informado", exception.getMessage());
+    }
 
     private void mockData() {
         item = new Item(
