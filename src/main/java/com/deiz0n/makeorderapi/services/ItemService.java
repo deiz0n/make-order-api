@@ -63,7 +63,7 @@ public class ItemService {
 
             BeanUtils.copyProperties(newData, item, "id", "itensPedidos", "categoria");
             itemRepository.save(item);
-            return mapper.map(item, ItemDTO.class);
+            return newData;
         } catch (FatalBeanException | IllegalArgumentException e) {
             throw new ItemNotFoundException("Não foi possível encontrar um item com o Id informado");
         }
