@@ -8,6 +8,7 @@
 ![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Apache Maven](https://img.shields.io/badge/Apache%20Maven-C71A36?style=for-the-badge&logo=Apache%20Maven&logoColor=white)
+![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 
 ## `📑` Introdução
 O MakeOrder é sistema de gerenciamento de pedidos para restaurantes, é uma solução tecnológica elaborada para aprimorar a eficiência no processo de pedidos e entrega de refeições em restaurantes e estabelecimentos similares. O principal objetivo é otimizar todo o processo do pedido, agilizar o atendimento e fornecer uma excelente experiência de usuário
