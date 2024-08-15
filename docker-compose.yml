@@ -20,7 +20,14 @@ services:
     image: make-order-api
     command: ["/wait-for-it.sh", "-t", "10", "mk-database:5435", "--", "java", "-jar", "mk-api.jar"]
     environment:
-      HOST: mk-database
+      DB_URL:
+      DB_USER:
+      DB_PASSWORD:
+
+      KEY:
+
+      EMAIL:
+      PASSWORD:
     networks:
       - mk-network
     depends_on:
