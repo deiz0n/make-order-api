@@ -18,11 +18,24 @@ O MakeOrder é sistema de gerenciamento de pedidos para restaurantes, é uma sol
 ```bash 
 https://github.com/deiz0n/make-order-api
 ```
-2. Modifique as seguintes variáveis de ambiente no docker-compose
-```bash 
-POSTGRES_PASSWORD: senha do postgres
-POSTGRES_DB: usuario do postgres
-```
+2. Modifique as seguintes variáveis de ambiente no docker-compose.yaml <br>
+   2.1. Flyway e PostgreSQL:
+   ```bash
+    DB_URL: [default:jdbc:postgresql://localhost:5432/makeorder]
+    DB_USER: [default:postres]
+    DB_PASSWORD: [default:1234567]
+   ```
+   2.2. Key para geração do JWT:
+   ```bash
+    KEY: [default:mk-api]
+   ```
+   2.3. Definições do email responsável pelo envio de emails: <br>
+   Importante: Os atributos abaixos são **essenciais** para o funcionamento da API!
+   ```bash
+    EMAIL:
+    PASSWORD:
+   ```
+
 3. Execute o docker-compose
 ```bash 
 docker-compose up
